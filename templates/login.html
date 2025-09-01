@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Tetris Game{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 500px; margin: 0 auto;">
+    <h2 class="text-center">Welcome Back! 🎮</h2>
+    <p class="text-center" style="color: #666; margin-bottom: 30px;">
+        Sign in to continue your Tetris journey
+    </p>
+    
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn" style="width: 100%; padding: 15px;">
+                Sign In 🚀
+            </button>
+        </div>
+    </form>
+    
+    <div class="text-center mt-20">
+        <p>Don't have an account? 
+            <a href="/register" style="color: #667eea; text-decoration: none; font-weight: bold;">Create one here</a>
+        </p>
+    </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const loginData = {
+        username: formData.get('username'),
+        password: formData.get('password')
+    };
+    
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showAlert('Login successful! Redirecting...', 'success');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1000);
+        } else {
+            showAlert(result.error || 'Login failed');
+        }
+    } catch (error) {
+        showAlert('Login failed: ' + error.message);
+    }
+});
+
+// Demo user info
+document.addEventListener('DOMContentLoaded', () => {
+    const demoInfo = document.createElement('div');
+    demoInfo.style.cssText = 'background: #e3f2fd; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; color: #15c029ff;';
+    demoInfo.innerHTML = `
+        <p><strong>Demo Account:</strong></p>
+        <p>Username: <code style="background: white; padding: 2px 6px; border-radius: 3px;">demo_user</code></p>
+        <p>Password: <code style="background: white; padding: 2px 6px; border-radius: 3px;">demo123</code></p>
+    `;
+    
+    document.querySelector('.card').appendChild(demoInfo);
+});
+</script>
+{% endblock %}

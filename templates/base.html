@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tetris{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            /* ANCIEN BACKGROUND: background: linear-gradient(135deg, #163e19ff 0%, #00f311ff 100%); */
+            /* NOUVEAU BACKGROUND DYNAMIQUE VERT */
+            background: linear-gradient(135deg, #12da19ff 0%, #036f06ff 50%, #370459ff 100%); /* Dégradé de vert vif à violet foncé */
+            background-size: 400% 400%; /* Permet l'animation du dégradé */
+            animation: gradientAnimation 15s ease infinite; /* Applique l'animation */
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Définition de l'animation du dégradé */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .nav a, .btn {
+            padding: 12px 24px;
+            background: #4CAF50; /* Gardons le bouton vert pour la cohérence */
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+        }
+        
+        .nav a:hover, .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: #f44336; /* Gardons le bouton secondaire rouge pour le contraste */
+        }
+        
+        .btn-secondary:hover {
+            background: #0bda27ff;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .form-group input, .form-group textarea { /* Ajout de textarea ici */
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus { /* Ajout de textarea ici */
+            outline: none;
+            border-color: #4CAF50; /* Changement de la couleur de focus pour correspondre au thème vert */
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-20 {
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+    {% block styles %}{% endblock %}
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tetris</h1>
+        </div>
+        
+        {% if session.username %}
+        <div class="nav">
+            <a href="/">Accueil</a>
+            <a href="/game">Jouer</a>
+            <a href="#" onclick="showLeaderboard()">Classement</a>
+            <a href="/contact">Contact</a> {# <-- AJOUTEZ CETTE LIGNE #}
+            <a href="/logout" class="btn-secondary">Déconnexion ({{ session.username }})</a>
+            <a href="/admin/messages">Admin Messages</a> {# DÉPLACEZ CE LIEN ICI #}
+        </div>
+        {% else %}
+        <div class="nav">
+            <a href="/">Accueil</a>
+            <a href="/login">Connexion</a>
+            <a href="/register">Inscription</a>
+            <a href="/contact">Contact</a> {# <-- AJOUTEZ CETTE LIGNE #}
+            <a href="/admin/messages">Messages d'administration</a>
+        </div>
+        {% endif %}
+        
+        <div id="alert-container"></div>
+        
+        {% block content %}{% endblock %}
+    </div>
+    
+    <script>
+        function showAlert(message, type = 'error') {
+            const alertContainer = document.getElementById('alert-container');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+        
+        function showLeaderboard() {
+            fetch('/api/leaderboard')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        let leaderboardHtml = '<h2>🏆 Top Scores</h2><table style="width:100%; border-collapse: collapse; margin-top: 20px;">';
+                        leaderboardHtml += '<tr style="background: #f0f0f0;"><th style="padding: 10px; border: 1px solid #ddd;">Rank</th><th style="padding: 10px; border: 1px solid #ddd;">Player</th><th style="padding: 10px; border: 1px solid #ddd;">Score</th><th style="padding: 10px; border: 1px solid #ddd;">Lines</th><th style="padding: 10px; border: 1px solid #ddd;">Level</th><th style="padding: 10px; border: 1px solid #ddd;">Time</th></tr>';
+                        
+                        data.scores.forEach((score, index) => {
+                            const minutes = Math.floor(score.time_played / 60);
+                            const seconds = score.time_played % 60;
+                            leaderboardHtml += `<tr><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${index + 1}</td><td style="padding: 10px; border: 1px solid #ddd;">${score.username}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: right;">${score.score.toLocaleString()}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${score.lines_cleared}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${score.level_reached}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${minutes}:${seconds.toString().padStart(2, '0')}</td></tr>`;
+                        });
+                        
+                        leaderboardHtml += '</table>';
+                        
+                        const modal = document.createElement('div');
+                        modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000;';
+                        modal.innerHTML = `<div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80%; overflow-y: auto;">${leaderboardHtml}<br><button onclick="this.closest('div').remove()" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button></div>`;
+                        document.body.appendChild(modal);
+                    }
+                })
+                .catch(error => {
+                    showAlert('Failed to load leaderboard: ' + error.message);
+                });
+        }
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

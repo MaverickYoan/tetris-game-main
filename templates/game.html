@@ -1,0 +1,580 @@
+{% extends "base.html" %}
+
+{% block title %}Jouez à Tetris - Tetris{% endblock %}
+
+{% block styles %}
+<style>
+    .game-container {
+        display: grid;
+        grid-template-columns: 1fr 300px 200px;
+        gap: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .game-board-container {
+        background: #000;
+        border: 3px solid #c7ffc3ff;
+        border-radius: 10px;
+        position: relative;
+        width: 300px;
+        height: 600px;
+        margin: 0 auto;
+    }
+    
+    #gameCanvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 7px;
+    }
+    
+    .game-info {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 20px;
+        height: fit-content;
+    }
+    
+    .next-piece-container {
+        background: #13780aff;
+        border: 2px solid #00ff08ff;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    #nextPieceCanvas {
+        background: #bbeeb3ff;
+        border-radius: 5px;
+    }
+    
+    .score-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .score-item:last-child {
+        border-bottom: none;
+    }
+    
+    .score-label {
+        font-weight: bold;
+        color: #555;
+    }
+    
+    .score-value {
+        color: #4CAF50;
+        font-weight: bold;
+    }
+    
+    .controls {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 20px;
+        height: fit-content;
+    }
+    
+    .control-button {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 12px;
+        background: #084514ff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    
+    .control-button:hover {
+        background: #085420ff;
+    }
+    
+    .control-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+    
+    .game-over-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: white;
+        z-index: 10;
+        border-radius: 7px;
+    }
+    
+    .pause-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 24px;
+        z-index: 5;
+        border-radius: 7px;
+    }
+    
+    @media (max-width: 768px) {
+        .game-container {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .game-board-container {
+            width: 250px;
+            height: 500px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="game-container">
+    <div class="game-info">
+        <h3>Statistiques de jeu</h3>
+        <div class="score-item">
+            <span class="score-label">Score:</span>
+            <span id="score" class="score-value">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Niveau:</span>
+            <span id="level" class="score-value">1</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Lignes:</span>
+            <span id="lines" class="score-value">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Temps:</span>
+            <span id="time" class="score-value">00:00</span>
+        </div>
+        
+        <div class="next-piece-container">
+            <h4>Prochaine Pièce</h4>
+            <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
+        </div>
+        
+        <div id="instructions" style="margin-top: 20px; font-size: 14px; color: #666;">
+            <h4>Contrôles:</h4>
+            <p>← → Déplacer gauche/droite</p>
+            <p>↓ Douce chute</p>
+            <p>↑ Rotation</p>
+            <p>Espace Chute dure</p>
+            <p>P Pause/Reprendre</p>
+        </div>
+    </div>
+    
+    <div class="game-board-container">
+        <canvas id="gameCanvas" width="300" height="600"></canvas>
+        <div id="gameOverOverlay" class="game-over-overlay">
+            <h2>Game Over</h2>
+            <p id="finalScore">Score final: 0</p>
+            <button onclick="restartGame()" class="btn" style="margin-top: 20px;">Rejouer</button>
+        </div>
+        <div id="pauseOverlay" class="pause-overlay">
+            <div style="text-align: center;">
+                <h3>PAUSED</h3>
+                <p>Appuyez sur P pour reprendre</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <h3>Contrôles</h3>
+        <button id="startButton" onclick="startGame()" class="control-button">
+            Démarrer le jeu
+        </button>
+        <button id="pauseButton" onclick="togglePause()" class="control-button" disabled>
+            Pause
+        </button>
+        <button id="restartButton" onclick="restartGame()" class="control-button" disabled>
+            Rejouer
+        </button>
+
+        <h4 style="margin-top: 20px; margin-bottom: 10px;">Contrôles Mobiles:</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
+            <button onclick="moveLeft()" class="control-button" style="margin: 0;">←</button>
+            <button onclick="rotate()" class="control-button" style="margin: 0;">↻</button>
+            <button onclick="moveRight()" class="control-button" style="margin: 0;">→</button>
+        </div>
+        <button onclick="softDrop()" class="control-button" style="margin-top: 5px;">↓ Chute douce</button>
+        <button onclick="hardDrop()" class="control-button">Chute libre</button>
+    </div>
+</div>
+
+<script>
+class TetrisGameUI {
+    constructor() {
+        this.canvas = document.getElementById('gameCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.nextCanvas = document.getElementById('nextPieceCanvas');
+        this.nextCtx = this.nextCanvas.getContext('2d');
+        
+        this.gameState = null;
+        this.gameRunning = false;
+        this.gamePaused = false;
+        this.gameInterval = null;
+        this.startTime = null;
+        this.timeInterval = null;
+        
+        this.cellSize = 30;
+        this.colors = {
+            73: '#00FFFF', // I - Cyan
+            79: '#FFFF00', // O - Yellow  
+            84: '#800080', // T - Purple
+            83: '#00FF00', // S - Green
+            90: '#FF0000', // Z - Red
+            74: '#0000FF', // J - Blue
+            76: '#FFA500'  // L - Orange
+        };
+        
+        this.setupEventListeners();
+    }
+    
+    setupEventListeners() {
+        document.addEventListener('keydown', (e) => {
+            if (!this.gameRunning || this.gamePaused) {
+                if (e.key === 'p' || e.key === 'P') {
+                    this.togglePause();
+                }
+                return;
+            }
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.moveLeft();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.moveRight();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    this.softDrop();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    this.rotate();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    this.hardDrop();
+                    break;
+                case 'p':
+                case 'P':
+                    this.togglePause();
+                    break;
+            }
+        });
+    }
+    
+    async startGame() {
+        try {
+            const response = await fetch('/api/game/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                this.gameState = result.game_state;
+                this.gameRunning = true;
+                this.gamePaused = false;
+                this.startTime = Date.now();
+                
+                this.updateUI();
+                this.draw();
+                this.drawNextPiece();
+                
+                // Start game loop
+                this.gameInterval = setInterval(() => this.gameTick(), 1000 - (this.gameState.level - 1) * 100);
+                this.timeInterval = setInterval(() => this.updateTime(), 1000);
+                
+                // Update button states
+                document.getElementById('startButton').disabled = true;
+                document.getElementById('pauseButton').disabled = false;
+                document.getElementById('restartButton').disabled = false;
+                
+                showAlert('Game started! Good luck! 🍀', 'success');
+            } else {
+                showAlert(result.error || 'Failed to start game');
+            }
+        } catch (error) {
+            showAlert('Failed to start game: ' + error.message);
+        }
+    }
+    
+    async gameTick() {
+        if (!this.gameRunning || this.gamePaused) return;
+        
+        try {
+            const response = await fetch('/api/game/drop', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                this.gameState = result.game_state;
+                this.updateUI();
+                this.draw();
+                this.drawNextPiece();
+                
+                if (this.gameState.game_over) {
+                    this.endGame();
+                }
+            }
+        } catch (error) {
+            console.error('Game tick error:', error);
+        }
+    }
+    
+    async makeMove(action) {
+        if (!this.gameRunning || this.gamePaused) return;
+        
+        try {
+            const response = await fetch('/api/game/move', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action })
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                this.gameState = result.game_state;
+                this.updateUI();
+                this.draw();
+                this.drawNextPiece();
+                
+                if (this.gameState.game_over) {
+                    this.endGame();
+                }
+            }
+        } catch (error) {
+            console.error('Move error:', error);
+        }
+    }
+    
+    moveLeft() { this.makeMove('left'); }
+    moveRight() { this.makeMove('right'); }
+    softDrop() { this.makeMove('down'); }
+    rotate() { this.makeMove('rotate'); }
+    hardDrop() { this.makeMove('hard_drop'); }
+    
+    togglePause() {
+        if (!this.gameRunning) return;
+        
+        this.gamePaused = !this.gamePaused;
+        const pauseOverlay = document.getElementById('pauseOverlay');
+        const pauseButton = document.getElementById('pauseButton');
+        
+        if (this.gamePaused) {
+            pauseOverlay.style.display = 'flex';
+            pauseButton.textContent = 'Resume';
+        } else {
+            pauseOverlay.style.display = 'none';
+            pauseButton.textContent = 'Pause';
+        }
+    }
+    
+    async endGame() {
+        this.gameRunning = false;
+        clearInterval(this.gameInterval);
+        clearInterval(this.timeInterval);
+        
+        const overlay = document.getElementById('gameOverOverlay');
+        document.getElementById('finalScore').textContent = `Final Score: ${this.gameState.score.toLocaleString()}`;
+        overlay.style.display = 'flex';
+        
+        // Save score to database
+        try {
+            await fetch('/api/game/end', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+        } catch (error) {
+            console.error('Failed to save score:', error);
+        }
+        
+        // Reset button states
+        document.getElementById('startButton').disabled = false;
+        document.getElementById('pauseButton').disabled = true;
+        document.getElementById('restartButton').disabled = true;
+    }
+    
+    restartGame() {
+        // Reset UI
+        document.getElementById('gameOverOverlay').style.display = 'none';
+        document.getElementById('pauseOverlay').style.display = 'none';
+        
+        // Clear intervals
+        if (this.gameInterval) clearInterval(this.gameInterval);
+        if (this.timeInterval) clearInterval(this.timeInterval);
+        
+        // Reset state
+        this.gameRunning = false;
+        this.gamePaused = false;
+        this.gameState = null;
+        
+        // Clear canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.nextCtx.clearRect(0, 0, this.nextCanvas.width, this.nextCanvas.height);
+        
+        // Reset UI
+        document.getElementById('score').textContent = '0';
+        document.getElementById('level').textContent = '1';
+        document.getElementById('lines').textContent = '0';
+        document.getElementById('time').textContent = '00:00';
+        
+        // Reset buttons
+        document.getElementById('startButton').disabled = false;
+        document.getElementById('pauseButton').disabled = true;
+        document.getElementById('pauseButton').textContent = '⏸️ Pause';
+        document.getElementById('restartButton').disabled = true;
+    }
+    
+    updateUI() {
+        if (!this.gameState) return;
+        
+        document.getElementById('score').textContent = this.gameState.score.toLocaleString();
+        document.getElementById('level').textContent = this.gameState.level;
+        document.getElementById('lines').textContent = this.gameState.lines_cleared;
+    }
+    
+    updateTime() {
+        if (!this.startTime) return;
+        
+        const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        document.getElementById('time').textContent = 
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    
+    draw() {
+        if (!this.gameState) return;
+        
+        // Clear canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Draw board
+        const board = this.gameState.board;
+        for (let y = 0; y < board.length; y++) {
+            for (let x = 0; x < board[y].length; x++) {
+                if (board[y][x] !== 0) {
+                    this.drawBlock(x, y, this.colors[board[y][x]] || '#888');
+                }
+            }
+        }
+        
+        // Draw current piece
+        const piece = this.gameState.current_piece;
+        if (piece && piece.shape) {
+            for (let y = 0; y < piece.shape.length; y++) {
+                for (let x = 0; x < piece.shape[y].length; x++) {
+                    if (piece.shape[y][x] === '#') {
+                        const boardX = piece.x + x;
+                        const boardY = piece.y + y;
+                        if (boardY >= 0) {
+                            this.drawBlock(boardX, boardY, this.colors[piece.type.charCodeAt(0)] || '#888');
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Draw grid
+        this.drawGrid();
+    }
+    
+    drawNextPiece() {
+        if (!this.gameState || !this.gameState.next_piece) return;
+        
+        this.nextCtx.clearRect(0, 0, this.nextCanvas.width, this.nextCanvas.height);
+        
+        const piece = this.gameState.next_piece;
+        const color = this.colors[piece.type.charCodeAt(0)] || '#888';
+        const cellSize = 16;
+        
+        for (let y = 0; y < piece.shape.length; y++) {
+            for (let x = 0; x < piece.shape[y].length; x++) {
+                if (piece.shape[y][x] === '#') {
+                    this.nextCtx.fillStyle = color;
+                    this.nextCtx.fillRect(x * cellSize + 10, y * cellSize + 10, cellSize - 1, cellSize - 1);
+                }
+            }
+        }
+    }
+    
+    drawBlock(x, y, color) {
+        this.ctx.fillStyle = color;
+        this.ctx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize - 1, this.cellSize - 1);
+        
+        // Add some shading for 3D effect
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        this.ctx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize - 1, 2);
+        this.ctx.fillRect(x * this.cellSize, y * this.cellSize, 2, this.cellSize - 1);
+        
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        this.ctx.fillRect(x * this.cellSize, y * this.cellSize + this.cellSize - 3, this.cellSize - 1, 2);
+        this.ctx.fillRect(x * this.cellSize + this.cellSize - 3, y * this.cellSize, 2, this.cellSize - 1);
+    }
+    
+    drawGrid() {
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        this.ctx.lineWidth = 1;
+        
+        // Vertical lines
+        for (let x = 0; x <= 10; x++) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(x * this.cellSize, 0);
+            this.ctx.lineTo(x * this.cellSize, this.canvas.height);
+            this.ctx.stroke();
+        }
+        
+        // Horizontal lines
+        for (let y = 0; y <= 20; y++) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(0, y * this.cellSize);
+            this.ctx.lineTo(this.canvas.width, y * this.cellSize);
+            this.ctx.stroke();
+        }
+    }
+}
+
+// Initialize game when page loads
+let game;
+document.addEventListener('DOMContentLoaded', () => {
+    game = new TetrisGameUI();
+});
+
+// Global functions for buttons
+function startGame() { game.startGame(); }
+function togglePause() { game.togglePause(); }
+function restartGame() { game.restartGame(); }
+function moveLeft() { game.moveLeft(); }
+function moveRight() { game.moveRight(); }
+function softDrop() { game.softDrop(); }
+function rotate() { game.rotate(); }
+function hardDrop() { game.hardDrop(); }
+</script>
+{% endblock %}
