@@ -595,6 +595,7 @@ def contact():
     return render_template('contact.html')
 
 @app.route('/admin/messages')
+@login_required
 def admin_messages():
     # Check if the user is admin
     if not session.get('user_id'):
@@ -611,7 +612,16 @@ def admin_messages():
             return redirect(url_for('login'))
         # Fetch messages
         cur.execute("SELECT id, name, email, subject, message, created_at FROM messages ORDER BY created_at DESC")
-        messages = cur.fetchall()
+        messages = []
+        for message in cur.fetchall():
+            messages.append({
+                'id': message['id'],
+                'name': message['name'],
+                'email': message['email'],
+                'subject': message['subject'],
+                'message': message['message'],
+                'created_at': message['created_at']
+            })
         cur.close()
         conn.close()
     except Exception as e:
@@ -620,4 +630,5 @@ def admin_messages():
     return render_template('admin_messages.html', messages=messages)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(host='0.0.0.0', port=5000, debug=debug_mode)
