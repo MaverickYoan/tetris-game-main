@@ -2,6 +2,175 @@
 
 {% block title %}Admin - Messages{% endblock %}
 
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Variables pour stocker les valeurs originales
+        let originalValues = {};
+        
+        // Fonction pour activer le mode édition
+        function enableEditMode(messageId) {
+            const row = document.getElementById(`row-${messageId}`);
+            const editableCells = row.querySelectorAll('.editable');
+            
+            // Stocker les valeurs originales
+            originalValues[messageId] = {};
+            editableCells.forEach(cell => {
+                const field = cell.getAttribute('data-field');
+                originalValues[messageId][field] = cell.innerText;
+                cell.setAttribute('contenteditable', 'true');
+                cell.classList.add('editing');
+            });
+            
+            // Afficher les boutons de sauvegarde et d'annulation
+            row.querySelector('.edit-btn').style.display = 'none';
+            row.querySelector('.save-btn').style.display = 'inline-block';
+            row.querySelector('.cancel-btn').style.display = 'inline-block';
+        }
+        
+        // Fonction pour désactiver le mode édition
+        function disableEditMode(messageId) {
+            const row = document.getElementById(`row-${messageId}`);
+            const editableCells = row.querySelectorAll('.editable');
+            
+            editableCells.forEach(cell => {
+                cell.removeAttribute('contenteditable');
+                cell.classList.remove('editing');
+            });
+            
+            // Cacher les boutons de sauvegarde et d'annulation
+            row.querySelector('.edit-btn').style.display = 'inline-block';
+            row.querySelector('.save-btn').style.display = 'none';
+            row.querySelector('.cancel-btn').style.display = 'none';
+        }
+        
+        // Fonction pour annuler l'édition
+        function cancelEdit(messageId) {
+            const row = document.getElementById(`row-${messageId}`);
+            const editableCells = row.querySelectorAll('.editable');
+            
+            // Restaurer les valeurs originales
+            editableCells.forEach(cell => {
+                const field = cell.getAttribute('data-field');
+                cell.innerText = originalValues[messageId][field];
+            });
+            
+            disableEditMode(messageId);
+        }
+        
+        // Fonction pour sauvegarder les modifications
+        function saveChanges(messageId) {
+            const row = document.getElementById(`row-${messageId}`);
+            const editableCells = row.querySelectorAll('.editable');
+            
+            // Collecter les données modifiées
+            const updatedData = {
+                id: messageId
+            };
+            
+            editableCells.forEach(cell => {
+                const field = cell.getAttribute('data-field');
+                updatedData[field] = cell.innerText;
+            });
+            
+            // Envoyer les données au serveur
+            fetch('/admin/messages/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mise à jour réussie
+                    disableEditMode(messageId);
+                    // Mettre à jour les valeurs originales
+                    originalValues[messageId] = {};
+                    editableCells.forEach(cell => {
+                        const field = cell.getAttribute('data-field');
+                        originalValues[messageId][field] = cell.innerText;
+                    });
+                    
+                    // Afficher un message de succès
+                    alert('Message mis à jour avec succès!');
+                } else {
+                    // Erreur lors de la mise à jour
+                    alert('Erreur lors de la mise à jour: ' + data.error);
+                    cancelEdit(messageId);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la mise à jour.');
+                cancelEdit(messageId);
+            });
+        }
+        
+        // Fonction pour supprimer un message
+        function deleteMessage(messageId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
+                fetch(`/admin/messages/delete/${messageId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Suppression réussie, supprimer la ligne du tableau
+                        const row = document.getElementById(`row-${messageId}`);
+                        row.remove();
+                        alert('Message supprimé avec succès!');
+                    } else {
+                        // Erreur lors de la suppression
+                        alert('Erreur lors de la suppression: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Une erreur est survenue lors de la suppression.');
+                });
+            }
+        }
+        
+        // Ajouter des écouteurs d'événements pour les boutons
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const messageId = this.getAttribute('data-id');
+                enableEditMode(messageId);
+            });
+        });
+        
+        document.querySelectorAll('.save-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const messageId = this.getAttribute('data-id');
+                saveChanges(messageId);
+            });
+        });
+        
+        document.querySelectorAll('.cancel-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const messageId = this.getAttribute('data-id');
+                cancelEdit(messageId);
+            });
+        });
+        
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const messageId = this.getAttribute('data-id');
+                deleteMessage(messageId);
+            });
+        });
+    });
+</script>
+<style>
+    .editing {
+        background-color: #f8f9fa;
+        box-shadow: inset 0 0 0 2px #4CAF50;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="card" style="max-width: 900px; margin: 0 auto;">
     <h2 class="text-center">Messages reçus</h2>
@@ -15,17 +184,24 @@
                 <th style="padding: 10px; border: 1px solid #ddd;">Sujet</th>
                 <th style="padding: 10px; border: 1px solid #ddd;">Message</th>
                 <th style="padding: 10px; border: 1px solid #ddd;">Date</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for msg in messages %}
-            <tr>
+            <tr id="row-{{ msg['id'] }}">
                 <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['id'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['name'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['email'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['subject'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;">{{ msg['message'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;" class="editable" data-field="name" data-id="{{ msg['id'] }}">{{ msg['name'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;" class="editable" data-field="email" data-id="{{ msg['id'] }}">{{ msg['email'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;" class="editable" data-field="subject" data-id="{{ msg['id'] }}">{{ msg['subject'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;" class="editable" data-field="message" data-id="{{ msg['id'] }}">{{ msg['message'] }}</td>
                 <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['created_at'].strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">
+                    <button class="edit-btn" data-id="{{ msg['id'] }}" style="background-color: #4CAF50; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-right: 5px;">Éditer</button>
+                    <button class="save-btn" data-id="{{ msg['id'] }}" style="background-color: #008CBA; color: white; border: none; padding: 5px 10px; cursor: pointer; display: none;">Sauvegarder</button>
+                    <button class="cancel-btn" data-id="{{ msg['id'] }}" style="background-color: #d4f436; color: white; border: none; padding: 5px 10px; cursor: pointer; display: none;">Annuler</button>
+                    <button class="delete-btn" data-id="{{ msg['id'] }}" style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-left: 5px;">Supprimer</button>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

@@ -634,6 +634,87 @@ def admin_messages():
         messages = []
     return render_template('admin_messages.html', messages=messages)
 
+@app.route('/admin/messages/update', methods=['POST'])
+@login_required
+def update_message():
+    # Vérifier si l'utilisateur est admin
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        # Vérifier le rôle de l'utilisateur
+        cur.execute("SELECT role FROM users WHERE id = %s", (session['user_id'],))
+        user = cur.fetchone()
+        if not user or user['role'] != 'admin':
+            cur.close()
+            conn.close()
+            return jsonify({'success': False, 'error': 'Accès non autorisé'}), 403
+        
+        # Récupérer les données du message modifié
+        data = request.get_json()
+        if not data or 'id' not in data:
+            return jsonify({'success': False, 'error': 'Données invalides'}), 400
+        
+        # Extraire les champs à mettre à jour
+        message_id = data.get('id')
+        name = data.get('name')
+        email = data.get('email')
+        subject = data.get('subject')
+        message_text = data.get('message')
+        
+        # Vérifier que le message existe
+        cur.execute("SELECT id FROM messages WHERE id = %s", (message_id,))
+        if not cur.fetchone():
+            cur.close()
+            conn.close()
+            return jsonify({'success': False, 'error': 'Message non trouvé'}), 404
+        
+        # Mettre à jour le message dans la base de données
+        cur.execute(
+            "UPDATE messages SET name = %s, email = %s, subject = %s, message = %s WHERE id = %s",
+            (name, email, subject, message_text, message_id)
+        )
+        conn.commit()
+        cur.close()
+        conn.close()
+        
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"Error updating message: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/admin/messages/delete/<int:message_id>', methods=['DELETE'])
+@login_required
+def delete_message(message_id):
+    # Vérifier si l'utilisateur est admin
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        # Vérifier le rôle de l'utilisateur
+        cur.execute("SELECT role FROM users WHERE id = %s", (session['user_id'],))
+        user = cur.fetchone()
+        if not user or user['role'] != 'admin':
+            cur.close()
+            conn.close()
+            return jsonify({'success': False, 'error': 'Accès non autorisé'}), 403
+        
+        # Vérifier que le message existe
+        cur.execute("SELECT id FROM messages WHERE id = %s", (message_id,))
+        if not cur.fetchone():
+            cur.close()
+            conn.close()
+            return jsonify({'success': False, 'error': 'Message non trouvé'}), 404
+        
+        # Supprimer le message de la base de données
+        cur.execute("DELETE FROM messages WHERE id = %s", (message_id,))
+        conn.commit()
+        cur.close()
+        conn.close()
+        
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"Error deleting message: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 if __name__ == '__main__':
     debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
     app.run(host='0.0.0.0', port=5000, debug=debug_mode)
