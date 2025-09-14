@@ -331,6 +331,7 @@ def register():
             
             session['user_id'] = str(user_id)
             session['username'] = username
+            session['role'] = role
             
             return jsonify({'success': True, 'message': 'Registration successful'})
             
@@ -368,8 +369,13 @@ def login():
                 )
                 conn.commit()
                 
+                # Récupérer le rôle de l'utilisateur
+                cur.execute("SELECT role FROM users WHERE id = %s", (user['id'],))
+                user_role = cur.fetchone()
+                
                 session['user_id'] = str(user['id'])
                 session['username'] = user['username']
+                session['role'] = user_role['role'] if user_role else 'standard'
                 
                 cur.close()
                 conn.close()
