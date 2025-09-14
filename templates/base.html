@@ -219,8 +219,8 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        let leaderboardHtml = '<h2>🏆 Top Scores</h2><table style="width:100%; border-collapse: collapse; margin-top: 20px;">';
-                        leaderboardHtml += '<tr style="background: #f0f0f0;"><th style="padding: 10px; border: 1px solid #ddd;">Rank</th><th style="padding: 10px; border: 1px solid #ddd;">Player</th><th style="padding: 10px; border: 1px solid #ddd;">Score</th><th style="padding: 10px; border: 1px solid #ddd;">Lines</th><th style="padding: 10px; border: 1px solid #ddd;">Level</th><th style="padding: 10px; border: 1px solid #ddd;">Time</th></tr>';
+                        let leaderboardHtml = '<h2>Classement des Scores</h2><table style="width:100%; border-collapse: collapse; margin-top: 20px;">';
+                        leaderboardHtml += '<tr style="background: #f0f0f0;"><th style="padding: 10px; border: 1px solid #ddd;">Classement</th><th style="padding: 10px; border: 1px solid #ddd;">Joueur</th><th style="padding: 10px; border: 1px solid #ddd;">Score</th><th style="padding: 10px; border: 1px solid #ddd;">Lignes</th><th style="padding: 10px; border: 1px solid #ddd;">Niveau</th><th style="padding: 10px; border: 1px solid #ddd;">Temps</th></tr>';
                         
                         data.scores.forEach((score, index) => {
                             const minutes = Math.floor(score.time_played / 60);
@@ -233,7 +233,7 @@
                         const modal = document.createElement('div');
                         modal.id = 'leaderboardModal';
                         modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000;';
-                        modal.innerHTML = `<div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80%; overflow-y: auto;">${leaderboardHtml}<br><button onclick="closeLeaderboard()" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button></div>`;
+                        modal.innerHTML = `<div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80%; overflow-y: auto;">${leaderboardHtml}<br><button onclick="closeLeaderboard()" style="padding: 10px 20px; background: #036f06ff; color: white; border: none; border-radius: 5px; cursor: pointer;">Exit</button></div>`;
                         document.body.appendChild(modal);
                         
                         // Ajouter un gestionnaire d'événements pour la touche Escape
