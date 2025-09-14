@@ -1,49 +1,51 @@
 {% extends "base.html" %}
 
-{% block title %}Register - Tetris Game{% endblock %}
+{% block title %}S'enregistrer - Tetris{% endblock %}
 
 {% block content %}
 <div class="card" style="max-width: 500px; margin: 0 auto;">
-    <h2 class="text-center">Join the Tetris Community! 🎮</h2>
-    <p class="text-center" style="color: #666; margin-bottom: 30px;">
-        Create your account and start competing with players worldwide
+    <h2 class="text-center">Rejoindre la communauté de Tetris</h2>
+    <p class="text-center" style="color: #476344; margin-bottom: 30px;">
+        Créez votre compte et commencez la compétition avec vos amis
     </p>
     
     <form id="registerForm">
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" required minlength="3" maxlength="50">
-            <small style="color: #666;">3-50 characters, unique username</small>
+            <small style="color: #476344;">3-50 caractères, nom d'utilisateur unique</small>
         </div>
         
         <div class="form-group">
-            <label for="email">Email Address</label>
+            <label for="email">Adresse email</label>
             <input type="email" id="email" name="email" required maxlength="100">
-            <small style="color: #666;">Valid email address required</small>
+            <small style="color: #476344;">Adresse email valide requise</small>
         </div>
         
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">Mot de passe</label>  
             <input type="password" id="password" name="password" required minlength="6">
-            <small style="color: #666;">At least 6 characters</small>
+            <small style="color: #476344;">6 caractères minimum</small>
         </div>
         
         <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
+            <label for="confirmPassword">Confirmez le mot de passe</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required>
-            <small style="color: #666;">Must match your password</small>
+            <small style="color: #476344;">Doit correspondre au mot de passe</small>
         </div>
 
         <div class="text-center">
             <button type="submit" class="btn" style="width: 100%; padding: 15px;">
-                Create Account 🚀
+                Créer un compte 🚀      
             </button>
         </div>
     </form>
     
     <div class="text-center mt-20">
-        <p>Already have an account? 
-            <a href="/login" style="color: #667eea; text-decoration: none; font-weight: bold;">Sign in here</a>
+        <p>
+            Déjà un compte ? 
+            <a href="/login" style="color: #66ea7e; text-decoration: none; font-weight: bold;">Se connecter ici</a> 
+            pour accéder à toutes les fonctionnalités.
         </p>
     </div>
 </div>
