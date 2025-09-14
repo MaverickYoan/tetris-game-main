@@ -231,15 +231,34 @@
                         leaderboardHtml += '</table>';
                         
                         const modal = document.createElement('div');
+                        modal.id = 'leaderboardModal';
                         modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000;';
-                        modal.innerHTML = `<div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80%; overflow-y: auto;">${leaderboardHtml}<br><button onclick="this.closest('div').remove()" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button></div>`;
+                        modal.innerHTML = `<div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80%; overflow-y: auto;">${leaderboardHtml}<br><button onclick="closeLeaderboard()" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button></div>`;
                         document.body.appendChild(modal);
+                        
+                        // Ajouter un gestionnaire d'événements pour la touche Escape
+                        document.addEventListener('keydown', handleEscapeKey);
                     }
                 })
                 .catch(error => {
                     showAlert('Failed to load leaderboard: ' + error.message);
                 });
         }
+        
+        function closeLeaderboard() {
+            const modal = document.getElementById('leaderboardModal');
+            if (modal) {
+                modal.remove();
+                // Supprimer le gestionnaire d'événements pour la touche Escape
+                document.removeEventListener('keydown', handleEscapeKey);
+            }
+        }
+        
+        function handleEscapeKey(event) {
+             if (event.key === 'Escape') {
+                 closeLeaderboard();
+             }
+         }
     </script>
     {% block scripts %}{% endblock %}
 </body>
