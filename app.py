@@ -598,8 +598,7 @@ def contact():
 @login_required
 def admin_messages():
     # Check if the user is admin
-    if not session.get('user_id'):
-        return redirect(url_for('login'))
+    # login_required decorator already checks if user_id is in session
     try:
         conn = get_db_connection()
         cur = conn.cursor()

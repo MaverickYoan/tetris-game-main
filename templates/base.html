@@ -180,17 +180,18 @@
             <a href="/">Accueil</a>
             <a href="/game">Jouer</a>
             <a href="#" onclick="showLeaderboard()">Classement</a>
-            <a href="/contact">Contact</a> {# <-- AJOUTEZ CETTE LIGNE #}
+            <a href="/contact">Contact</a>
             <a href="/logout" class="btn-secondary">Déconnexion ({{ session.username }})</a>
-            <a href="/admin/messages">Admin Messages</a> {# DÉPLACEZ CE LIEN ICI #}
+            {% if session.role == 'admin' %}
+            <a href="/admin/messages">Admin Messages</a>
+            {% endif %}
         </div>
         {% else %}
         <div class="nav">
             <a href="/">Accueil</a>
             <a href="/login">Connexion</a>
             <a href="/register">Inscription</a>
-            <a href="/contact">Contact</a> {# <-- AJOUTEZ CETTE LIGNE #}
-            <a href="/admin/messages">Messages d'administration</a>
+            <a href="/contact">Contact</a>
         </div>
         {% endif %}
         
