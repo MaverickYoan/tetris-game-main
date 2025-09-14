@@ -22,7 +22,7 @@ CREATE TABLE administrateurs (
     email VARCHAR(255) NOT NULL UNIQUE
 );
 
-INSERT INTO administrateurs (first_name, last_name, email) VALUES
+INSERT INTO administrateurs (username, email) VALUES
 ('Yoan', 'yoan.demenezes@gmail.com'),
 ('MaverickYoan', 'maverick.yoan@gmail.com'),
 ('admin', 'admin@admin.com');
