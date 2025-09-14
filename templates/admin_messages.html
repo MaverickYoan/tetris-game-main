@@ -20,12 +20,12 @@
         <tbody>
             {% for msg in messages %}
             <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg[0] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg[1] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg[2] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg[3] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;">{{ msg[4] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg[5].strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['id'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['name'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['email'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['subject'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;">{{ msg['message'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['created_at'].strftime('%Y-%m-%d %H:%M:%S') }}</td>
             </tr>
             {% endfor %}
         </tbody>
