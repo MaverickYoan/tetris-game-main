@@ -5,9 +5,9 @@
 {% block content %}
 <div class="card">
     <div class="text-center">
-        <h2>Bienvenue dans l'expérience ultime de Tetris</h2>
+        <h2>Bienvenue dans Tetris</h2>
         <p style="font-size: 18px; color: #677068ff; margin: 20px 0;">
-            Mettez-vous au défi avec le jeu de puzzle classique qui ne vieillit jamais !
+            Pour les joueurs, par les joueurs 
         </p>
     </div>
     
@@ -16,19 +16,19 @@
         <div>
             <h3>Fonctionnalités du jeu</h3>
             <ul style="list-style: none; padding: 0; margin-top: 15px;">
-                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Gameplay classique de Tetris</li>
-                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Classements mondiaux</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #eeeeee;">Gameplay classique de Tetris</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Classements</li>
                 <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Suivi des statistiques personnelles</li>
                 <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Sauvegarde de votre progression</li>
                 <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Design responsive</li>
-                <li style="padding: 8px 0;">Niveaux de difficulté multiples</li>
+                <!-- <li style="padding: 8px 0;">Niveaux de difficulté multiples</li> -->
             </ul>
         </div>
         
         <div>
             <h3>Commencer</h3>
             <p style="margin: 15px 0 25px 0; color: #5c705fff;">
-                Prêt à tester vos compétences en résolution de puzzles ? Créez un compte pour commencer à jouer et rivaliser avec des joueurs du monde entier !
+                Créez un compte pour commencer à jouer à Tetris avec des amis
             </p>
             <div style="text-align: center;">
                 <a href="/register" class="btn" style="margin-right: 10px;">Créer un compte</a>
@@ -38,9 +38,9 @@
     </div>
     {% else %}
     <div style="text-align: center; margin-top: 40px;">
-        <h3>Content de te revoir, {{ session.username }}</h3>
+        <h3>Content de te revoir {{ session.username }}</h3>
         <p style="margin: 20px 0; color: #697a6cff; font-size: 18px;">
-            Prêt pour une autre partie de Tetris ? Voyons si tu peux battre ton meilleur score !
+            Prêt pour une autre partie de Tetris ? Feras-tu un meilleur score, ou pas ?
         </p>
         
         <div style="margin: 30px 0;">
