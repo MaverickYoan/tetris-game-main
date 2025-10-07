@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TeK2OuF - Dominez le Jeu. Définissez Votre Légende.</title>
+        <style>
+        /* Background CSS adapted for green camouflage pattern, animated */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Trebuchet MS', Verdana, sans-serif;
+            color: #fff;
+            background: 
+                linear-gradient(90deg, transparent 93%, rgba(61, 112, 61, 0.5) 93%, rgba(115, 186, 97, 0.5) 100%),
+                linear-gradient(90deg, rgba(72,58,42,0.4) 5%, transparent 5%),
+                linear-gradient(rgba(72,58,42,0.4) 5%, transparent 5%),
+                linear-gradient(transparent 90%, rgba(29,35,35,0.2) 90%, rgba(29,35,35,0.2) 100%),
+                linear-gradient(transparent 35%, rgba(50,72,47,0.4) 35%, rgba(50,72,47,0.4) 45%, transparent 45%, transparent 55%, rgba(72,58,42,0.4) 55%, rgba(72,58,42,0.4) 70%, transparent 70%),
+                linear-gradient(90deg, transparent 35%, rgba(50,72,47,0.4) 35%, rgba(50,72,47,0.4) 45%, transparent 45%, transparent 55%, rgba(72,58,42,0.4) 55%, rgba(72,58,42,0.4) 70%, transparent 70%),
+                linear-gradient(transparent 55%, rgba(50,72,47,0.4) 55%, rgba(50,72,47,0.4) 60%, transparent 60%),
+                linear-gradient(90deg, transparent 55%, rgba(50,72,47,0.4) 55%, rgba(50,72,47,0.4) 60%, transparent 60%),
+                linear-gradient(transparent 20%, rgba(142,127,90,0.5) 20%, rgba(142,127,90,0.5) 80%, transparent 80%),
+                linear-gradient(90deg, transparent 20%, rgba(29,35,35,0.2) 20%, rgba(29,35,35,0.2) 80%, transparent 80%),
+                linear-gradient(transparent 10%, rgba(72,58,42,0.4) 10%, rgba(72,58,42,0.4) 35%, transparent 35%),
+                linear-gradient(90deg, transparent 10%, rgba(72,58,42,0.4) 10%, rgba(72,58,42,0.4) 35%, transparent 35%);
+            background-size: 60em 60em;
+            background-color: #000;
+            background-repeat: repeat;
+            animation: camo-shift 30s linear infinite;
+        }
+
+        @keyframes camo-shift {
+            0% { background-position: 0 0; }
+            100% { background-position: 60em 60em; }
+        }
+
+        /* Neon style */
+        .neon-title {
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+            text-transform: uppercase;
+            font-size: 2em;
+        }
+
+        .neon-subtitle {
+            color: #ff00ff;
+            text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+        }
+
+        .section {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            color: #00ff00;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .game-item {
+            text-align: center;
+            color: #ffff00;
+        }
+
+        .progress-bar {
+            background: #333;
+            height: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .progress {
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, textarea {
+            background: #222;
+            border: 1px solid #00ffff;
+            color: #fff;
+            padding: 10px;
+        }
+
+        button {
+            background: #00ffff;
+            color: #000;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .event-item {
+            background: #111;
+            padding: 10px;
+            border: 1px solid #ff00ff;
+        }
+
+        .sponsors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #00ffff;
+        }
+
+        a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+    </style>
+    </head>
+    <body>
+        <header class="section header">
+            <h1 class="neon-title">TeK2OuF</h1>
+            <p class="neon-subtitle">Dominez le Jeu. Définissez Votre
+                Légende.</p>
+            <nav>
+                <a href="#accueil">Accueil</a> |
+                <a href="#apropos">À propos</a> |
+                <a href="#jeux">Jeux</a> |
+                <a href="#team">Team</a> |
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <section id="apropos" class="section">
+            <h2 class="neon-title">À Propos</h2>
+            <p>TeK2OuF est une équipe passionnée de gaming et d'eSport, dédiée à
+                l'excellence et à l'innovation dans le monde du jeu compétitif.
+                Fondée par des joueurs pour les joueurs, notre mission est de
+                repousser les limites et d'établir de nouveaux standards dans
+                l'univers du gaming.</p>
+            <p>Nous excellons dans les FPS tactiques, les battle royales, et les
+                jeux de stratégie, toujours à l'affût des dernières tendances et
+                technologies pour maintenir notre avantage compétitif.</p>
+            <p>Que ce soit en streaming ou en compétition, TeK2OuF représente la
+                passion, la précision et la persévérance.</p>
+        </section>
+
+        <section class="section">
+            <h2 class="neon-title">Nos Statistiques</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Gaming Compétitif</p>
+                    <p>Participation aux tournois les plus prestigieux du
+                        circuit eSport.</p>
+                </div>
+                <div class="stat-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Streaming</p>
+                    <p>Sessions live régulières avec interaction
+                        communautaire.</p>
+                </div>
+                <div class="stat-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Communauté</p>
+                    <p>Rejoignez une communauté de passionnés du gaming.</p>
+                </div>
+                <div class="stat-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Innovation</p>
+                    <p>Toujours à la recherche de nouvelles stratégies et
+                        technologies.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="jeux" class="section">
+            <h2 class="neon-title">Nos Jeux</h2>
+            <div class="games-grid">
+                <div class="game-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Tactical Warfare</p>
+                </div>
+                <div class="game-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Battle Zone</p>
+                </div>
+                <div class="game-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Strategy Masters</p>
+                </div>
+                <div class="game-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Fighter's Arena</p>
+                </div>
+                <div class="game-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Speed Circuit</p>
+                </div>
+                <div class="game-item">
+                    <span style="font-size: 2em;"></span>
+                    <p>Horror Survival</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="neon-title">Nos Stats</h2>
+            <div style="text-align: center;">
+                <p class="neon-title">2500+</p>
+                <p>Heures de Jeu</p>
+                <p class="neon-title">150+</p>
+                <p>Tournois Disputés</p>
+                <p class="neon-title">45+</p>
+                <p>Victories Majeures</p>
+                <p class="neon-title">10K+</p>
+                <p>Abonnés</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="neon-title">Compétences</h2>
+            <div>
+                <p>Précision</p>
+                <div class="progress-bar"><div class="progress"
+                        style="width: 90%; background: #00ff00;"></div></div>
+                <p>Stratégie</p>
+                <div class="progress-bar"><div class="progress"
+                        style="width: 85%; background: #ff00ff;"></div></div>
+                <p>Travail d'équipe</p>
+                <div class="progress-bar"><div class="progress"
+                        style="width: 95%; background: #00ffff;"></div></div>
+                <p>Réflexes</p>
+                <div class="progress-bar"><div class="progress"
+                        style="width: 80%; background: #ffff00;"></div></div>
+                <p>Adaptabilité</p>
+                <div class="progress-bar"><div class="progress"
+                        style="width: 90%; background: #00ff00;"></div></div>
+                <p>Connaissance du jeu</p>
+                <div class="progress-bar"><div class="progress"
+                        style="width: 95%; background: #ff00ff;"></div></div>
+            </div>
+        </section>
+
+        <section id="team" class="section">
+            <h2 class="neon-title">Notre Équipe</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <span style="font-size: 2em;"></span>
+                    <p>NeOnSniper</p>
+                    <p>Capitaine & Sniper</p>
+                    <a href="#"></a> <a href="#"></a> <a href="#"></a>
+                </div>
+                <div class="team-member">
+                    <span style="font-size: 2em;"></span>
+                    <p>RushQueen</p>
+                    <p>Entry Fragger</p>
+                    <a href="#"></a> <a href="#"></a> <a href="#"></a>
+                </div>
+                <div class="team-member">
+                    <span style="font-size: 2em;"></span>
+                    <p>TacticalMind</p>
+                    <p>Stratège & IGL</p>
+                    <a href="#"></a> <a href="#"></a> <a href="#"></a>
+                </div>
+                <div class="team-member">
+                    <span style="font-size: 2em;"></span>
+                    <p>SupportLegend</p>
+                    <p>Support & Coach</p>
+                    <a href="#"></a> <a href="#"></a> <a href="#"></a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2 class="neon-title">Contact</h2>
+            <p>Que vous soyez un fan, un sponsor potentiel ou un joueur
+                souhaitant rejoindre notre équipe, n'hésitez pas à nous
+                contacter !</p>
+            <p> contact@tek2ouf-gaming.com</p>
+            <p> Paris, France</p>
+            <p> TeK2OuF sur toutes les plateformes</p>
+            <a href="#"></a> <a href="#"></a> <a href="#"></a> <a
+                href="#"></a> <a href="#"></a>
+            <h3>Rejoignez l'aventure !</h3>
+            <form class="contact-form">
+                <input type="text" placeholder="Nom">
+                <input type="email" placeholder="Email">
+                <textarea placeholder="Message"></textarea>
+                <button type="submit">ENVOYER</button>
+            </form>
+        </section>
+
+        <section class="section">
+            <h2 class="neon-title">Événements À Venir</h2>
+            <div class="events-list">
+                <div class="event-item">
+                    <h3>Championship Series Finals</h3>
+                    <p>25 Juin 2025 • Paris</p>
+                    <p>Finale du tournoi international avec une cagnotte de 100
+                        000€ !</p>
+                    <a href="#">Plus d'infos </a>
+                </div>
+                <div class="event-item">
+                    <h3>Marathon Stream 24H</h3>
+                    <p>15 Juillet 2025 • Twitch</p>
+                    <p>24 heures de streaming non-stop avec des invités spéciaux
+                        et des cadeaux à gagner !</p>
+                    <a href="#">Plus d'infos </a>
+                </div>
+                <div class="event-item">
+                    <h3>Meet & Greet Fans</h3>
+                    <p>5 Août 2025 • Paris Gaming Expo</p>
+                    <p>Rencontrez l'équipe TeK2OuF en personne à la Paris Gaming
+                        Expo !</p>
+                    <a href="#">Plus d'infos </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="neon-title">Ils Nous Font Confiance</h2>
+            <div class="sponsors-grid">
+                <!-- Add placeholder sponsor logos -->
+                <div><span style="font-size: 2em;"></span></div>
+                <div><span style="font-size: 2em;"></span></div>
+                <div><span style="font-size: 2em;"></span></div>
+                <div><span style="font-size: 2em;"></span></div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <h3 class="neon-title">TeK2OuF</h3>
+            <p class="neon-subtitle">Dominez le Jeu. Définissez Votre
+                Légende.</p>
+            <a href="#"></a> <a href="#"></a> <a href="#"></a> <a
+                href="#"></a> <a href="#"></a>
+            <p>© 2025 TeK2OuF Gaming. Tous droits réservés.</p>
+        </footer>
+    </body>
+</html>
