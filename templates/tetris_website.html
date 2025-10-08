@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tetris Game - Jeu Classique en Ligne</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #12da19ff 0%, #036f06ff 50%, #370459ff 100%);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4CAF50;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(76, 175, 80, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin-top: 80px;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .features {
+            padding: 80px 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 60px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .tech-stack {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 80px 0;
+            margin: 40px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tech-stack h2 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: rgba(76, 175, 80, 0.2);
+            transform: scale(1.05);
+        }
+
+        .demo-section {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 40px 20px;
+            padding: 60px 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .game-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .preview-image {
+            background: #000;
+            border: 3px solid #4CAF50;
+            border-radius: 15px;
+            aspect-ratio: 1/2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #4CAF50;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tetris-blocks {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(20, 1fr);
+            width: 100%;
+            height: 100%;
+            gap: 1px;
+        }
+
+        .block {
+            background: #333;
+            border: 1px solid #555;
+        }
+
+        .block.filled {
+            background: #4CAF50;
+            box-shadow: inset 2px 2px 4px rgba(255,255,255,0.3);
+        }
+
+        .preview-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .preview-text ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .preview-text li {
+            padding: 10px 0;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .preview-text li:before {
+            content: "✓ ";
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .setup-guide {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 40px 20px;
+            padding: 60px 40px;
+            border-radius: 20px;
+        }
+
+        .setup-guide h2 {
+            color: white;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .setup-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #4CAF50;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.2rem; }
+            .game-preview { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-content">
+                <a href="#" class="logo">🎮 TETRIS</a>
+                <div class="nav-links">
+                    <a href="#features">Fonctionnalités</a>
+                    <a href="#demo">Démo</a>
+                    <a href="#tech">Technologies</a>
+                    <a href="#setup">Installation</a>
+                </div>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="container">
+                <h1>🎯 TETRIS ULTIME</h1>
+                <p>Un jeu Tetris moderne avec authentification utilisateur,
+                    classements en temps réel, et une interface responsive.
+                    Développé avec Flask et PostgreSQL pour une expérience de
+                    jeu complète et professionnelle.</p>
+                <div class="cta-buttons">
+                    <button class="btn" onclick="showGameDemo()">🎮 Voir la
+                        Démo</button>
+                    <button class="btn btn-secondary"
+                        onclick="downloadCode()">📥 Télécharger le Code</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2>✨ Fonctionnalités Exceptionnelles</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🎮</span>
+                        <h3>Gameplay Authentique</h3>
+                        <p>Toute la logique classique de Tetris avec les 7
+                            pièces iconiques, rotation, et système de scoring
+                            traditionnel</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">👤</span>
+                        <h3>Gestion Utilisateurs</h3>
+                        <p>Système complet d'inscription, connexion sécurisée
+                            avec hashage de mots de passe et gestion des
+                            sessions</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🏆</span>
+                        <h3>Classements & Stats</h3>
+                        <p>Sauvegarde automatique des scores, statistiques
+                            personnelles détaillées et tableaux de
+                            classement</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">⚡</span>
+                        <h3>Performance Optimisée</h3>
+                        <p>Code optimisé avec gestion des états en temps réel,
+                            animations fluides et interface responsive</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">📱</span>
+                        <h3>Design Responsive</h3>
+                        <p>Interface adaptative pour desktop et mobile avec
+                            contrôles tactiles intégrés</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🔧</span>
+                        <h3>Panel Admin</h3>
+                        <p>Interface d'administration pour gérer les messages de
+                            contact avec édition et suppression en ligne</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="demo" class="demo-section">
+            <div class="container">
+                <div class="game-preview">
+                    <div class="preview-image">
+                        <div class="tetris-blocks">
+                            <!-- Simuler des blocs Tetris -->
+                        </div>
+                    </div>
+                    <div class="preview-text">
+                        <h3>🎯 Expérience de Jeu Complète</h3>
+                        <ul>
+                            <li>Interface utilisateur intuitive et moderne</li>
+                            <li>Contrôles keyboard et tactiles</li>
+                            <li>Système de pause et reprendre</li>
+                            <li>Affichage de la prochaine pièce</li>
+                            <li>Niveaux progressifs avec vitesse adaptative</li>
+                            <li>Effets visuels et animations</li>
+                            <li>Sauvegarde automatique des scores</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech" class="tech-stack">
+            <div class="container">
+                <h2>🚀 Stack Technologique</h2>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <h3>🐍 Python Flask</h3>
+                        <p>Backend robuste avec routes API</p>
+                    </div>
+                    <div class="tech-item">
+                        <h3>🗄️ PostgreSQL</h3>
+                        <p>Base de données relationnelle</p>
+                    </div>
+                    <div class="tech-item">
+                        <h3>🎨 HTML5 Canvas</h3>
+                        <p>Rendu graphique du jeu</p>
+                    </div>
+                    <div class="tech-item">
+                        <h3>⚡ JavaScript ES6+</h3>
+                        <p>Logique frontend moderne</p>
+                    </div>
+                    <div class="tech-item">
+                        <h3>🔒 Werkzeug Security</h3>
+                        <p>Hashage sécurisé des mots de passe</p>
+                    </div>
+                    <div class="tech-item">
+                        <h3>🐳 Docker</h3>
+                        <p>Containerisation complète</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="setup" class="setup-guide">
+            <div class="container">
+                <h2>🛠️ Guide d'Installation</h2>
+                <div class="setup-steps">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Cloner le Repository</h3>
+                        <div class="code-block">git clone
+                            https://github.com/votre-repo/tetris-game<br>cd
+                            tetris-game</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Configuration Docker</h3>
+                        <div class="code-block">docker-compose up --build
+                            -d</div>
+                        <p>Lance PostgreSQL, pgAdmin et l'application Flask</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Variables d'Environnement</h3>
+                        <div
+                            class="code-block">DATABASE_URL=postgresql://...<br>SECRET_KEY=your-secret-key</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Accès à l'Application</h3>
+                        <div class="code-block">http://localhost:5000</div>
+                        <p>L'application sera accessible sur le port 5000</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <h3>Administration</h3>
+                        <div class="code-block">pgAdmin:
+                            http://localhost:5050<br>admin@tetris.com /
+                            admin123</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <h3>Compte Admin</h3>
+                        <p>Créez un utilisateur avec le nom 'admin' pour obtenir
+                            les privilèges administrateur automatiquement</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <p>Tetris Game - Développé avec passion | 2025</p>
+                <p>Construit avec Flask, PostgreSQL et tout mon amour</p>
+                <p>© 2025 TeK2OuF Gaming. Tous droits réservés.</p>
+            </div>
+        </footer>
+
+        <script>
+        // Ajouter quelques blocs colorés à la prévisualisation
+        document.addEventListener('DOMContentLoaded', () => {
+            const blocks = document.querySelectorAll('.tetris-blocks');
+            blocks.forEach(container => {
+                for (let i = 0; i < 200; i++) {
+                    const block = document.createElement('div');
+                    block.className = 'block';
+                    if (Math.random() > 0.7) {
+                        block.className += ' filled';
+                    }
+                    container.appendChild(block);
+                }
+            });
+
+            // Animation du navbar au scroll
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(0, 0, 0, 0.95)';
+                } else {
+                    navbar.style.background = 'rgba(0, 0, 0, 0.8)';
+                }
+            });
+        });
+
+        function showGameDemo() {
+            alert('🎮 Pour jouer au jeu complet, suivez les instructions d\'installation ci-dessous!\n\nLe jeu inclut:\n- Authentification utilisateur\n- Sauvegarde des scores\n- Classements en temps réel\n- Panel d\'administration');
+        }
+
+        function downloadCode() {
+            alert('📥 Le code source est disponible dans les fichiers que vous avez fournis!\n\nInclus:\n- app.py (application Flask principale)\n- Templates HTML complets\n- Configuration Docker\n- Base de données PostgreSQL\n- Panel d\'administration');
+        }
+
+        // Smooth scrolling pour les liens de navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+docker-compose up -d
+
+
+                linear-gradient(rgba(72,58,42,0.4) 5%, transparent 5%),
+                linear-gradient(transparent 90%, rgba(29,35,35,0.2) 90%, rgba(29,35,35,0.2) 100%);
+
+
+linear-gradient(transparent 35%, rgba(50,72,47,0.4) 35%, rgba(50,72,47,0.4) 45%, transparent 45%, transparent 55%, rgba(72,58,42,0.4) 55%, rgba(72,58,42,0.4) 70%, transparent 70%),
+                linear-gradient(90deg, transparent 35%, rgba(50,72,47,0.4) 35%, rgba(50,72,47,0.4) 45%, transparent 45%, transparent 55%, rgba(72,58,42,0.4) 55%, rgba(72,58,42,0.4) 70%, transparent 70%),
+                linear-gradient(transparent 55%, rgba(50,72,47,0.4) 55%, rgba(50,72,47,0.4) 60%, transparent 60%),
+                linear-gradient(90deg, transparent 55%, rgba(50,72,47,0.4) 55%, rgba(50,72,47,0.4) 60%, transparent 60%),
+                linear-gradient(transparent 20%, rgba(142,127,90,0.5) 20%, rgba(142,127,90,0.5) 80%, transparent 80%),
+                linear-gradient(90deg, transparent 20%, rgba(29,35,35,0.2) 20%, rgba(29,35,35,0.2) 80%, transparent 80%),
+                linear-gradient(transparent 10%, rgba(72,58,42,0.4) 10%, rgba(72,58,42,0.4) 35%, transparent 35%),
+                linear-gradient(90deg, transparent 10%, rgba(72,58,42,0.4) 10%, rgba(72,58,42,0.4) 35%, transparent 35%);
+
+
+
+hello, peux tu générer une image avec ces infos s'il te plaît ? 𝙌𝙪𝙤𝙞 𝙦𝙪'𝙞𝙡 𝙖𝙧𝙧𝙞𝙫𝙚, 𝙡𝙖 𝙛𝙡𝙖𝙢𝙢𝙚 𝙙𝙚 𝙡𝙖 𝙧𝙚́𝙨𝙞𝙨𝙩𝙖𝙣𝙘𝙚 𝙛𝙧𝙖𝙣𝙘̧𝙖𝙞𝙨𝙚 𝙣𝙚 𝙙𝙤𝙞𝙩 𝙥𝙖𝙨 𝙨'𝙚́𝙩𝙚𝙞𝙣𝙙𝙧𝙚 𝙚𝙩 𝙣𝙚 𝙨'𝙚́𝙩𝙚𝙞𝙣𝙙𝙧𝙖 𝙥𝙖𝙨
+
+Bien sûr 🔥 Peux-tu me préciser quel **style d’image** tu veux que je génère avec cette phrase ?
+Par exemple :
+
+* 🇫🇷 **Affiche patriotique** (avec drapeau français, typographie forte, ambiance héroïque)
+* 🎨 **Style artistique** (peinture, calligraphie, fond abstrait)
+* 📜 **Citation élégante** (texte seul sur un fond sobre ou texturé)
+* 🕯️ **Ambiance sombre / résistante** (flamme dans la nuit, symbole de courage)
+
+Et veux-tu que le texte **apparaisse sur l’image** ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
