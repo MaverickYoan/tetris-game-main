@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Tetris Game Flask Application
-A full-featured Tetris game with user authentication, scoring, and database integration.
-"""
+Application Flask pour le jeu Tetris.
+Un jeu Tetris complet avec authentification des utilisateurs, notation et intégration de base de données."""
 
 import os
 import random
@@ -137,11 +136,12 @@ TETROMINO_SHAPES = {
 }
 
 def get_db_connection():
-    """Get database connection."""
+    """Obtenir la connexion à la base de données.
+    """
     return psycopg2.connect(DATABASE_URL, cursor_factory=psycopg2.extras.RealDictCursor)
 
 def login_required(f):
-    """Decorator to require login for certain routes."""
+    """Le décorateur exigera une connexion pour certains itinéraires."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user_id' not in session:
@@ -150,7 +150,7 @@ def login_required(f):
     return decorated_function
 
 class TetrisGame:
-    """Tetris game logic class."""
+    """Le jeu Tetris. class."""
     
     def __init__(self, user_id=None):
         self.user_id = user_id
@@ -167,11 +167,11 @@ class TetrisGame:
         self.start_time = datetime.now()
         
     def generate_piece(self):
-        """Generate a random tetromino piece."""
+        """Générer un morceau de tétromino aléatoire."""
         return random.choice(list(TETROMINO_SHAPES.keys()))
     
     def get_piece_shape(self, piece_type, rotation=0):
-        """Get the shape matrix for a piece at given rotation."""
+        """Obtenez la matrice de forme d'une pièce à une rotation donnée."""
         shapes = TETROMINO_SHAPES[piece_type]
         return shapes[rotation % len(shapes)]
     
