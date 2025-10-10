@@ -39,19 +39,19 @@ CREATE TABLE high_scores (
 );
 
 -- Table de sessions de jeu pour suivre l'état actuel des parties
-CREATE TABLE game_sessions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    current_score INTEGER DEFAULT 0,
-    current_level INTEGER DEFAULT 1,
-    lines_cleared INTEGER DEFAULT 0,
-    game_board TEXT, -- JSON représentation de la grille de jeu
-    current_piece TEXT, -- JSON représentation du tetromino actuel
-    next_piece TEXT, -- JSON représentation du prochain tetromino
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
+-- CREATE TABLE game_sessions (
+    -- id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    -- user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    -- current_score INTEGER DEFAULT 0,
+    -- current_level INTEGER DEFAULT 1,
+    -- lines_cleared INTEGER DEFAULT 0,
+    -- game_board TEXT, -- JSON représentation de la grille de jeu
+    -- current_piece TEXT, -- JSON représentation du tetromino actuel
+    --next_piece TEXT, -- JSON représentation du prochain tetromino
+    -- is_active BOOLEAN DEFAULT TRUE,
+    -- created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    -- updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+-- );
 
 -- Statistique des utilisateurs pour suivre les performances globales
 CREATE TABLE user_stats (
