@@ -133,6 +133,7 @@ TETROMINO_SHAPES = {
          '###..',
          '.....']
     ],
+# Nouveau triomino000
     'A': [
         ['.....',
          '.....',

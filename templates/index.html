@@ -7,31 +7,41 @@
     <div class="text-center">
         <h2>Bienvenue dans Tetris</h2>
         <p style="font-size: 18px; color: #677068ff; margin: 20px 0;">
-            Pour les joueurs, par les joueurs 
+            Pour les joueurs, par les joueurs
         </p>
     </div>
-    
+
     {% if not session.username %}
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
+    <div
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
         <div>
             <h3>Fonctionnalités du jeu</h3>
             <ul style="list-style: none; padding: 0; margin-top: 15px;">
-                <li style="padding: 8px 0; border-bottom: 1px solid #eeeeee;">Gameplay classique de Tetris</li>
-                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Classements</li>
-                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Suivi des statistiques personnelles</li>
-                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Sauvegarde de votre progression</li>
-                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Design responsive</li>
+                <li
+                    style="padding: 8px 0; border-bottom: 1px solid #eeeeee;">Gameplay
+                    classique de Tetris</li>
+                <li
+                    style="padding: 8px 0; border-bottom: 1px solid #eee;">Classements</li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #eee;">Suivi
+                    des statistiques personnelles</li>
+                <li
+                    style="padding: 8px 0; border-bottom: 1px solid #eee;">Sauvegarde
+                    de votre progression</li>
+                <li
+                    style="padding: 8px 0; border-bottom: 1px solid #eee;">Design
+                    responsive</li>
                 <!-- <li style="padding: 8px 0;">Niveaux de difficulté multiples</li> -->
             </ul>
         </div>
-        
+
         <div>
             <h3>Commencer</h3>
             <p style="margin: 15px 0 25px 0; color: #5c705fff;">
                 Créez un compte pour commencer à jouer à Tetris avec des amis
             </p>
             <div style="text-align: center;">
-                <a href="/register" class="btn" style="margin-right: 10px;">Créer un compte</a>
+                <a href="/register" class="btn"
+                    style="margin-right: 10px;">Créer un compte</a>
                 <a href="/login" class="btn btn-secondary">Se connecter</a>
             </div>
         </div>
@@ -40,16 +50,19 @@
     <div style="text-align: center; margin-top: 40px;">
         <h3>Content de te revoir {{ session.username }}</h3>
         <p style="margin: 20px 0; color: #697a6cff; font-size: 18px;">
-            Prêt pour une autre partie de Tetris ? Feras-tu un meilleur score, ou pas ?
+            Prêt pour une autre partie de Tetris ? Feras-tu un meilleur score,
+            ou pas ?
         </p>
-        
+
         <div style="margin: 30px 0;">
-            <a href="/game" class="btn" style="font-size: 20px; padding: 15px 30px;">Commencer à jouer</a>
+            <a href="/game" class="btn"
+                style="font-size: 20px; padding: 15px 30px;">Commencer à
+                jouer</a>
         </div>
-        
+
         <div id="user-stats" style="margin-top: 40px;"></div>
     </div>
-    
+
     <script>
         // Load user statistics
         fetch('/api/user/stats')
@@ -94,11 +107,13 @@
 
 <div class="card">
     <h3>Comment jouer</h3>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
+    <div
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
         <div>
             <h4>Contrôles :</h4>
             <ul style="margin-top: 10px;">
-                <li><strong>←/→ Flèches :</strong> Déplacer la pièce à gauche/droite</li>
+                <li><strong>←/→ Flèches :</strong> Déplacer la pièce à
+                    gauche/droite</li>
                 <li><strong>↓ Flèche bas :</strong> Descente rapide</li>
                 <li><strong>↑ Flèche haut :</strong> Rotation de la pièce</li>
                 <li><strong>Barre d'espace :</strong> Descente immédiate</li>
@@ -121,7 +136,7 @@
     <div id="recent-scores" style="margin-top: 20px;">
         <p>Chargement de classement...</p>
     </div>
-    
+
     <script>
         // Load recent top scores
         fetch('/api/leaderboard')
@@ -147,5 +162,14 @@
                 document.getElementById('recent-scores').innerHTML = '<p style="color: #f44336;">Échec du chargement.</p>';
             });
     </script>
+</div>
+
+<div>
+    <footer>
+        <div class="card"
+            style="text-align: center; font-size: 14px; color: #011b01;">
+            <p>© 2025 - TeK2OuF</p>
+        </div>
+    </footer>
 </div>
 {% endblock %}

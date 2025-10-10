@@ -166,13 +166,14 @@
             <span class="score-label">Temps:</span>
             <span id="time" class="score-value">00:00</span>
         </div>
-        
+
         <div class="next-piece-container">
             <h4>Prochaine Pièce</h4>
             <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
         </div>
-        
-        <div id="instructions" style="margin-top: 20px; font-size: 14px; color: #526950;">
+
+        <div id="instructions"
+            style="margin-top: 20px; font-size: 14px; color: #526950;">
             <h4>Contrôles:</h4>
             <p>← → Déplacer gauche/droite</p>
             <p>↓ Douce chute</p>
@@ -181,13 +182,14 @@
             <p>P Pause/Reprendre</p>
         </div>
     </div>
-    
+
     <div class="game-board-container">
         <canvas id="gameCanvas" width="300" height="600"></canvas>
         <div id="gameOverOverlay" class="game-over-overlay">
             <h2>Game Over</h2>
             <p id="finalScore">Score final: 0</p>
-            <button onclick="restartGame()" class="btn" style="margin-top: 20px;">Rejouer</button>
+            <button onclick="restartGame()" class="btn"
+                style="margin-top: 20px;">Rejouer</button>
         </div>
         <div id="pauseOverlay" class="pause-overlay">
             <div style="text-align: center;">
@@ -196,26 +198,34 @@
             </div>
         </div>
     </div>
-    
+
     <div class="controls">
         <h3>Contrôles</h3>
         <button id="startButton" onclick="startGame()" class="control-button">
             Démarrer le jeu
         </button>
-        <button id="pauseButton" onclick="togglePause()" class="control-button" disabled>
+        <button id="pauseButton" onclick="togglePause()" class="control-button"
+            disabled>
             Pause
         </button>
-        <button id="restartButton" onclick="restartGame()" class="control-button" disabled>
+        <button id="restartButton" onclick="restartGame()"
+            class="control-button" disabled>
             Rejouer
         </button>
 
-        <h4 style="margin-top: 20px; margin-bottom: 10px;">Contrôles Mobiles:</h4>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
-            <button onclick="moveLeft()" class="control-button" style="margin: 0;">←</button>
-            <button onclick="rotate()" class="control-button" style="margin: 0;">↻</button>
-            <button onclick="moveRight()" class="control-button" style="margin: 0;">→</button>
+        <h4 style="margin-top: 20px; margin-bottom: 10px;">Contrôles
+            Mobiles:</h4>
+        <div
+            style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
+            <button onclick="moveLeft()" class="control-button"
+                style="margin: 0;">←</button>
+            <button onclick="rotate()" class="control-button"
+                style="margin: 0;">↻</button>
+            <button onclick="moveRight()" class="control-button"
+                style="margin: 0;">→</button>
         </div>
-        <button onclick="softDrop()" class="control-button" style="margin-top: 5px;">↓ Chute douce</button>
+        <button onclick="softDrop()" class="control-button"
+            style="margin-top: 5px;">↓ Chute douce</button>
         <button onclick="hardDrop()" class="control-button">Chute libre</button>
     </div>
 </div>
@@ -577,4 +587,14 @@ function softDrop() { game.softDrop(); }
 function rotate() { game.rotate(); }
 function hardDrop() { game.hardDrop(); }
 </script>
+
+<div>
+    <footer>
+        <div class="card"
+            style="text-align: center; font-size: 14px; color: #011b01;">
+            <p>© 2025 - TeK2OuF</p>
+        </div>
+    </footer>
+</div>
+
 {% endblock %}

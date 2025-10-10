@@ -8,29 +8,32 @@
     <p class="text-center" style="color: #56725f; margin-bottom: 30px;">
         Connectez-vous pour continuer votre aventure de Tetris
     </p>
-    
+
     <form id="loginForm">
         <div class="form-group">
             <label for="username">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" required>
         </div>
-        
+
         <div class="form-group">
             <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required>
         </div>
-        
+
         <div class="text-center">
-            <button type="submit" class="btn" style="width: 100%; padding: 15px;">
+            <button type="submit" class="btn"
+                style="width: 100%; padding: 15px;">
                 Se connecter
             </button>
         </div>
     </form>
-    
+
     <div class="text-center mt-20">
         <p>
-            Pas encore de compte ? 
-            <a href="/register" style="color: #39913f; text-decoration: none; font-weight: bold;">Créez-en un ici</a>
+            Pas encore de compte ?
+            <a href="/register"
+                style="color: #39913f; text-decoration: none; font-weight: bold;">Créez-en
+                un ici</a>
         </p>
     </div>
 </div>
@@ -82,4 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.card').appendChild(demoInfo);
 });
 </script>
+
+<div>
+    <footer>
+        <div class="card"
+            style="text-align: center; font-size: 14px; color: #011b01;">
+            <p>© 2025 - TeK2OuF</p>
+        </div>
+    </footer>
+</div>
+
 {% endblock %}

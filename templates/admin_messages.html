@@ -172,7 +172,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="card" style="max-width: 900px; margin: 0 auto; @media (max-width: 768px) {font-size: 14px;}">
+<div class="card"
+    style="max-width: 900px; margin: 0 auto; @media (max-width: 768px) {font-size: 14px;}">
     <h2 class="text-center">Messages reçus</h2>
     {% if messages %}
     <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
@@ -190,17 +191,32 @@
         <tbody>
             {% for msg in messages %}
             <tr id="row-{{ msg['id'] }}">
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['id'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;" class="editable" data-field="name" data-id="{{ msg['id'] }}">{{ msg['name'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;" class="editable" data-field="email" data-id="{{ msg['id'] }}">{{ msg['email'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;" class="editable" data-field="subject" data-id="{{ msg['id'] }}">{{ msg['subject'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;" class="editable" data-field="message" data-id="{{ msg['id'] }}">{{ msg['message'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['created_at'].strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['id']
+                    }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;"
+                    class="editable" data-field="name"
+                    data-id="{{ msg['id'] }}">{{ msg['name'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;"
+                    class="editable" data-field="email"
+                    data-id="{{ msg['id'] }}">{{ msg['email'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;"
+                    class="editable" data-field="subject"
+                    data-id="{{ msg['id'] }}">{{ msg['subject'] }}</td>
+                <td
+                    style="padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;"
+                    class="editable" data-field="message"
+                    data-id="{{ msg['id'] }}">{{ msg['message'] }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{
+                    msg['created_at'].strftime('%Y-%m-%d %H:%M:%S') }}</td>
                 <td style="padding: 10px; border: 1px solid #ddd;">
-                    <button class="edit-btn" data-id="{{ msg['id'] }}" style="background-color: #1ee425; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-right: 5px;">Éditer</button>
-                    <button class="save-btn" data-id="{{ msg['id'] }}" style="background-color: #108a43; color: white; border: none; padding: 5px 10px; cursor: pointer; display: none;">Sauvegarder</button>
-                    <button class="cancel-btn" data-id="{{ msg['id'] }}" style="background-color: #2d811c; color: white; border: none; padding: 5px 10px; cursor: pointer; display: none;">Annuler</button>
-                    <button class="delete-btn" data-id="{{ msg['id'] }}" style="background-color: #062d06; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-left: 5px;">Supprimer</button>
+                    <button class="edit-btn" data-id="{{ msg['id'] }}"
+                        style="background-color: #1ee425; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-right: 5px;">Éditer</button>
+                    <button class="save-btn" data-id="{{ msg['id'] }}"
+                        style="background-color: #108a43; color: white; border: none; padding: 5px 10px; cursor: pointer; display: none;">Sauvegarder</button>
+                    <button class="cancel-btn" data-id="{{ msg['id'] }}"
+                        style="background-color: #2d811c; color: white; border: none; padding: 5px 10px; cursor: pointer; display: none;">Annuler</button>
+                    <button class="delete-btn" data-id="{{ msg['id'] }}"
+                        style="background-color: #062d06; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-left: 5px;">Supprimer</button>
                 </td>
             </tr>
             {% endfor %}
@@ -210,4 +226,14 @@
     <p>Aucun message reçu.</p>
     {% endif %}
 </div>
+
+<div>
+    <footer>
+        <div class="card"
+            style="text-align: center; font-size: 14px; color: #011b01;">
+            <p>© 2025 - TeK2OuF</p>
+        </div>
+    </footer>
+</div>
+
 {% endblock %}
