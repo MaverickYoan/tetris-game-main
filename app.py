@@ -13,6 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 import psycopg2.extras
 from psycopg2 import sql
+from your_app import db
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
@@ -765,6 +766,41 @@ def delete_message(message_id):
     except Exception as e:
         print(f"Error deleting message: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
+
+# Message model
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    subject = db.Column(db.String(255))
+    body = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Insert a new message
+new_message = Message(
+    name="YOAN TeK2OuF DE MENEZES",
+    email="yoan.demenezes@gmail.com",
+    subject="merci",
+    body="ok"
+)
+db.session.add(new_message)
+db.session.commit()
+
+# Create sequence for messages table
+def create_messages_sequence():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        # Create sequence for messages table
+        cur.execute("CREATE SEQUENCE IF NOT EXISTS messages_id_seq START 1")
+        cur.execute("ALTER TABLE messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq')")
+        conn.commit()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print(f"Error creating messages sequence: {e}")
+
+create_messages_sequence()
 
 if __name__ == '__main__':
     debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'

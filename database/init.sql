@@ -66,13 +66,13 @@ CREATE TABLE user_stats (
 );
 
 -- Table des messages de contact
-CREATE TABLE IF NOT EXISTS messages (
+CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) NOT NULL,
-    subject VARCHAR(200) NOT NULL,
-    message TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    email VARCHAR(100) NOT NULL,
+    subject VARCHAR(255),
+    body TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- créé des index pour optimiser les requêtes
@@ -139,6 +139,10 @@ SELECT
     (RANDOM() * 1800 + 300)::INTEGER
 FROM users u
 WHERE u.username IN ('demo_user', 'player1');
+
+-- Insérer un message de démonstration
+INSERT INTO messages (name, email, subject, body, created_at) 
+VALUES ('YOAN TeK2OuF DE MENEZES', 'yoan.demenezes@gmail.com', 'merci', 'ok', '2025-10-14 12:00:00');
 
 -- Attribution des privilèges à l'utilisateur tetris_user
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO tetris_user;
