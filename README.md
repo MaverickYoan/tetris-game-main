@@ -1,38 +1,38 @@
-# 🎮 Tetris Game - Full Stack Web Application
+# 🎮 Jeu Tetris - Application Web Full Stack 
 
-A modern, full-featured Tetris game built with Python Flask, PostgreSQL, and Docker. Features user authentication, real-time gameplay, leaderboards, and database administration through pgAdmin.
+Un jeu Tetris moderne et complet construit avec Python Flask, PostgreSQL et Docker. Comprend l'authentification des utilisateurs, un jeu en temps réel, des classements et une administration de base de données via pgAdmin.
 
 ![Tetris Game](https://img.shields.io/badge/Python-Flask-blue) ![Database](https://img.shields.io/badge/Database-PostgreSQL-blue) ![Docker](https://img.shields.io/badge/Container-Docker-blue) ![License](https://img.shields.io/badge/License-MIT-green)
 
-## ✨ Features
+## ✨ Caractéristiques
 
-### 🎮 Game Features
-- **Classic Tetris Gameplay**: Authentic Tetris experience with all standard pieces
-- **Real-time Scoring**: Dynamic scoring system with level progression
-- **Multiple Controls**: Keyboard controls + mobile-friendly touch buttons
-- **Pause/Resume**: Game state management with pause functionality
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
+### 🎮 Caractéristiques du jeu 
+- **Gameplay Tetris classique** : expérience Tetris authentique avec toutes les pièces standard 
+- **Score en temps réel** : système de notation dynamique avec progression de niveau 
+- **Contrôles multiples** : commandes du clavier + boutons tactiles adaptés aux appareils mobiles 
+- **Pause/Resume** : gestion de l'état du jeu avec fonctionnalité de pause 
+- **Conception réactive** : fonctionne de manière transparente sur les ordinateurs de bureau et les appareils mobiles 
 
-### 👥 User Management
-- **User Registration & Authentication**: Secure user accounts with password hashing
-- **Session Management**: Persistent login sessions
-- **Personal Statistics**: Track your progress and achievements
-- **Profile Management**: User account management
+### 👥 Gestion des utilisateurs 
+- **Enregistrement et authentification des utilisateurs** : comptes d'utilisateurs sécurisés avec hachage de mot de passe 
+- **Gestion des sessions** : sessions de connexion persistantes 
+- **Statistiques personnelles** : suivez vos progrès et vos réalisations 
+- **Gestion de profil** : gestion des comptes utilisateur 
 
-### 🏆 Competitive Features
-- **Global Leaderboards**: Compete with players worldwide
-- **Personal Stats Tracking**: Monitor your improvement over time
-- **High Score History**: Keep track of all your best games
-- **Real-time Updates**: Live leaderboard updates
+### 🏆 Fonctionnalités concurrentes 
+- **Classements mondiaux** : rivalisez avec des joueurs du monde entier 
+- **Suivi des statistiques personnelles** : surveillez votre amélioration au fil du temps 
+- **Historique des meilleurs scores** : gardez une trace de tous vos meilleurs jeux 
+- **Mises à jour en temps réel** : mises à jour du classement en direct 
 
-### 🛠 Technical Features
-- **Database Persistence**: All game data stored in PostgreSQL
-- **Docker Containerization**: Easy deployment and scaling
-- **Database Administration**: Built-in pgAdmin interface
-- **RESTful API**: Clean API design for game interactions
-- **Security**: Password hashing and secure session management
+### 🛠 Caractéristiques techniques 
+- **Persistance de la base de données** : toutes les données de jeu stockées dans PostgreSQL 
+- **Conteneurisation Docker** : déploiement et mise à l'échelle faciles 
+- **Administration de base de données** : interface pgAdmin intégrée 
+- **API RESTful** : conception d'API épurée pour les interactions de jeu 
+- **Sécurité** : hachage de mot de passe et gestion sécurisée des sessions 
 
-## 🏗 Architecture
+## 🏗Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -47,15 +47,15 @@ A modern, full-featured Tetris game built with Python Flask, PostgreSQL, and Doc
                        └─────────────────┘
 ```
 
-## 📋 Prerequisites
+## 📋 Conditions préalables 
 
-- **Docker** and **Docker Compose** installed on your system
-- **Git** (to clone the repository)
-- At least **2GB RAM** and **1GB disk space**
+- **Docker** et **Docker Compose** installés sur votre système 
+- **Git** (pour cloner le dépôt) 
+- Au moins **2 Go de RAM** et **1 Go d'espace disque** 
 
-## 🚀 Quick Start
+## 🚀 Démarrage rapide 
 
-### 1. Clone the Repository
+### 1. Cloner le référentiel
 ```bash
 git clone <your-repo-url>
 cd tetris-game
@@ -111,30 +111,29 @@ For production deployment:
 2. Set `FLASK_ENV=production`
 3. Use a strong `SECRET_KEY`
 4. Consider using external database and reverse proxy
+## 🎯 Comment jouer 
 
-## 🎯 How to Play
+### Contrôles 
+- **← / →** : Déplacer la pièce vers la gauche/droite 
+- **↑** : Tourner la pièce dans le sens des aiguilles d'une montre 
+- **↓** : Soft drop (descente plus rapide) 
+- **Espace** : Hard drop (placement instantané) 
+- **P** : Pause/Reprise du jeu 
 
-### Controls
-- **← / →**: Move piece left/right
-- **↑**: Rotate piece clockwise
-- **↓**: Soft drop (faster descent)
-- **Space**: Hard drop (instant placement)
-- **P**: Pause/Resume game
+### Système de notation 
+- **Ligne unique** : 100 × niveau 
+- **Lignes doubles** : 300 × niveau 
+- **Triple Lines** : 500 × Niveau 
+- **Tetris (4 lignes)** : 800 × Niveau 
 
-### Scoring System
-- **Single Line**: 100 × Level
-- **Double Lines**: 300 × Level  
-- **Triple Lines**: 500 × Level
-- **Tetris (4 lines)**: 800 × Level
+### Progression 
+- **Le niveau augmente** toutes les 10 lignes effacées 
+- **La vitesse augmente** à chaque niveau 
+- **Niveau maximum** : 10 
 
-### Progression
-- **Level increases** every 10 lines cleared
-- **Speed increases** with each level
-- **Maximum level**: 10
+## 🔧 Développement 
 
-## 🔧 Development
-
-### Project Structure
+### Structure du projet
 ```
 tetris-game/
 ├── app.py                 # Main Flask application
@@ -152,10 +151,9 @@ tetris-game/
 ├── docker-compose.yml   # Multi-container setup
 └── README.md           # This file
 ```
+### Points de terminaison de l'API 
 
-### API Endpoints
-
-#### Authentication
+#### Authentification
 - `POST /register` - User registration
 - `POST /login` - User login
 - `GET /logout` - User logout
@@ -249,30 +247,29 @@ sudo chown -R $USER:$USER .
 # Reset Docker volumes if needed
 docker-compose down -v
 docker-compose up -d
-```
-### Optimisation des performances
-- **Database Indexing**: Indexes are automatically created on frequently queried columns
-- **Connection Pooling**: PostgreSQL handles connection pooling automatically  
-- **Static File Serving**: Consider using nginx for static files in production
-- **Caching**: Add Redis for session storage and caching in production
-## 🔒 Considérations de sécurité
+```### Optimisation des performances 
+- **Indexation de base de données** : les index sont automatiquement créés sur les colonnes fréquemment interrogées 
+- **Connection Pooling** : PostgreSQL gère automatiquement le pool de connexions 
+- **Serving de fichiers statiques** : envisagez d'utiliser nginx pour les fichiers statiques en production 
+- **Caching** : ajoutez Redis pour le stockage de session et la mise en cache en production 
+## 🔒Considérations de sécurité 
 
-### fonctionnalités de sécurité actuelles
-- **Password Hashing**: Werkzeug's secure password hashing
-- **Session Management**: Flask's secure session handling
-- **SQL Injection Prevention**: Parameterized queries with psycopg2
-- **CSRF Protection**: Built-in Flask protections
-- **Input Validation**: Server-side validation for all inputs
+### fonctionnalités de sécurité actuelles 
+- **Password Hashing** : le hachage de mot de passe sécurisé de Werkzeug 
+- **Gestion de session** : gestion sécurisée des sessions de Flask 
+- **SQL Injection Prevention** : Requêtes paramétrées avec psycopg2 
+- **Protection CSRF** : protections de flacon intégrées 
+- **Validation des entrées** : validation côté serveur pour toutes les entrées 
 
-Liste de contrôle de sécurité de la production ###
-- [ ] Change default passwords
-- [ ] Use strong SECRET_KEY
-- [ ] Enable HTTPS
-- [ ] Set up firewall rules
-- [ ] Regular security updates
-- [ ] Database access restrictions
-- [ ] Rate limiting implementation
-- [ ] Input sanitization review
+## Liste de contrôle de sécurité de la production ### 
+- [ ] Modifier les mots de passe par défaut 
+- [ ] Utilisez SECRET_KEY fort 
+- [ ] Activer HTTPS 
+- [ ] Configurer les règles de pare-feu 
+- [ ] Mises à jour de sécurité régulières 
+- [ ] Restrictions d'accès à la base de données 
+- [ ] Implémentation de la limitation de débit 
+- [ ] Examen de la désinfection des entrées
 
 ## 🤝 Contribution
 1. Fork the repository
