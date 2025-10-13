@@ -6,7 +6,7 @@
 <div class="card">
     <div class="text-center">
         <h2>Bienvenue dans Tetris</h2>
-        <p style="font-size: 18px; color: #677068ff; margin: 20px 0;">
+        <p style="font-size: 18px; color: rgb(1, 47, 7); margin: 20px 0;">
             Pour les joueurs, par les joueurs
         </p>
     </div>
@@ -145,10 +145,10 @@
                 if (data.success && data.scores.length > 0) {
                     const scoresContainer = document.getElementById('recent-scores');
                     let html = '<table style="width: 100%; border-collapse: collapse;">';
-                    html += '<tr style="background: #f0f0f0;"><th style="padding: 10px; border: 1px solid #ddd;">Classement</th><th style="padding: 10px; border: 1px solid #ddd;">Joueurs</th><th style="padding: 10px; border: 1px solid #ddd;">Score</th><th style="padding: 10px; border: 1px solid #ddd;">Lignes</th><th style="padding: 10px; border: 1px solid #ddd;">Niveau</th></tr>';
+                    html += '<tr style="background: #f0f0f0;"><th style="padding: 10px; border: 1px solid #111;">Classement</th><th style="padding: 10px; border: 1px solid #111;">Joueurs</th><th style="padding: 10px; border: 1px solid #111;">Score</th><th style="padding: 10px; border: 1px solid #111;">Lignes</th><th style="padding: 10px; border: 1px solid #111;">Niveau</th></tr>';
 
                     data.scores.slice(0, 5).forEach((score, index) => {
-                        html += `<tr><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${index + 1}</td><td style="padding: 10px; border: 1px solid #ddd;">${score.username}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: right;">${score.score.toLocaleString()}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${score.lines_cleared}</td><td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${score.level_reached}</td></tr>`;
+                        html += `<tr><td style="padding: 10px; border: 1px solid #111; text-align: center;">${index + 1}</td><td style="padding: 10px; border: 1px solid #111;">${score.username}</td><td style="padding: 10px; border: 1px solid #111; text-align: right;">${score.score.toLocaleString()}</td><td style="padding: 10px; border: 1px solid #111; text-align: center;">${score.lines_cleared}</td><td style="padding: 10px; border: 1px solid #111; text-align: center;">${score.level_reached}</td></tr>`;
                     });
                     
                     html += '</table>';

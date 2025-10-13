@@ -1,0 +1,4 @@
+"id","username","email","password_hash","created_at","last_login","is_active","role"
+"3973a9f7-edfd-4ad0-a627-aeda4ae81cb1","admin","yoan.demenezes@gmail.com","scrypt:32768:8:1$T9Z3nI3L5Oy9IwiP$227fd784e377bfeea78a70e7e7f437c0661fbb8751e63a3d60f35c26165a159f76617b6832d20348656509e55f1674109d907ffbfd64d98e6033779dd7b90187","2025-09-01 03:25:02.831671+00","2025-10-07 21:31:54.759509+00",True,"admin"
+"761a9398-56b4-407a-86fe-3aad48594db0","player1","player1@tetris.com","$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewdBWX3Gqvfx/DKG","2025-09-01 03:23:28.027452+00",NULL,True,"admin"
+"9c58961b-ce67-4b9b-b04c-03fc3d3870bf","demo_user","demo@tetris.com","$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewdBWX3Gqvfx/DKG","2025-09-01 03:23:28.027452+00",NULL,True,"admin"

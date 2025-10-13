@@ -71,7 +71,7 @@ Souhaites-tu que je t’aide à :
 génère des images stp
 
 
-
+#AEED9E
 
 Bien sûr 😎 — avant que je lance la génération : veux-tu que je crée **une image de groupe** avec toute l’équipe ensemble (comme une affiche e-sport), ou **une image par joueur/personnage** (ex. portrait individuel stylisé) ?
 

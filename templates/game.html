@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Jouez à Tetris - Tetris{% endblock %}
+{% block title %}Tetris{% endblock %}
 
 {% block styles %}
 <style>
@@ -30,7 +30,7 @@
     }
     
     .game-info {
-        background: rgba(255, 255, 255, 0.95);
+        background: #AEED9E;
         border-radius: 15px;
         padding: 20px;
         height: fit-content;
@@ -72,7 +72,7 @@
     }
     
     .controls {
-        background: rgba(255, 255, 255, 0.95);
+        background: #AEED9E;
         border-radius: 15px;
         padding: 20px;
         height: fit-content;
@@ -324,12 +324,12 @@ class TetrisGameUI {
                 document.getElementById('pauseButton').disabled = false;
                 document.getElementById('restartButton').disabled = false;
                 
-                showAlert('Game started! Good luck! 🍀', 'success');
+                showAlert('Start', 'succès');
             } else {
-                showAlert(result.error || 'Failed to start game');
+                showAlert(result.error || 'Le jeu bogue');
             }
         } catch (error) {
-            showAlert('Failed to start game: ' + error.message);
+            showAlert('Le jeu bogue: ' + error.message);
         }
     }
     
@@ -458,7 +458,7 @@ class TetrisGameUI {
         // Reset buttons
         document.getElementById('startButton').disabled = false;
         document.getElementById('pauseButton').disabled = true;
-        document.getElementById('pauseButton').textContent = '⏸️ Pause';
+        document.getElementById('pauseButton').textContent = '⏸Pause';
         document.getElementById('restartButton').disabled = true;
     }
     
