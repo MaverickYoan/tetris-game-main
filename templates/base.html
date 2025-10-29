@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="/img/tetris.ico" type="image/x-icon">
+        <!-- <link rel="icon" href="img/tetris.gif" type="image/x-icon"> -->
+        <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
         <title>{% block title %}Tetris{% endblock %}</title>
-        <style>
+    </head>
+
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -169,40 +173,41 @@
             }
         }
     </style>
-        {% block styles %}{% endblock %}
-        <body>
-            <div class="container">
-                <!-- <div class="header">
+
+    {% block styles %}{% endblock %}
+    <body>
+        <div class="container">
+            <!-- <div class="header">
                     <h1>Tetris</h1>
                 </div> -->
 
-                {% if session.username %}
-                <div class="nav">
-                    <a href="/">Accueil</a>
-                    <a href="/game">Jouer</a>
-                    <a href="#" onclick="showLeaderboard()">Classements</a>
-                    <a href="/contact">Contact</a>
-                    <a href="/logout" class="btn-secondary">Déconnexion ({{
-                        session.username }})</a>
-                    {% if session.role == 'admin' %}
-                    <a href="/admin/messages">Admin Messages</a>
-                    {% endif %}
-                </div>
-                {% else %}
-                <div class="nav">
-                    <a href="/">Accueil</a>
-                    <a href="/login">Connexion</a>
-                    <a href="/register">Inscription</a>
-                    <a href="/contact">Contact</a>
-                </div>
+            {% if session.username %}
+            <div class="nav">
+                <a href="/">Accueil</a>
+                <a href="/game">Jouer</a>
+                <a href="#" onclick="showLeaderboard()">Classements</a>
+                <a href="/contact">Contact</a>
+                <a href="/logout" class="btn-secondary">Déconnexion ({{
+                    session.username }})</a>
+                {% if session.role == 'admin' %}
+                <a href="/admin/messages">Admin Messages</a>
                 {% endif %}
-
-                <div id="alert-container"></div>
-
-                {% block content %}{% endblock %}
             </div>
+            {% else %}
+            <div class="nav">
+                <a href="/">Accueil</a>
+                <a href="/login">Connexion</a>
+                <a href="/register">Inscription</a>
+                <a href="/contact">Contact</a>
+            </div>
+            {% endif %}
 
-            <script>
+            <div id="alert-container"></div>
+
+            {% block content %}{% endblock %}
+        </div>
+
+        <script>
         function showAlert(message, type = 'error') {
             const alertContainer = document.getElementById('alert-container');
             const alertDiv = document.createElement('div');
@@ -263,7 +268,7 @@
              }
          }
     </script>
-            {% block scripts %}{% endblock %}
-            <!-- <a href="/templates/Tetris.html" target="_blank">Tetris</a> -->
-        </body>
-    </html>
+        {% block scripts %}{% endblock %}
+        <!-- <a href="/templates/Tetris.html" target="_blank">Tetris</a> -->
+    </body>
+</html>
