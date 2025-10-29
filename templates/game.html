@@ -18,7 +18,7 @@
         border-radius: 10px;
         position: relative;
         width: 300px;
-        height: 300px;
+        height: 429px;
         margin: 0 auto;
     }
     
@@ -249,11 +249,11 @@ class TetrisGameUI {
         this.cellSize = 30;
         this.colors = {
             73: '#00FFFF', // I - Cyan
-            79: '#FFFF00', // O - Yellow  
-            84: '#800080', // T - Purple
-            83: '#00FF00', // S - Green
-            90: '#FF0000', // Z - Red
-            74: '#0000FF', // J - Blue
+            79: '#FFFF00', // O - Jaune
+            84: '#800080', // T - Pourpre
+            83: '#00FF00', // S - Vert
+            90: '#FF0000', // Z - Rouge
+            74: '#0000FF', // J - Bleu
             76: '#FFA500'  // L - Orange
         };
         
@@ -325,9 +325,9 @@ class TetrisGameUI {
                 document.getElementById('pauseButton').disabled = false;
                 document.getElementById('restartButton').disabled = false;
                 
-                showAlert('Start', 'succès');
-            } else {
-                showAlert(result.error || 'Le jeu bogue');
+                // showAlert('Start', 'succès');
+                // } else {
+                    // showAlert(result.error || 'Le jeu bogue');
             }
         } catch (error) {
             showAlert('Le jeu bogue: ' + error.message);
