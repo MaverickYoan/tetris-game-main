@@ -201,7 +201,7 @@ def login_required(f):
     return decorated_function
 
 class TetrisGame:
-    """Class pour   Le jeu Tetris."""
+    """Class pour le jeu Tetris."""
     
     def __init__(self, user_id=None):
         self.user_id = user_id
@@ -646,7 +646,7 @@ def contact():
             conn.commit()
             cur.close()
             conn.close()
-            return jsonify({'success': True, 'message': 'Your message has been sent successfully!'})
+            return jsonify({'success': True, 'message': 'Ton message a bien été envoyé, merci.'})
         except Exception as e:
             return jsonify({'error': f'Failed to send message: {str(e)}'}), 500
     return render_template('contact.html')

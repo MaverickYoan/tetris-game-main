@@ -7,8 +7,8 @@
     .game-container {
         display: grid;
         grid-template-columns: 1fr 300px 200px;
-        gap: 20px;
-        max-width: 1000px;
+        gap: 10px;
+        max-width: 800px;
         margin: 0 auto;
     }
     
@@ -18,7 +18,7 @@
         border-radius: 10px;
         position: relative;
         width: 300px;
-        height: 600px;
+        height: 300px;
         margin: 0 auto;
     }
     
@@ -31,18 +31,18 @@
     
     .game-info {
         background: #AEED9E;
-        border-radius: 15px;
-        padding: 20px;
+        border-radius: 5px;
+        padding: 5px;
         height: fit-content;
     }
     
     .next-piece-container {
         background: #13780aff;
         border: 2px solid #00ff08ff;
-        border-radius: 8px;
-        padding: 15px;
+        border-radius: 5px;
+        padding: 5px;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 5px;
     }
     
     #nextPieceCanvas {
@@ -73,19 +73,19 @@
     
     .controls {
         background: #AEED9E;
-        border-radius: 15px;
-        padding: 20px;
+        border-radius: 5px;
+        padding: 5px;
         height: fit-content;
     }
     
     .control-button {
         width: 100%;
-        margin-bottom: 10px;
-        padding: 12px;
+        margin-bottom: 5px;
+        padding: 5px;
         background: #084514ff;
         color: white;
         border: none;
-        border-radius: 8px;
+        border-radius: 5px;
         font-size: 16px;
         cursor: pointer;
         transition: background 0.3s ease;
@@ -135,12 +135,12 @@
     @media (max-width: 768px) {
         .game-container {
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 10px;
         }
         
         .game-board-container {
             width: 250px;
-            height: 500px;
+            height: 300px;
         }
     }
 </style>
@@ -173,7 +173,7 @@
         </div>
 
         <div id="instructions"
-            style="margin-top: 20px; font-size: 14px; color: #526950;">
+            style="margin-top: 5px; font-size: 14px; color: #526950;">
             <h4>Contrôles:</h4>
             <p>← → Déplacer gauche/droite</p>
             <p>↓ Douce chute</p>
@@ -189,7 +189,7 @@
             <h2>Game Over</h2>
             <p id="finalScore">Score final: 0</p>
             <button onclick="restartGame()" class="btn"
-                style="margin-top: 20px;">Rejouer</button>
+                style="margin-top: 5px;">Rejouer</button>
         </div>
         <div id="pauseOverlay" class="pause-overlay">
             <div style="text-align: center;">
@@ -213,7 +213,7 @@
             Rejouer
         </button>
 
-        <h4 style="margin-top: 20px; margin-bottom: 10px;">Contrôles
+        <h4 style="margin-top: 5px; margin-bottom: 10px;">Contrôles
             Mobiles:</h4>
         <div
             style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
@@ -229,6 +229,7 @@
         <button onclick="hardDrop()" class="control-button">Chute libre</button>
     </div>
 </div>
+<br>
 
 <script>
 class TetrisGameUI {
@@ -587,6 +588,7 @@ function softDrop() { game.softDrop(); }
 function rotate() { game.rotate(); }
 function hardDrop() { game.hardDrop(); }
 </script>
+<br>
 
 <div>
     <footer>
