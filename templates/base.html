@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="/img/tetris.ico" type="image/x-icon">
         <title>{% block title %}Tetris{% endblock %}</title>
-        <style>
+    </head>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -48,10 +49,10 @@
         }
         
         .header h1 {
-            font-size: 3rem;
+            font-size: 0.5rem;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         
         .nav {
@@ -132,7 +133,7 @@
         
         .alert-error {
             background: #f8d7da;
-            color: #721c24;
+            color: #72471c;
             border: 1px solid #f5c6cb;
         }
         
@@ -156,7 +157,7 @@
             }
             
             .header h1 {
-                font-size: 2rem;
+                font-size: 0.4rem;
             }
             
             .nav {
@@ -169,40 +170,42 @@
             }
         }
     </style>
-        {% block styles %}{% endblock %}
-        <body>
-            <div class="container">
-                <div class="header">
+    {% block styles %}{% endblock %}
+    <body>
+        <div class="container">
+            <!-- <div class="header">
                     <h1>Tetris</h1>
-                </div>
+                </div> -->
 
-                {% if session.username %}
-                <div class="nav">
-                    <a href="/">Accueil</a>
-                    <a href="/game">Jouer</a>
-                    <a href="#" onclick="showLeaderboard()">Classements</a>
-                    <a href="/contact">Contact</a>
-                    <a href="/logout" class="btn-secondary">Déconnexion ({{
-                        session.username }})</a>
-                    {% if session.role == 'admin' %}
-                    <a href="/admin/messages">Admin Messages</a>
-                    {% endif %}
-                </div>
-                {% else %}
-                <div class="nav">
-                    <a href="/">Accueil</a>
-                    <a href="/login">Connexion</a>
-                    <a href="/register">Inscription</a>
-                    <a href="/contact">Contact</a>
-                </div>
+            {% if session.username %}
+            <div class="nav">
+                <a href="/">Accueil</a>
+                <a href="/game">Jouer</a>
+                <a href="#" onclick="showLeaderboard()">Classements</a>
+                <a href="/contact">Contact</a>
+                <a href="/logout" class="btn-secondary">Déconnexion ({{
+                    session.username }})</a>
+                {% if session.role == 'admin' %}
+                <a href="/admin/messages">Admin Messages</a>
                 {% endif %}
-
-                <div id="alert-container"></div>
-
-                {% block content %}{% endblock %}
             </div>
+            {% else %}
+            <div class="nav">
+                <a href="/">Accueil</a>
+                <a href="/login">Connexion</a>
+                <a href="/register">Inscription</a>
+                <a href="/contact">Contact</a>
+                <a href="/Tetris">Tetris Direct</a>
 
-            <script>
+            </div>
+            {% endif %}
+
+            <div id="alert-container"></div>
+
+            {% block content %}{% endblock %}
+        </div>
+
+        <script>
         function showAlert(message, type = 'error') {
             const alertContainer = document.getElementById('alert-container');
             const alertDiv = document.createElement('div');
@@ -235,7 +238,7 @@
                         const modal = document.createElement('div');
                         modal.id = 'leaderboardModal';
                         modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000;';
-                        modal.innerHTML = `<div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80%; overflow-y: auto;">${leaderboardHtml}<br><button onclick="closeLeaderboard()" style="padding: 10px 20px; background: #036f06ff; color: white; border: none; border-radius: 5px; cursor: pointer;">Exit</button></div>`;
+                        modal.innerHTML = `<div style="background: white; padding: 30px; border-radius: 15px; max-width: 800px; width: 90%; max-height: 80%; overflow-y: auto;">${leaderboardHtml}<br><button onclick="closeLeaderboard()" style="padding: 10px 20px; background: #036f06ff; color: white; border: none; border-radius: 5px; cursor: pointer;">Retour</button></div>`;
                         document.body.appendChild(modal);
                         
                         // Ajouter un gestionnaire d'événements pour la touche Escape
@@ -262,7 +265,7 @@
              }
          }
     </script>
-            {% block scripts %}{% endblock %}
-            <!-- <a href="/templates/Tetris.html" target="_blank">Tetris</a> -->
-        </body>
-    </html>
+        {% block scripts %}{% endblock %}
+        <!-- <a href="/templates/Tetris.html" target="_blank">Tetris</a> -->
+    </body>
+</html>

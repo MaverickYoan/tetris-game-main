@@ -7,8 +7,8 @@
     .game-container {
         display: grid;
         grid-template-columns: 1fr 300px 200px;
-        gap: 20px;
-        max-width: 1000px;
+        gap: 10px;
+        max-width: 800px;
         margin: 0 auto;
     }
     
@@ -18,7 +18,7 @@
         border-radius: 10px;
         position: relative;
         width: 300px;
-        height: 600px;
+        height: 429px;
         margin: 0 auto;
     }
     
@@ -32,7 +32,7 @@
     .game-info {
         background: #AEED9E;
         border-radius: 15px;
-        padding: 20px;
+        padding: 10px;
         height: fit-content;
     }
     
@@ -40,9 +40,9 @@
         background: #13780aff;
         border: 2px solid #00ff08ff;
         border-radius: 8px;
-        padding: 15px;
+        padding: 10px;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 5px;
     }
     
     #nextPieceCanvas {
@@ -74,14 +74,14 @@
     .controls {
         background: #AEED9E;
         border-radius: 15px;
-        padding: 20px;
+        padding: 10px;
         height: fit-content;
     }
     
     .control-button {
         width: 100%;
-        margin-bottom: 10px;
-        padding: 12px;
+        margin-bottom: 5px;
+        padding: 10px;
         background: #084514ff;
         color: white;
         border: none;
@@ -135,12 +135,12 @@
     @media (max-width: 768px) {
         .game-container {
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 10px;
         }
         
         .game-board-container {
             width: 250px;
-            height: 500px;
+            height: 429px;
         }
     }
 </style>
@@ -229,6 +229,7 @@
         <button onclick="hardDrop()" class="control-button">Chute libre</button>
     </div>
 </div>
+<br>
 
 <script>
 class TetrisGameUI {
@@ -248,7 +249,7 @@ class TetrisGameUI {
         this.cellSize = 30;
         this.colors = {
             73: '#00FFFF', // I - Cyan
-            79: '#FFFF00', // O - Yellow  
+            79: '#FFFF00', // O - Yellow
             84: '#800080', // T - Purple
             83: '#00FF00', // S - Green
             90: '#FF0000', // Z - Red
@@ -587,14 +588,13 @@ function softDrop() { game.softDrop(); }
 function rotate() { game.rotate(); }
 function hardDrop() { game.hardDrop(); }
 </script>
+<br>
 
-<div>
-    <footer>
-        <div class="card"
-            style="text-align: center; font-size: 14px; color: #011b01;">
-            <p>© 2025 - TeK2OuF</p>
-        </div>
-    </footer>
-</div>
+<footer class="footer">
+    <div class="container">
+        <p>Tetris - Développé avec passion</p>
+        <p>© 2025 TeK2OuF. Tous droits réservés.</p>
+    </div>
+</footer>
 
 {% endblock %}

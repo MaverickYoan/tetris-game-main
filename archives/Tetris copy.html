@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="favicon" href="img\tetris.ico" type="image/x-icon">
+        <link rel="icon" href="img/tetris.ico" type="image/x-icon">
         <title>Tetris</title>
         <style>
         body {
@@ -11,9 +11,9 @@
             background-color: #000;
             color: #fff;
             display: flex;
-            justify-content: top;
+            justify-content: center;
             align-items: center;
-            height: 200vh;
+            height: 100vh;
             margin: 0;
             flex-direction: column;
         }
@@ -25,17 +25,17 @@
             background-color: #111;
         }
         #score {
-            font-size: 14px;
-            margin: 5px 0;
+            font-size: 24px;
+            margin: 10px 0;
         }
         #instructions {
-            margin-top: 5px;
+            margin-top: 20px;
             text-align: left;
             max-width: 400px;
         }
         button {
-            margin: 5px;
-            padding: 5px 5px;
+            margin: 10px;
+            padding: 10px 20px;
             font-size: 16px;
             background-color: #333;
             color: #fff;
@@ -45,19 +45,6 @@
         button:hover {
             background-color: #555;
         }
-        .footer {
-            background-color: #1f2920;
-            color: #09ff00;
-            text-align: center;
-            padding: 0.5px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-
-
-        
     </style>
     </head>
     <body>
@@ -79,30 +66,6 @@
                 </ul>
             </div>
         </div>
-
-        <footer class="footer">
-            <div class="container">
-                <p>Tetris - Développé avec passion</p>
-                <p>© 2025 TeK2OuF. Tous droits réservés.</p>
-
-                <div class="quick-links">
-                    <h3>🚀 Liens Rapides</h3>
-                    <div class="quick-buttons">
-                        <a href="https://www.service-public.fr" target="_blank"
-                            class="quick-btn">Service Public</a>
-                        <a href="https://www.france.fr" target="_blank"
-                            class="quick-btn">France.fr</a>
-                        <a href="https://www.gouvernement.fr" target="_blank"
-                            class="quick-btn">Gouvernement</a>
-                        <a href="https://www.data.gouv.fr" target="_blank"
-                            class="quick-btn">Open Data</a>
-                        <a href="https://www.vie-publique.fr" target="_blank"
-                            class="quick-btn">Vie Publique</a>
-                    </div>
-                </div>
-            </div>
-
-        </footer>
 
         <script>
         const canvas = document.getElementById('tetris');
@@ -129,9 +92,15 @@
             '#FF8E0D',
             '#FFE138',
             '#3877FF',
+            '#3877',
+            '#877F',
+            '#78FF',
+            '#2458',
+            '#1FF',
+            '#5F8',
         ];
 
-        const pieces = 'TJKLOSZI'.split('');
+        const pieces = 'TJLOSZIABCDEFG'.split('');
 
         function createMatrix(w, h) {
             const matrix = [];
@@ -144,49 +113,45 @@
         function createPiece(type) {
             if (type === 'T') {
                 return [
-                [1, 1],
+                    [0, 0, 0],
+                    [1, 1, 1],
+                    [0, 1, 0],
                 ];
             } else if (type === 'J') {
                 return [
-                    [1, 0],
-                    [1, 0],
-                ];
-            } else if (type === 'K') {
-                retour [
-                
-                    [0, 0, 0],
+                    [1, 0, 0],
                     [1, 1, 1],
-                    [0, 1, 0]
+                    [0, 0, 0],
                 ];
             } else if (type === 'L') {
                 return [
-                    [1],
+                    [0, 0, 1],
+                    [1, 1, 1],
+                    [0, 0, 0],
                 ];
             } else if (type === 'O') {
                 return [
                     [1, 1],
-                    [1, 0],
+                    [1, 1],
                 ];
             } else if (type === 'S') {
                 return [
-                    [1, 0],
-                    [1, 1],
+                    [0, 1, 1],
+                    [1, 1, 0],
+                    [0, 0, 0],
                 ];
             } else if (type === 'Z') {
                 return [
-                    [0, 1],
-                    [1, 1],
+                    [1, 1, 0],
+                    [0, 1, 1],
+                    [0, 0, 0],
                 ];
             } else if (type === 'I') {
                 return [
-                    [1, 1],
-                    [0, 1],
-                ];
-            } else if (type === 'II') {
-                return [
-                [0, 0, 0],
-                [1, 1, 1],
-                [0, 1, 0],
+                    [0, 1, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 1, 0, 0],
                 ];
             }
         }
