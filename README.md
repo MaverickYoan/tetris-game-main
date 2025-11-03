@@ -1,178 +1,179 @@
-# Tetris Game - Full Stack Web Application
+# Jeu Tetris - Application Web Full Stack
 
-A modern, full-featured Tetris game built with Python Flask, PostgreSQL, and Docker. Features user authentication, real-time gameplay, leaderboards, and database administration through pgAdmin.
+Un jeu Tetris moderne et complet construit avec Python Flask, PostgreSQL et Docker. Comprend l'authentification des utilisateurs, un jeu en temps réel, des classements et une administration de base de données via pgAdmin.
 
-![Tetris Game](https://img.shields.io/badge/Python-Flask-blue) ![Database](https://img.shields.io/badge/Database-PostgreSQL-blue) ![Docker](https://img.shields.io/badge/Container-Docker-blue) ![License](https://img.shields.io/badge/License-MIT-green)
+![Jeu Tetris](https://img.shields.io/badge/Python-Flask-blue) ![Base de données](https://img.shields.io/badge/Database-PostgreSQL-blue) ![Docker](https://img.shields.io/badge/Container-Docker-blue) ![Licence](https://img.shields.io/badge/License-MIT-green) 
 
-## Features
+## Fonctionnalités 
 
-### Game Features
-- **Classic Tetris Gameplay**: Authentic Tetris experience with all standard pieces
-- **Real-time Scoring**: Dynamic scoring system with level progression
-- **Multiple Controls**: Keyboard controls + mobile-friendly touch buttons
-- **Pause/Resume**: Game state management with pause functionality
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
+### Caractéristiques du jeu 
+- **Gameplay Tetris classique** : expérience Tetris authentique avec toutes les pièces standard 
+- **Score en temps réel** : système de notation dynamique avec progression de niveau 
+- **Contrôles multiples** : commandes du clavier + boutons tactiles adaptés aux appareils mobiles 
+- **Pause/Resume** : gestion de l'état du jeu avec fonctionnalité de pause 
+- **Conception réactive** : fonctionne de manière transparente sur les ordinateurs de bureau et les appareils mobiles 
 
-### User Management
-- **User Registration & Authentication**: Secure user accounts with password hashing
-- **Session Management**: Persistent login sessions
-- **Personal Statistics**: Track your progress and achievements
-- **Profile Management**: User account management
+### Gestion des utilisateurs 
+- **Enregistrement et authentification des utilisateurs** : comptes d'utilisateurs sécurisés avec hachage de mot de passe 
+- **Gestion des sessions** : sessions de connexion persistantes 
+- **Statistiques personnelles** : suivez vos progrès et vos réalisations 
+- **Gestion de profil** : gestion des comptes utilisateur 
 
-### 🏆 Competitive Features
-- **Global Leaderboards**: Compete with players worldwide
-- **Personal Stats Tracking**: Monitor your improvement over time
-- **High Score History**: Keep track of all your best games
-- **Real-time Updates**: Live leaderboard updates
+### Fonctionnalités concurrentes 
+- **Classements mondiaux** : rivalisez avec des joueurs du monde entier 
+- **Suivi des statistiques personnelles** : surveillez votre amélioration au fil du temps 
+- **Historique des meilleurs scores** : gardez une trace de tous vos meilleurs jeux 
+- **Mises à jour en temps réel** : mises à jour du classement en direct 
 
-### Technical Features
-- **Database Persistence**: All game data stored in PostgreSQL
-- **Docker Containerization**: Easy deployment and scaling
-- **Database Administration**: Built-in pgAdmin interface
-- **RESTful API**: Clean API design for game interactions
-- **Security**: Password hashing and secure session management
+### Caractéristiques techniques 
+- **Persistance de la base de données** : toutes les données de jeu stockées dans PostgreSQL 
+- **Conteneurisation Docker** : déploiement et mise à l'échelle faciles 
+- **Administration de base de données** : interface pgAdmin intégrée 
+- **API RESTful** : conception d'API épurée pour les interactions de jeu 
+- **Sécurité** : hachage de mot de passe et gestion sécurisée des sessions 
 
-## Architecture
+### Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │   Flask App     │    │   PostgreSQL    │
-│   (HTML/CSS/JS) │◄──►│   (Python)      │◄──►│   (Database)    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+┌─────────────────┐    ┌─────────────────┐    ┌────────────────────────┐
+│   Frontend      │    │   Flask App     │    │   PostgreSQL           │
+│   (HTML/CSS/JS) │◄──►│   (Python)      │◄──►│   (Base de données)    │
+└─────────────────┘    └─────────────────┘    └────────────────────────┘
                                 │
                                 ▼
                        ┌─────────────────┐
                        │     pgAdmin     │
-                       │  (DB Management)│
+                       │  (DB Gestion)│
                        └─────────────────┘
 ```
 
-## Prerequisites
+## Conditions préalables
 
-- **Docker** and **Docker Compose** installed on your system
-- **Git** (to clone the repository)
-- At least **2GB RAM** and **1GB disk space**
+- **Docker** et **Docker Compose** installés sur votre système 
+- **Git** (pour cloner le dépôt) 
+- Au moins **2 Go de RAM** et **1 Go d'espace disque**
 
 ## Quick Start
+### 1. Cloner le référentiel 
+```bash 
+git clone <votre-url-depot> 
+jeu cd tetris 
+``` 
 
-### 1. Clone the Repository
-```bash
-git clone <your-repo-url>
-cd tetris-game
+### 2. Démarrez l'application 
+```bash 
+docker-compose up -d 
+``` 
+
+### 3. Accédez à l'application 
+- **Jeu Tetris** : http://localhost:5000 
+- **pgAdmin** : http://localhost:5050 
+- E-mail : `admin@tetris.com` 
+- Mot de passe : `admin123` 
+
+### 4. Compte démo 
+Pour les tests, utilisez le compte démo pré-créé : 
+- **Nom d'utilisateur** : `demo_user` 
+- **Mot de passe** : `demo123`
+
+## Configuration détaillée 
+
+### Configuration de l'environnement 
+1. Copiez l'exemple de fichier d'environnement : 
+```bash 
+cp .env.exemple .env 
+``` 
+
+2. Modifiez `.env` avec vos paramètres préférés : 
+```env 
+``` 
+
+# Configuration de la base de données 
+DATABASE_URL=postgresql://tetris_user:tetris_password@postgres:5432/tetris_db 
+
+# Configuration du flacon 
+SECRET_KEY=votre-clé-super-secrète-ici 
+FLASK_ENV=développement 
+
+# Configuration de pgAdmin 
+PGADMIN_DEFAULT_EMAIL=admin@tetris.com 
+PGADMIN_DEFAULT_PASSWORD=admin123 
+
+
+### Mode de développement 
+Pour le développement avec rechargement à chaud : 
+```bash 
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml haut 
+``` 
+
+### Déploiement en production 
+Pour le déploiement en production : 
+1. Mettre à jour les variables d'environnement dans `.env` 
+2. Définissez `FLASK_ENV=production` 
+3. Utilisez un `SECRET_KEY` fort 
+4. Pensez à utiliser une base de données externe et un proxy inverse 
+
+## Comment jouer 
+
+### Contrôles 
+- **← / →** : Déplacer la pièce vers la gauche/droite 
+- **↑** : Tourner la pièce dans le sens des aiguilles d'une montre 
+- **↓** : Chute douce (descente plus rapide) 
+- **Espace** : Chute rapide (descente instantanée) 
+- **P** : Pause/Reprise du jeu 
+
+### Système de notation 
+- **Ligne unique** : 100 × niveau 
+- **Lignes doubles** : 300 × niveau 
+- **Triple Lines** : 500 × Niveau 
+- **Tetris (4 lignes)** : 800 × Niveau 
+
+### Progression 
+- **Le niveau augmente** toutes les 10 lignes effacées 
+- **La vitesse augmente** à chaque niveau 
+- **Niveau maximum** : 10 
+
+## Développement 
+
+### Structure du projet
+```
+jeu-tetris/ 
+├── app.py                                # Menu Application Flask 
+├── Templates/                              # Templates HTML 
+│ ├── base.html                           # page de base 
+│ ├── index.html                          # page d'index 
+│ ├── login.html                          # Page d'authentification 
+│ ├── registre.html                       # Page d'inscription 
+│ └── game.html                           # page de l'interface de jeu 
+├── base de données/ 
+│ └── init.sql                            # Initialisation de la base de données 
+├── static/                               # Fichiers statiques 
+├── requirements.txt                         # Dépendances Python 
+├── Conteneur d'application Dockerfile    # Flask 
+├── docker-compose.yml                    # Configuration multi-conteneurs 
+└── README.md                             # Fichier Lisez-moi 
 ```
 
-### 2. Start the Application
-```bash
-docker-compose up -d
-```
-
-### 3. Access the Application
-- **Tetris Game**: http://localhost:5000
-- **pgAdmin**: http://localhost:5050
-  - Email: `admin@tetris.com`
-  - Password: `admin123`
-
-### 4. Demo Account
-For testing, use the pre-created demo account:
-- **Username**: `demo_user`
-- **Password**: `demo123`
-
-## Detailed Setup
-
-### Environment Configuration
-1. Copy the example environment file:
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Modify `.env` with your preferred settings:
-   ```env
-   # Database Configuration
-   DATABASE_URL=postgresql://tetris_user:tetris_password@postgres:5432/tetris_db
-   
-   # Flask Configuration
-   SECRET_KEY=your-super-secret-key-here
-   FLASK_ENV=development
-   
-   # pgAdmin Configuration
-   PGADMIN_DEFAULT_EMAIL=admin@tetris.com
-   PGADMIN_DEFAULT_PASSWORD=admin123
-   ```
-
-### Development Mode
-For development with hot reloading:
-```bash
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
-```
-
-### Production Deployment
-For production deployment:
-1. Update environment variables in `.env`
-2. Set `FLASK_ENV=production`
-3. Use a strong `SECRET_KEY`
-4. Consider using external database and reverse proxy
-
-## How to Play
-
-### Controls
-- **← / →**: Move piece left/right
-- **↑**: Rotate piece clockwise
-- **↓**: Soft drop (faster descent)
-- **Space**: Hard drop (instant placement)
-- **P**: Pause/Resume game
-
-### Scoring System
-- **Single Line**: 100 × Level
-- **Double Lines**: 300 × Level  
-- **Triple Lines**: 500 × Level
-- **Tetris (4 lines)**: 800 × Level
-
-### Progression
-- **Level increases** every 10 lines cleared
-- **Speed increases** with each level
-- **Maximum level**: 10
-
-## Development
-
-### Project Structure
-```
-tetris-game/
-├── app.py                 # Main Flask application
-├── templates/             # HTML templates
-│   ├── base.html         # Base template
-│   ├── index.html        # Home page
-│   ├── login.html        # Login page
-│   ├── register.html     # Registration page
-│   └── game.html         # Game interface
-├── database/
-│   └── init.sql          # Database initialization
-├── static/               # Static files (if needed)
-├── requirements.txt      # Python dependencies
-├── Dockerfile           # Flask app container
-├── docker-compose.yml   # Multi-container setup
-└── README.md           # This file
-```
-
-### API Endpoints
+### API Points de terminaison
 
 #### Authentication
-- `POST /register` - User registration
-- `POST /login` - User login
-- `GET /logout` - User logout
+- `POST /register` - Inscription des utilisateurs 
+- `POST /login` - Connexion utilisateur 
+- `GET /logout` - Déconnexion de l'utilisateur 
 
 #### Game Management
-- `POST /api/game/start` - Start new game
-- `POST /api/game/move` - Make game move
-- `POST /api/game/drop` - Auto-drop piece
-- `POST /api/game/end` - End game and save score
+- `POST /api/game/start` - Commencer un nouveau jeu 
+- `POST /api/game/move` - Contrôles du jeu 
+- `POST /api/game/drop` - Pièce à chute automatique 
+- `POST /api/game/end` - Terminer le jeu et sauvegarder le score 
 
 #### Data Retrieval
-- `GET /api/leaderboard` - Get top scores
-- `GET /api/user/stats` - Get user statistics
+- `GET /api/leaderboard` - Classements des scores 
+- `GET /api/user/stats` - Obtenir des statistiques sur les utilisateurs 
 
-### Database Schema
+### Schéma de base de données
 
-#### Users Table
+#### Table des utilisateurs
 ```sql
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -185,7 +186,7 @@ CREATE TABLE users (
 );
 ```
 
-#### High Scores Table
+#### Table des meilleurs scores
 ```sql
 CREATE TABLE high_scores (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -198,92 +199,94 @@ CREATE TABLE high_scores (
 );
 ```
 
-## pgAdmin Database Management
+## pgAdmin - Gestion de base de données
 
-### Accessing pgAdmin
-1. Navigate to http://localhost:5050
-2. Login with credentials from docker-compose.yml
-3. Add server connection:
-   - **Name**: Tetris Database
+### Accès pgAdmin
+1. Accédez à http://localhost:5050 
+2. Connectez-vous avec les informations d'identification de docker-compose.yml 
+3. Ajoutez une connexion au serveur : 
+   - **Nom**: Tetris Database
    - **Host**: postgres
    - **Port**: 5432
-   - **Username**: tetris_user
-   - **Password**: tetris_password
+   - **Nom d'utilisateur**: tetris_user
+   - **Mot de passe**: tetris_password
    
 ### Opérations de base de données communes
-- **View Tables**: Navigate to Servers → Tetris Database → Databases → tetris_db → Schemas → public → Tables
-- **Query Data**: Use the Query Tool to run SQL commands
-- **Monitor Performance**: Check server activity and statistics
-- **Backup/Restore**: Use built-in backup and restore functions
+- **Afficher les tables** : Accédez à Serveurs → Base de données Tetris → Bases de données → tetris_db → Schémas → public → Tables 
+- **Données de requête** : Utilisez l'outil de requête pour exécuter des commandes SQL 
+- **Surveiller les performances** : Vérifiez l'activité et les statistiques du serveur 
+- **Sauvegarde/Restauration** : utilisez les fonctions de sauvegarde et de restauration intégrées 
 
-## Dépannage
+#### Dépannages
 
-### Problèmes communs
+#### Problèmes communs
 
-#### Conflits portuaires
-If ports 5000 or 5050 are in use:
-```bash
-# Check what's using the port
-netstat -an | findstr :5000
+#### Conflits de ports
+Si les ports 5000 ou 5050 sont utilisés : 
+```bash 
+# Vérifiez ce qui utilise le port 
+netstat -un | findstr : 5000
 
-# Modify docker-compose.yml to use different ports
-ports:
-  - "5001:5000"  # Use port 5001 instead
+# Modifiez docker-compose.yml pour utiliser différents ports 
+ports : 
+- "5001:5000" # Utilisez plutôt le port 5001 
 ```
 
 #### Problèmes de connexion de la base de données
 ```bash
-# Check container logs
-docker-compose logs postgres
+# Vérifier les journaux du conteneur docker-compose postgres
 docker-compose logs flask_app
 
-# Restart services
+# Redémarrer les services
 docker-compose restart postgres flask_app
 ```
 
 #### Problèmes d'autorisation
 ```bash
-# On Linux/Mac, ensure proper permissions
+# Sous Linux/Mac, assurez-vous des autorisations appropriées
 sudo chown -R $USER:$USER .
 
-# Reset Docker volumes if needed
+# Réinitialiser les volumes Docker si nécessaire
 docker-compose down -v
 docker-compose up -d
 ```
+
 ### Optimisation des performances
-- **Database Indexing**: Indexes are automatically created on frequently queried columns
-- **Connection Pooling**: PostgreSQL handles connection pooling automatically  
-- **Static File Serving**: Consider using nginx for static files in production
-- **Caching**: Add Redis for session storage and caching in production
-## Considérations de sécurité
+- **Indexation de base de données** : les index sont automatiquement créés sur les colonnes fréquemment interrogées 
+- **Connection Pooling** : PostgreSQL gère automatiquement le pool de connexions 
+- **Portion de fichiers statiques** : envisagez d'utiliser nginx pour les fichiers statiques en production 
+- **Mise en cache** : ajoutez Redis pour le stockage de session et la mise en cache en production 
 
-### fonctionnalités de sécurité actuelles
-- **Password Hashing**: Werkzeug's secure password hashing
-- **Session Management**: Flask's secure session handling
-- **SQL Injection Prevention**: Parameterized queries with psycopg2
-- **CSRF Protection**: Built-in Flask protections
-- **Input Validation**: Server-side validation for all inputs
+## Considérations de sécurité 
 
-Liste de contrôle de sécurité de la production ###
-- [ ] Change default passwords
-- [ ] Use strong SECRET_KEY
-- [ ] Enable HTTPS
-- [ ] Set up firewall rules
-- [ ] Regular security updates
-- [ ] Database access restrictions
-- [ ] Rate limiting implementation
-- [ ] Input sanitization review
+### fonctionnalités de sécurité actuelles 
+- **Hachage de mot de passe** : le hachage de mot de passe sécurisé de Werkzeug 
+- **Gestion de session** : gestion sécurisée des sessions de Flask 
+- **SQL Prévention des injections** : Requêtes paramétrées avec psycopg2 
+- **Protection CSRF** : protections de flacon intégrées 
+- **Validation des entrées** : validation côté serveur pour toutes les entrées 
 
-## Contribution
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### Liste de contrôle de sécurité de la production à cocher (si la mise en production doit être effectuée) 
+- [ ] Modifier les mots de passe par défaut 
+- [ ] Utilisez SECRET_KEY fort 
+- [ ] Activer HTTPS 
+- [ ] Configurer les règles de pare-feu 
+- [ ] Mises à jour de sécurité régulières 
+- [ ] Restrictions d'accès à la base de données 
+- [ ] Implémentation de la limitation de débit 
+- [ ] Examen de la désinfection des entrées 
+
+## Contribution 
+1. Fork le référentiel 
+2. Créez une branche de fonctionnalités (`git checkout -b feature/amazing-feature`) 
+3. Validez vos modifications (`git commit -m 'Ajouter une fonctionnalité étonnante'`) 
+4. Poussez vers la branche (`git push origin feature/amazing-feature`) 
+5. Ouvrez une demande de tirage
 
 ## Licence
 
-Ce projet est autorisé en vertu de la licence MIT - voir le fichier [licence] (licence) pour plus de détails.
+Ce projet est autorisé en vertu de la licence MIT - voir le fichier [licence] (licence) pour plus de détails. 
+
 ## Remerciements
 
 - Conception classique de jeu Tetris par Alexey Pajitnov
@@ -306,17 +309,17 @@ Si vous rencontrez des problèmes ou si vous avez des questions:
 
 ## Améliorations futures
 
-- [] Support multijoueur
-- [] Système de tournoi
-- [] Application mobile (React Native / Flutter)
-- [] statistiques et analyses avancées
-- [] Caractéristiques sociales (amis, défis)
-- [] thèmes et skins personnalisés
-- [] effets sonores et musique
-- [] mode spectateur
-- [] Système de relecture
-- [] AI BOT APPOSONNES
+- [ ] Support multijoueur
+- [ ] Système de tournoi
+- [ ] Application mobile (React Native / Flutter)
+- [ ] statistiques et analyses avancées
+- [ ] Caractéristiques sociales (amis, défis)
+- [ ] thèmes et skins personnalisés
+- [ ] effets sonores et musique
+- [ ] mode spectateur
+- [ ] Système de relecture
+- [ ] AI BOT APPOSONNES
 
 ---
 
-** Have a good trail ** Commencez votre voyage Tetris et montez les classements!
+** Have a good trail ** Commencez votre voyage Tetris 
