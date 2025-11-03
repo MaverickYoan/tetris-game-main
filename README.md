@@ -1,19 +1,19 @@
-# 🎮 Tetris Game - Full Stack Web Application
+# Tetris Game - Full Stack Web Application
 
 A modern, full-featured Tetris game built with Python Flask, PostgreSQL, and Docker. Features user authentication, real-time gameplay, leaderboards, and database administration through pgAdmin.
 
 ![Tetris Game](https://img.shields.io/badge/Python-Flask-blue) ![Database](https://img.shields.io/badge/Database-PostgreSQL-blue) ![Docker](https://img.shields.io/badge/Container-Docker-blue) ![License](https://img.shields.io/badge/License-MIT-green)
 
-## ✨ Features
+## Features
 
-### 🎮 Game Features
+### Game Features
 - **Classic Tetris Gameplay**: Authentic Tetris experience with all standard pieces
 - **Real-time Scoring**: Dynamic scoring system with level progression
 - **Multiple Controls**: Keyboard controls + mobile-friendly touch buttons
 - **Pause/Resume**: Game state management with pause functionality
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 
-### 👥 User Management
+### User Management
 - **User Registration & Authentication**: Secure user accounts with password hashing
 - **Session Management**: Persistent login sessions
 - **Personal Statistics**: Track your progress and achievements
@@ -25,14 +25,14 @@ A modern, full-featured Tetris game built with Python Flask, PostgreSQL, and Doc
 - **High Score History**: Keep track of all your best games
 - **Real-time Updates**: Live leaderboard updates
 
-### 🛠 Technical Features
+### Technical Features
 - **Database Persistence**: All game data stored in PostgreSQL
 - **Docker Containerization**: Easy deployment and scaling
 - **Database Administration**: Built-in pgAdmin interface
 - **RESTful API**: Clean API design for game interactions
 - **Security**: Password hashing and secure session management
 
-## 🏗 Architecture
+## Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -47,13 +47,13 @@ A modern, full-featured Tetris game built with Python Flask, PostgreSQL, and Doc
                        └─────────────────┘
 ```
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **Docker** and **Docker Compose** installed on your system
 - **Git** (to clone the repository)
 - At least **2GB RAM** and **1GB disk space**
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone the Repository
 ```bash
@@ -77,7 +77,7 @@ For testing, use the pre-created demo account:
 - **Username**: `demo_user`
 - **Password**: `demo123`
 
-## 📖 Detailed Setup
+## Detailed Setup
 
 ### Environment Configuration
 1. Copy the example environment file:
@@ -112,7 +112,7 @@ For production deployment:
 3. Use a strong `SECRET_KEY`
 4. Consider using external database and reverse proxy
 
-## 🎯 How to Play
+## How to Play
 
 ### Controls
 - **← / →**: Move piece left/right
@@ -132,7 +132,7 @@ For production deployment:
 - **Speed increases** with each level
 - **Maximum level**: 10
 
-## 🔧 Development
+## Development
 
 ### Project Structure
 ```
@@ -198,7 +198,7 @@ CREATE TABLE high_scores (
 );
 ```
 
-## 📊 pgAdmin Database Management
+## pgAdmin Database Management
 
 ### Accessing pgAdmin
 1. Navigate to http://localhost:5050
@@ -216,7 +216,7 @@ CREATE TABLE high_scores (
 - **Monitor Performance**: Check server activity and statistics
 - **Backup/Restore**: Use built-in backup and restore functions
 
-## 🐛 Dépannage
+## Dépannage
 
 ### Problèmes communs
 
@@ -255,7 +255,7 @@ docker-compose up -d
 - **Connection Pooling**: PostgreSQL handles connection pooling automatically  
 - **Static File Serving**: Consider using nginx for static files in production
 - **Caching**: Add Redis for session storage and caching in production
-## 🔒 Considérations de sécurité
+## Considérations de sécurité
 
 ### fonctionnalités de sécurité actuelles
 - **Password Hashing**: Werkzeug's secure password hashing
@@ -274,17 +274,17 @@ Liste de contrôle de sécurité de la production ###
 - [ ] Rate limiting implementation
 - [ ] Input sanitization review
 
-## 🤝 Contribution
+## Contribution
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 Licence
+## Licence
 
 Ce projet est autorisé en vertu de la licence MIT - voir le fichier [licence] (licence) pour plus de détails.
-## 🙏 Remerciements
+## Remerciements
 
 - Conception classique de jeu Tetris par Alexey Pajitnov
 - Framework Web Flask
@@ -292,7 +292,7 @@ Ce projet est autorisé en vertu de la licence MIT - voir le fichier [licence] (
 - conteneurisation Docker
 - outil de gestion de la base de données PGADMIN
 
-## 📞 support
+## support
 
 Si vous rencontrez des problèmes ou si vous avez des questions:
 
@@ -304,7 +304,7 @@ Si vous rencontrez des problèmes ou si vous avez des questions:
 - Messages d'erreur
 - étapes pour reproduire
 
-## 🚀 Améliorations futures
+## Améliorations futures
 
 - [] Support multijoueur
 - [] Système de tournoi
@@ -319,4 +319,4 @@ Si vous rencontrez des problèmes ou si vous avez des questions:
 
 ---
 
-** Joyeux jeu!🎮 ** Commencez votre voyage Tetris et montez les classements!
+** Have a good trail ** Commencez votre voyage Tetris et montez les classements!
