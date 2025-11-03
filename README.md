@@ -43,7 +43,7 @@ Un jeu Tetris moderne et complet construit avec Python Flask, PostgreSQL et Dock
                                 ▼
                        ┌─────────────────┐
                        │     pgAdmin     │
-                       │  (DB Gestion)│
+                       │  (DB Gestion)   │
                        └─────────────────┘
 ```
 
@@ -53,7 +53,7 @@ Un jeu Tetris moderne et complet construit avec Python Flask, PostgreSQL et Dock
 - **Git** (pour cloner le dépôt) 
 - Au moins **2 Go de RAM** et **1 Go d'espace disque**
 
-## Quick Start
+## Démarrage rapide
 ### 1. Cloner le référentiel 
 ```bash 
 git clone <votre-url-depot> 
@@ -67,7 +67,7 @@ docker-compose up -d
 
 ### 3. Accédez à l'application 
 - **Jeu Tetris** : http://localhost:5000 
-- **pgAdmin** : http://localhost:5050 
+- **pgAdmin** : http://localhost:5050 (avec root comme premier mot de passe)
 - E-mail : `admin@tetris.com` 
 - Mot de passe : `admin123` 
 
@@ -86,8 +86,6 @@ cp .env.exemple .env
 
 2. Modifiez `.env` avec vos paramètres préférés : 
 ```env 
-``` 
-
 # Configuration de la base de données 
 DATABASE_URL=postgresql://tetris_user:tetris_password@postgres:5432/tetris_db 
 
@@ -98,12 +96,12 @@ FLASK_ENV=développement
 # Configuration de pgAdmin 
 PGADMIN_DEFAULT_EMAIL=admin@tetris.com 
 PGADMIN_DEFAULT_PASSWORD=admin123 
-
+``` 
 
 ### Mode de développement 
 Pour le développement avec rechargement à chaud : 
 ```bash 
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml haut 
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 ``` 
 
 ### Déploiement en production 
@@ -115,7 +113,7 @@ Pour le déploiement en production :
 
 ## Comment jouer 
 
-### Contrôles 
+### Contrôles de jeu 
 - **← / →** : Déplacer la pièce vers la gauche/droite 
 - **↑** : Tourner la pièce dans le sens des aiguilles d'une montre 
 - **↓** : Chute douce (descente plus rapide) 
