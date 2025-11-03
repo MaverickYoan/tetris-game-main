@@ -22,7 +22,7 @@
                 cell.classList.add('editing');
             });
             
-            // Afficher les boutons de sauvegarde et d'annulation
+            // Afficher les boutons d'édition, de sauvegarde et d'annulation
             row.querySelector('.edit-btn').style.display = 'none';
             row.querySelector('.save-btn').style.display = 'inline-block';
             row.querySelector('.cancel-btn').style.display = 'inline-block';
@@ -176,39 +176,39 @@
     style="max-width: 900px; margin: 0 auto; @media (max-width: 768px) {font-size: 14px;}">
     <h2 class="text-center">Messages reçus</h2>
     {% if messages %}
-    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
         <thead>
             <tr style="background-color: #4CAF50; color: white;">
-                <th style="padding: 10px; border: 1px solid #ddd;">ID</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Nom</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Email</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Sujet</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Message</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Date</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Actions</th>
+                <th style="padding: 5px; border: 1px solid #ddd;">ID</th>
+                <th style="padding: 5px; border: 1px solid #ddd;">Nom</th>
+                <th style="padding: 5px; border: 1px solid #ddd;">Email</th>
+                <th style="padding: 5px; border: 1px solid #ddd;">Sujet</th>
+                <th style="padding: 5px; border: 1px solid #ddd;">Message</th>
+                <th style="padding: 5px; border: 1px solid #ddd;">Date</th>
+                <th style="padding: 5px; border: 1px solid #ddd;">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for msg in messages %}
             <tr id="row-{{ msg['id'] }}">
-                <td style="padding: 10px; border: 1px solid #ddd;">{{ msg['id']
+                <td style="padding: 5px; border: 1px solid #ddd;">{{ msg['id']
                     }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"
+                <td style="padding: 5px; border: 1px solid #ddd;"
                     class="editable" data-field="name"
                     data-id="{{ msg['id'] }}">{{ msg['name'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"
+                <td style="padding: 5px; border: 1px solid #ddd;"
                     class="editable" data-field="email"
                     data-id="{{ msg['id'] }}">{{ msg['email'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"
+                <td style="padding: 5px; border: 1px solid #ddd;"
                     class="editable" data-field="subject"
                     data-id="{{ msg['id'] }}">{{ msg['subject'] }}</td>
                 <td
-                    style="padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;"
+                    style="padding: 5px; border: 1px solid #ddd; white-space: pre-wrap;"
                     class="editable" data-field="message"
                     data-id="{{ msg['id'] }}">{{ msg['message'] }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">{{
+                <td style="padding: 5px; border: 1px solid #ddd;">{{
                     msg['created_at'].strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">
+                <td style="padding: 5px; border: 1px solid #ddd;">
                     <button class="edit-btn" data-id="{{ msg['id'] }}"
                         style="background-color: #1ee425; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-right: 5px;">Éditer</button>
                     <button class="save-btn" data-id="{{ msg['id'] }}"

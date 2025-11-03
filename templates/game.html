@@ -31,16 +31,16 @@
     
     .game-info {
         background: #AEED9E;
-        border-radius: 15px;
-        padding: 10px;
+        border-radius: 5px;
+        padding: 5px;
         height: fit-content;
     }
     
     .next-piece-container {
         background: #13780aff;
         border: 2px solid #00ff08ff;
-        border-radius: 8px;
-        padding: 10px;
+        border-radius: 5px;
+        padding: 5px;
         text-align: center;
         margin-bottom: 5px;
     }
@@ -73,20 +73,20 @@
     
     .controls {
         background: #AEED9E;
-        border-radius: 15px;
-        padding: 10px;
+        border-radius: 5px;
+        padding: 5px;
         height: fit-content;
     }
     
     .control-button {
         width: 100%;
         margin-bottom: 5px;
-        padding: 10px;
+        padding: 5px;
         background: #084514ff;
         color: white;
         border: none;
-        border-radius: 8px;
-        font-size: 10px;
+        border-radius: 5px;
+        font-size: 16px;
         cursor: pointer;
         transition: background 0.3s ease;
     }
@@ -173,7 +173,7 @@
         </div>
 
         <div id="instructions"
-            style="margin-top: 20px; font-size: 14px; color: #526950;">
+            style="margin-top: 5px; font-size: 14px; color: #526950;">
             <h4>Contrôles:</h4>
             <p>← → Déplacer gauche/droite</p>
             <p>↓ Douce chute</p>
@@ -189,7 +189,7 @@
             <h2>Game Over</h2>
             <p id="finalScore">Score final: 0</p>
             <button onclick="restartGame()" class="btn"
-                style="margin-top: 20px;">Rejouer</button>
+                style="margin-top: 5px;">Rejouer</button>
         </div>
         <div id="pauseOverlay" class="pause-overlay">
             <div style="text-align: center;">
@@ -213,7 +213,7 @@
             Rejouer
         </button>
 
-        <h4 style="margin-top: 20px; margin-bottom: 10px;">Contrôles
+        <h4 style="margin-top: 5px; margin-bottom: 10px;">Contrôles
             Mobiles:</h4>
         <div
             style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
@@ -249,11 +249,11 @@ class TetrisGameUI {
         this.cellSize = 30;
         this.colors = {
             73: '#00FFFF', // I - Cyan
-            79: '#FFFF00', // O - Yellow
-            84: '#800080', // T - Purple
-            83: '#00FF00', // S - Green
-            90: '#FF0000', // Z - Red
-            74: '#0000FF', // J - Blue
+            79: '#FFFF00', // O - Jaune
+            84: '#800080', // T - Pourpre
+            83: '#00FF00', // S - Vert
+            90: '#FF0000', // Z - Rouge
+            74: '#0000FF', // J - Bleu
             76: '#FFA500'  // L - Orange
         };
         

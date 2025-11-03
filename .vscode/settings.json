@@ -1,7 +1,28 @@
 {
+<<<<<<< HEAD
 	"prettier.endOfLine": "auto",
 	"prettier.proseWrap": "always",
 	"prettier.tabWidth": 1,
 	"prettier.useTabs": true,
 	"editor.defaultFormatter": "mohd-akram.vscode-html-format"
+=======
+  "chat.mcp.discovery.enabled": {
+    "cursor-global": true,
+    "cursor-workspace": true,
+    "claude-desktop": true,
+    "windsurf": true
+  },
+  "editor.fontSize": 16,
+  "files.autoSave": "onFocusChange",
+  "editor.mouseWheelZoom": true,
+  "editor.formatOnPaste": true,
+  "editor.autoIndentOnPaste": true,
+  "editor.codeActions.triggerOnFocusChange": true,
+  "daisyui.useClass": true,
+  "vstuc.displayBackgroundProcesses": true,
+  "vstuc.refreshOnSave": true,
+  "copilot.vision.provider": "Anthropic",
+  "sqltools.connectionExplorer.groupConnected": true,
+  "gradle.allowParallelRun": true
+>>>>>>> 4d4bfdffc30cde4b11e78c529c262d6e8ab28ef3
 }
