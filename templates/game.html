@@ -4,7 +4,7 @@
 
 {% block styles %}
 <style>
-    .game-container {
+    .game-container, .footer {
         display: grid;
         grid-template-columns: 1fr 300px 200px;
         gap: 10px;
@@ -86,7 +86,7 @@
         color: white;
         border: none;
         border-radius: 8px;
-        font-size: 16px;
+        font-size: 10px;
         cursor: pointer;
         transition: background 0.3s ease;
     }
@@ -325,7 +325,7 @@ class TetrisGameUI {
                 document.getElementById('pauseButton').disabled = false;
                 document.getElementById('restartButton').disabled = false;
                 
-                showAlert('Start', 'succès');
+                // showAlert('Start', 'succès');
             } else {
                 showAlert(result.error || 'Le jeu bogue');
             }

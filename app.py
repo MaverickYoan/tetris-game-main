@@ -651,6 +651,16 @@ def contact():
             return jsonify({'error': f'Failed to send message: {str(e)}'}), 500
     return render_template('contact.html')
 
+
+
+@app.route('/Tetris')
+def tetris():
+    """Page Tetris."""
+    return render_template('Tetris.html')
+
+
+
+
 @app.route('/admin/messages')
 @login_required
 def admin_messages():

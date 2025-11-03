@@ -3,7 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="/img/tetris.ico" type="image/x-icon">
+        <link rel="icon" type="img\giphy.gif" href="logo.png" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
         <title>{% block title %}Tetris{% endblock %}</title>
     </head>
     <style>
@@ -17,11 +19,11 @@
             font-family: 'Arial', sans-serif;
             /* ANCIEN BACKGROUND: background: linear-gradient(135deg, #163e19ff 0%, #00f311ff 100%); */
             /* NOUVEAU BACKGROUND DYNAMIQUE VERT */
-            background: linear-gradient(135deg, #12da19ff 0%, #036f06ff 50%, #370459ff 100%); /* Dégradé de vert vif à violet foncé */
+            background: linear-gradient(135deg, #12da19ff 10%, #036f06ff 50%, rgb(55, 1, 91) 60%); /* Dégradé de vert vif à violet foncé */
             background-size: 400% 400%; /* Permet l'animation du dégradé */
-            animation: gradientAnimation 15s ease infinite; /* Applique l'animation */
+            animation: gradientAnimation 30s ease infinite; /* Applique l'animation */
             min-height: 100vh;
-            color: #333;
+            color: #192218;
         }
 
         /* Définition de l'animation du dégradé */
@@ -71,7 +73,7 @@
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 10px;
             display: inline-block;
         }
         
@@ -114,7 +116,7 @@
             padding: 12px;
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 10px;
             transition: border-color 0.3s ease;
         }
         
@@ -183,6 +185,7 @@
                 <a href="/game">Jouer</a>
                 <a href="#" onclick="showLeaderboard()">Classements</a>
                 <a href="/contact">Contact</a>
+                <a href="/Tetris">Tetris Direct</a>
                 <a href="/logout" class="btn-secondary">Déconnexion ({{
                     session.username }})</a>
                 {% if session.role == 'admin' %}

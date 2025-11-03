@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="favicon" href="img\tetris.ico" type="image/x-icon">
+
+        <!-- <link rel="favicon" href="img\giphy.gif" type="image/x-icon"> -->
+        <link rel="icon" type="img\giphy.gif" href="logo.png" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+        <link rel="stylesheet"
+            href="C:\Users\Stagiaire\Documents\DEV\modules_html_css\css\style.css">
+
         <title>Tetris</title>
+
         <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +22,7 @@
             display: flex;
             justify-content: top;
             align-items: center;
-            height: 200vh;
+            height: 100vh;
             margin: 0;
             flex-direction: column;
         }
@@ -25,18 +34,18 @@
             background-color: #111;
         }
         #score {
-            font-size: 14px;
+            font-size: 10px;
             margin: 5px 0;
         }
         #instructions {
-            margin-top: 5px;
+            margin-top: 1px;
             text-align: left;
             max-width: 400px;
         }
         button {
             margin: 5px;
             padding: 5px 5px;
-            font-size: 16px;
+            font-size: 10px;
             background-color: #333;
             color: #fff;
             border: 1px solid #fff;
@@ -46,10 +55,12 @@
             background-color: #555;
         }
         .footer {
+            display: flex;
+            justify-content: center;
             background-color: #1f2920;
             color: #09ff00;
             text-align: center;
-            padding: 0.5px 0;
+            padding: 0 0;
             position: fixed;
             bottom: 0;
             width: 100%;
@@ -60,6 +71,7 @@
         
     </style>
     </head>
+
     <body>
         <div id="game-container">
             <h1>Jeu tetris</h1>
@@ -84,20 +96,16 @@
             <div class="container">
                 <p>Tetris - Développé avec passion</p>
                 <p>© 2025 TeK2OuF. Tous droits réservés.</p>
-
                 <div class="quick-links">
-                    <h3>🚀 Liens Rapides</h3>
                     <div class="quick-buttons">
-                        <a href="https://www.service-public.fr" target="_blank"
-                            class="quick-btn">Service Public</a>
-                        <a href="https://www.france.fr" target="_blank"
-                            class="quick-btn">France.fr</a>
-                        <a href="https://www.gouvernement.fr" target="_blank"
-                            class="quick-btn">Gouvernement</a>
-                        <a href="https://www.data.gouv.fr" target="_blank"
-                            class="quick-btn">Open Data</a>
-                        <a href="https://www.vie-publique.fr" target="_blank"
-                            class="quick-btn">Vie Publique</a>
+                        <a href="templates/index.html" target="_blank"
+                            class="quick-btn">Index</a>
+                        <a href="templates/game.html" target="_blank"
+                            class="quick-btn">Jouer</a>
+                        <a href="templates/contact.html" target="_blank"
+                            class="quick-btn">Contact</a>
+                        <a href="templates/admin_messages.html" target="_blank"
+                            class="quick-btn">Messages Admin</a>
                     </div>
                 </div>
             </div>
@@ -131,7 +139,7 @@
             '#3877FF',
         ];
 
-        const pieces = 'TJKLOSZI'.split('');
+        const pieces = 'TJLOSZI'.split('');
 
         function createMatrix(w, h) {
             const matrix = [];
@@ -144,52 +152,49 @@
         function createPiece(type) {
             if (type === 'T') {
                 return [
-                [1, 1],
+                    [0, 0, 0],
+                    [1, 1, 1],
+                    [0, 1, 0],
                 ];
             } else if (type === 'J') {
                 return [
-                    [1, 0],
-                    [1, 0],
-                ];
-            } else if (type === 'K') {
-                retour [
-                
-                    [0, 0, 0],
+                    [1, 0, 0],
                     [1, 1, 1],
-                    [0, 1, 0]
+                    [0, 0, 0],
                 ];
             } else if (type === 'L') {
                 return [
-                    [1],
+                    [0, 0, 1],
+                    [1, 1, 1],
+                    [0, 0, 0],
                 ];
             } else if (type === 'O') {
                 return [
                     [1, 1],
-                    [1, 0],
+                    [1, 1],
                 ];
             } else if (type === 'S') {
                 return [
-                    [1, 0],
-                    [1, 1],
+                    [0, 1, 1],
+                    [1, 1, 0],
+                    [0, 0, 0],
                 ];
             } else if (type === 'Z') {
                 return [
-                    [0, 1],
-                    [1, 1],
+                    [1, 1, 0],
+                    [0, 1, 1],
+                    [0, 0, 0],
                 ];
             } else if (type === 'I') {
                 return [
-                    [1, 1],
-                    [0, 1],
-                ];
-            } else if (type === 'II') {
-                return [
-                [0, 0, 0],
-                [1, 1, 1],
-                [0, 1, 0],
+                    [0, 1, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 1, 0, 0],
                 ];
             }
         }
+
 
         function collide(arena, player) {
             const [m, o] = [player.matrix, player.pos];
