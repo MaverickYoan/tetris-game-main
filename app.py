@@ -445,7 +445,8 @@ def login():
 def logout():
     """User logout."""
     session.clear()
-    return jsonify({'success': True, 'message': 'Logged out successfully'})
+    # return jsonify({'success': True, 'message': 'Logged out successfully'})
+    return redirect(url_for('index'))
 
 @app.route('/game')
 @login_required

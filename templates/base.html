@@ -20,7 +20,7 @@
             font-family: 'Arial', sans-serif;
             /* ANCIEN BACKGROUND: background: linear-gradient(135deg, #163e19ff 0%, #00f311ff 100%); */
             /* NOUVEAU BACKGROUND DYNAMIQUE VERT */
-            background: linear-gradient(135deg, #12da19ff 10%, #036f06ff 50%, rgb(55, 1, 91), 60%rgb(0, 0, 0) 100%); /* Dégradé de vert vif au violet foncé à noir */
+            background: linear-gradient(135deg, #12da19ff 10%, #036f06ff 50%, rgb(0, 0, 0) 60%); /* Dégradé de vert vif au noir */
             background-size: 400% 400%; /* Permet l'animation du dégradé */
             animation: gradientAnimation 30s ease infinite; /* Applique l'animation */
             min-height: 100vh;
@@ -52,7 +52,7 @@
         }
         
         .header h1 {
-            font-size: 0.5rem;
+            font-size: 10px;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             margin-bottom: 5px;
@@ -74,7 +74,7 @@
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 14px;
             display: inline-block;
         }
         
@@ -85,7 +85,7 @@
         }
         
         .btn-secondary {
-            background: #f44336; /* Gardons le bouton secondaire rouge pour le contraste */
+            background: #f49236; /* Gardons le bouton secondaire rouge pour le contraste */
         }
         
         .btn-secondary:hover {
@@ -117,7 +117,7 @@
             padding: 5px;
             border: 2px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 10px;
             transition: border-color 0.3s ease;
         }
         
@@ -160,11 +160,11 @@
             }
             
             .header h1 {
-                font-size: 0.4rem;
+                font-size: 10px;
             }
             
             .nav {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
             }
             
@@ -189,7 +189,7 @@
                 <a href="/logout" class="btn-secondary">Déconnexion ({{
                     session.username }})</a>
                 {% if session.role == 'admin' %}
-                <a href="/admin/messages">Admin Messages</a>
+                <a href="/admin/messages">Messages</a>
                 {% endif %}
             </div>
             {% else %}

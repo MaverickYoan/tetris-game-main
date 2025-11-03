@@ -11,9 +11,13 @@
         max-width: 800px;
         margin: 0 auto;
     }
+
+    .footer {
+        color: black
+    }
     
     .game-board-container {
-        background: #000;
+        background: #000000;
         border: 3px solid #c7ffc3ff;
         border-radius: 10px;
         position: relative;
@@ -106,7 +110,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(15, 17, 15, 0.8);
         display: none;
         justify-content: center;
         align-items: center;
@@ -135,13 +139,101 @@
     @media (max-width: 768px) {
         .game-container {
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 1px;
         }
         
         .game-board-container {
-            width: 250px;
-            height: 429px;
+            width: 150px;
+            height: 329px;
         }
+        
+        .footer {
+            color: black;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .game-info, .game-canvas-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+            background: #AEED9E;
+            border-radius: 5px;
+            padding: 5px;
+            height: fit-content;
+        }
+        
+        .next-piece-container {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            background: #13780aff;
+            border: 2px solid #00ff08ff;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        #instructions, H3, H4 {
+            display: none;
+        }
+
+        #nextPieceCanvas {
+            background: #bbeeb3ff;
+            border-radius: 5px;
+        }
+        
+        .score-item {
+            display: none;
+        }
+        
+        .score-item:last-child {
+            display: none;
+        }
+        
+        .score-label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .score-value {
+            font-size: 10px;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .next-piece-container {
+            width: 50%;
+            background: #13780aff;
+            border: 1px solid #00ff08ff;
+            border-radius: 1px;
+            padding: 1px;
+            text-align: center;
+            margin-bottom: 1px;
+        }
+        
+        .controls {
+            background: #AEED9E;
+            border-radius: 1px;
+            padding: 1px;
+            height: fit-content;
+        }
+        
+        .control-button {
+            width: 100%;
+            margin-bottom: 1px;
+            padding: 1px;
+            background: #084514ff;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
     }
 </style>
 {% endblock %}
