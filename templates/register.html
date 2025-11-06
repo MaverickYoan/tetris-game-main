@@ -69,7 +69,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     
     // Validate passwords match
     if (password !== confirmPassword) {
-        showAlert('Passwords do not match');
+        showAlert('Les mots de passe ne correspondent pas');
         return;
     }
     
@@ -91,19 +91,19 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         const result = await response.json();
         
         if (result.success) {
-            showAlert('Registration successful! Redirecting...', 'success');
+            showAlert('Inscription réussie ! Redirection...', 'succès');
             setTimeout(() => {
                 window.location.href = '/';
             }, 1000);
         } else {
-            showAlert(result.error || 'Registration failed');
+            showAlert(result.error || 'L\'inscription a échoué');
         }
     } catch (error) {
-        showAlert('Registration failed: ' + error.message);
+        showAlert('L\'inscription a échoué: ' + error.message);
     }
 });
 
-// Real-time password confirmation validation
+// Validation de la confirmation du mot de passe en temps réel
 document.getElementById('confirmPassword').addEventListener('input', (e) => {
     const password = document.getElementById('password').value;
     const confirmPassword = e.target.value;

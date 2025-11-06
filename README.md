@@ -137,7 +137,7 @@ Pour le déploiement en production :
 ```
 jeu-tetris/ 
 ├── app.py                                # Menu Application Flask 
-├── Templates/                              # Templates HTML 
+├── Templates/                            # Templates HTML 
 │ ├── base.html                           # page de base 
 │ ├── index.html                          # page d'index 
 │ ├── login.html                          # Page d'authentification 
@@ -146,7 +146,7 @@ jeu-tetris/
 ├── base de données/ 
 │ └── init.sql                            # Initialisation de la base de données 
 ├── static/                               # Fichiers statiques 
-├── requirements.txt                         # Dépendances Python 
+├── requirements.txt                      # Dépendances Python 
 ├── Conteneur d'application Dockerfile    # Flask 
 ├── docker-compose.yml                    # Configuration multi-conteneurs 
 └── README.md                             # Fichier Lisez-moi 
