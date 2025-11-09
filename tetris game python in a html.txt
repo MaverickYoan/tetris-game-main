@@ -887,7 +887,7 @@ File edits completed:
 +++ C:\Users\tek2o\tetris-game\templates\base.html
 @@ -0,0 +1,225 @@
 +<!DOCTYPE html>
-+<html lang="en">
++<html lang="fr">
 +<head>
 +    <meta charset="UTF-8">
 +    <meta name="viewport" content="width=device-width, initial-scale=1.0">
