@@ -4,13 +4,6 @@
 
 {% block content %}
 <div class="card">
-    <div class="text-center">
-        <h2>Bienvenue dans Tetris</h2>
-        <p style="font-size: 18px; color: rgb(1, 47, 7); margin: 20px 0;">
-            Pour les joueurs, par les joueurs
-        </p>
-    </div>
-
     {% if not session.username %}
     <div
         style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
