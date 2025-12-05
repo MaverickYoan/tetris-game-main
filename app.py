@@ -301,7 +301,6 @@ class TetrisGame:
         
         if lines_cleared > 0:
             self.lines_cleared += lines_cleared
-<<<<<<< HEAD
             self.last_action_cleared_lines = True
             
             # Système de combo
@@ -316,9 +315,6 @@ class TetrisGame:
                 perfect_clear_bonus = 0
             
             # Scoring system amélioré avec combo
-=======
-            # Système de notation : niveau 100 * pour le simple, niveau 300 * pour le double, etc..
->>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
             score_multiplier = [0, 100, 300, 500, 800]
             base_score = score_multiplier[min(lines_cleared, 4)] * self.level
             
@@ -372,7 +368,6 @@ class TetrisGame:
             self.piece_y = 0
             self.piece_rotation = 0
             
-<<<<<<< HEAD
             # Reset hold ability for new piece
             self.can_hold = True
             
@@ -381,21 +376,14 @@ class TetrisGame:
                 self.sprint_start_time = datetime.now()
             
             # Check game over
-=======
-            # Vérifier la fin du jeu
->>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
             if not self.is_valid_position(self.current_piece, self.piece_x, self.piece_y, self.piece_rotation):
                 self.game_over = True
                 
             return False
     
     def hard_drop(self):
-<<<<<<< HEAD
         """Drop piece all the way down."""
         drop_distance = 0
-=======
-        """Déposez le morceau jusqu'en bas."""
->>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
         while self.drop_piece():
             drop_distance += 1
         
@@ -514,13 +502,8 @@ class TetrisGame:
         return new_achievements
     
     def get_state(self):
-<<<<<<< HEAD
         """Get current game state."""
         state = {
-=======
-        """Obtenir l'état actuel du jeu."""
-        return {
->>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
             'board': self.board,
             'current_piece': {
                 'type': self.current_piece,

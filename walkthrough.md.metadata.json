@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_WALKTHROUGH",
+  "summary": "Comprehensive walkthrough of new Tetris game features including Hold/Reserve system for strategic piece management, real-time piece statistics tracking, achievement system with 7 unlockable badges, Web Audio API sound effects, and Sprint mode for competitive 40-line challenges. All features are fully integrated with the existing game architecture.",
+  "updatedAt": "2025-12-05T07:03:42.407013Z"
+}

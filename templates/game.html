@@ -4,7 +4,6 @@
 
 {% block styles %}
 <style>
-<<<<<<< HEAD
     @keyframes shake {
         0%, 100% { transform: translate(0, 0); }
         10%, 30%, 50%, 70%, 90% { transform: translate(-2px, 0); }
@@ -47,9 +46,6 @@
     }
     
     .game-container {
-=======
-    .game-container, .footer {
->>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
         display: grid;
         grid-template-columns: 1fr 300px 200px;
         gap: 10px;
@@ -222,7 +218,6 @@
         left: 0;
         width: 100%;
         height: 100%;
-<<<<<<< HEAD
         background: rgba(0, 0, 0, 0.9);
         display: none;
         justify-content: center;
@@ -248,9 +243,6 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.8);
-=======
-        background: rgba(15, 17, 15, 0.8);
->>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
         display: none;
         justify-content: center;
         align-items: center;
@@ -336,13 +328,8 @@
         }
         
         .game-board-container {
-<<<<<<< HEAD
             width: 250px;
             height: 357px;
-=======
-            width: 150px;
-            height: 329px;
->>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
         }
         
         .footer {
@@ -817,14 +804,10 @@ class TetrisGameUI {
                 document.getElementById('startButton').disabled = true;
                 document.getElementById('pauseButton').disabled = false;
                 document.getElementById('restartButton').disabled = false;
-<<<<<<< HEAD
-                document.getElementById('gameModeSelect').disabled = true;
-=======
                 
                 // showAlert('Start', 'succès');
             } else {
                 showAlert(result.error || 'Le jeu bogue');
->>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
             }
         } catch (error) {
             console.error('Game start error:', error);

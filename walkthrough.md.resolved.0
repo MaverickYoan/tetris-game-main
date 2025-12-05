@@ -1,0 +1,191 @@
+# Nouvelles Fonctionnalités du Jeu Tetris
+
+## Vue d'ensemble
+
+J'ai ajouté 5 nouvelles fonctionnalités majeures à votre jeu Tetris pour enrichir l'expérience de jeu :
+
+1. **Système Hold/Reserve** - Gardez une pièce en réserve
+2. **Statistiques de pièces** - Suivi en temps réel de chaque type de pièce
+3. **Système d'achievements** - 7 succès à débloquer
+4. **Effets sonores** - Sons générés dynamiquement
+5. **Mode Sprint** - Course contre la montre pour 40 lignes
+
+## Changements Implémentés
+
+### Backend - [app.py](file:///c:/Users/yoand/tetris-game-main/app.py)
+
+#### Classe TetrisGame - Nouvelles Propriétés
+
+- `held_piece` - Pièce actuellement en réserve
+- `can_hold` - Empêche les holds multiples par pièce
+- `piece_stats` - Dictionnaire comptant chaque type de pièce utilisé
+- `game_mode` - Mode de jeu ('normal' ou 'sprint')
+- `sprint_start_time` - Horodatage du début du Sprint
+- `sprint_target_lines` - Objectif de lignes (40 par défaut)
+- `achievements_unlocked` - Liste des succès débloqués
+- `achievements_progress` - Progression vers chaque succès
+
+#### Nouvelles Méthodes
+
+**[hold_piece()](file:///c:/Users/yoand/tetris-game-main/app.py#403-431)** - [app.py:L388-L416](file:///c:/Users/yoand/tetris-game-main/app.py#L388-L416)
+- Échange la pièce actuelle avec celle en réserve
+- Empêche les holds multiples jusqu'à la prochaine pièce
+- Vérifie la validité de la position après l'échange
+
+**[check_achievements()](file:///c:/Users/yoand/tetris-game-main/app.py#432-503)** - [app.py:L418-L486](file:///c:/Users/yoand/tetris-game-main/app.py#L418-L486)
+- Vérifie 7 types de succès différents :
+  - 🏆 **Première Ligne** - Complétez votre première ligne
+  - 🏆 **Maître du Tetris** - Réalisez 5 Tetris (4 lignes)
+  - 🏆 **Roi du Combo** - Atteignez un combo de 5
+  - 🏆 **Perfectionniste** - Réalisez un Perfect Clear
+  - 🏆 **Centenaire** - Complétez 100 lignes
+  - 🏆 **Survivant** - Atteignez le niveau 10
+  - 🏆 **Démon de Vitesse** - Terminez le Sprint en moins de 2 minutes
+
+**[get_state()](file:///c:/Users/yoand/tetris-game-main/app.py#388-412) mis à jour** - [app.py:L488-L527](file:///c:/Users/yoand/tetris-game-main/app.py#L488-L527)
+- Retourne maintenant `held_piece`, `can_hold`, `piece_stats`, `game_mode`
+- Inclut les données Sprint (`sprint_time`, `sprint_target`, `sprint_complete`)
+- Retourne les achievements débloqués
+
+#### Nouveaux Endpoints API
+
+**`/api/game/hold`** - [app.py:L730-L747](file:///c:/Users/yoand/tetris-game-main/app.py#L730-L747)
+- Méthode POST pour utiliser la fonction Hold
+- Retourne l'état du jeu mis à jour
+
+**`/api/game/start` mis à jour** - [app.py:L663-L677](file:///c:/Users/yoand/tetris-game-main/app.py#L663-L677)
+- Accepte maintenant un paramètre `mode` ('normal' ou 'sprint')
+
+---
+
+### Frontend - [game.html](file:///c:/Users/yoand/tetris-game-main/templates/game.html)
+
+#### Nouvelle Interface Utilisateur
+
+**Sélecteur de Mode de Jeu**
+- Menu déroulant pour choisir entre Normal et Sprint
+- Affichage conditionnel des informations Sprint (temps, progression)
+
+**Panneau Hold/Reserve**
+- Canvas 80x80 affichant la pièce en réserve
+- Instructions visuelles (touche C)
+- Mise à jour en temps réel
+
+**Statistiques de Pièces**
+- Affichage coloré de chaque type de pièce
+- Compteur en temps réel
+- Couleurs correspondant aux pièces du jeu
+
+**Panneau Achievements**
+- Liste déroulante des succès débloqués
+- Notifications animées lors du déblocage
+- Animation de slide depuis la droite
+
+#### Classe SoundManager - [game.html:L467-L529](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L467-L529)
+
+Génère des effets sonores dynamiques avec Web Audio API :
+- [lineClear(lines)](file:///c:/Users/yoand/tetris-game-main/templates/game.html#503-509) - Mélodie ascendante selon le nombre de lignes
+- [pieceLand()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#510-513) - Son court de placement
+- [gameOver()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#514-519) - Séquence descendante
+- [achievement()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#520-526) - Mélodie joyeuse
+- [hold()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#527-530) - Son de confirmation
+
+#### Nouvelles Méthodes TetrisGameUI
+
+**[holdPiece()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#877-899)** - [game.html:L877-L898](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L877-L898)
+- Appelle l'endpoint `/api/game/hold`
+- Met à jour tous les canvas
+- Joue le son de hold
+
+**[drawHeldPiece()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#900-928)** - [game.html:L900-L926](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L900-L926)
+- Dessine la pièce en réserve centrée dans le canvas
+- Utilise les mêmes couleurs que le jeu principal
+
+**[showAchievement(achievement)](file:///c:/Users/yoand/tetris-game-main/templates/game.html#929-942)** - [game.html:L928-L939](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L928-L939)
+- Crée une notification animée en haut à droite
+- Affiche le nom et la description du succès
+- Joue le son d'achievement
+- Disparaît automatiquement après 4 secondes
+
+**[updatePieceStats()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#943-962)** - [game.html:L941-L957](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L941-L957)
+- Met à jour l'affichage des statistiques de pièces
+- Utilise les couleurs correspondantes pour chaque type
+
+**[updateAchievementsList()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#963-981)** - [game.html:L959-L975](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L959-L975)
+- Affiche la liste des achievements débloqués
+- Message par défaut si aucun succès
+
+#### Mises à Jour des Méthodes Existantes
+
+**[checkForEffects()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#777-796)** - [game.html:L777-L809](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L777-L809)
+- Ajoute les sons pour les lignes et le placement
+- Vérifie et affiche les nouveaux achievements
+- Met à jour les statistiques et la liste des succès
+
+**[updateUI()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#1077-1096)** - [game.html:L1079-L1113](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L1079-L1113)
+- Gère l'affichage du mode Sprint (timer, progression)
+- Détecte la complétion du Sprint (40 lignes)
+
+**[startGame()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#675-721)** - [game.html:L675-L711](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L675-L711)
+- Envoie le mode de jeu sélectionné au backend
+- Affiche/cache l'UI Sprint selon le mode
+- Initialise le canvas Hold
+
+**[restartGame()](file:///c:/Users/yoand/tetris-game-main/templates/game.html#1258-1259)** - [game.html:L1042-L1087](file:///c:/Users/yoand/tetris-game-main/templates/game.html#L1042-L1087)
+- Réinitialise tous les nouveaux éléments UI
+- Vide les achievements et statistiques
+- Réactive le sélecteur de mode
+
+#### Contrôles Clavier
+
+- **C** - Hold/Reserve (échange la pièce actuelle avec celle en réserve)
+- Tous les contrôles existants sont préservés
+
+## Fonctionnalités en Action
+
+### Hold/Reserve System
+1. Appuyez sur **C** pendant le jeu
+2. La pièce actuelle va dans la réserve
+3. La pièce en réserve devient la pièce actuelle (ou la suivante si vide)
+4. Vous ne pouvez hold qu'une fois par pièce
+
+### Achievements
+Les succès se débloquent automatiquement :
+- Jouez normalement pour débloquer "Première Ligne"
+- Faites des Tetris (4 lignes) pour "Maître du Tetris"
+- Maintenez un combo pour "Roi du Combo"
+- Videz complètement la grille pour "Perfectionniste"
+- Atteignez 100 lignes pour "Centenaire"
+- Montez au niveau 10 pour "Survivant"
+- Terminez le Sprint rapidement pour "Démon de Vitesse"
+
+### Mode Sprint
+1. Sélectionnez "Sprint (40 lignes)" avant de démarrer
+2. Le timer démarre avec la première pièce
+3. Objectif : compléter 40 lignes le plus rapidement possible
+4. Le jeu se termine automatiquement à 40 lignes
+5. Terminez en moins de 2 minutes pour débloquer un achievement !
+
+### Effets Sonores
+Les sons se jouent automatiquement :
+- **Lignes complétées** : Mélodie ascendante
+- **Pièce placée** : Son court
+- **Hold** : Confirmation
+- **Achievement** : Fanfare
+- **Game Over** : Séquence descendante
+
+## Notes Techniques
+
+- Les sons utilisent Web Audio API (pas de fichiers externes)
+- Les achievements sont trackés côté serveur
+- Le mode Sprint calcule le temps précisément
+- Toutes les nouvelles fonctionnalités sont rétrocompatibles
+- L'UI s'adapte automatiquement au mode sélectionné
+
+## Prochaines Étapes (Optionnel)
+
+Pour une implémentation complète, vous pourriez :
+1. Créer la table `user_achievements` en base de données
+2. Ajouter la colonne `game_mode` à la table `high_scores`
+3. Créer un leaderboard séparé pour le mode Sprint
+4. Ajouter plus d'achievements personnalisés
