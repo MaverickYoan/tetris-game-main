@@ -1,0 +1,59 @@
+# Plan d'Implémentation - Remplacement des Sons par des Fichiers WAV
+
+## Objectif
+
+Remplacer le système actuel de génération de sons avec Web Audio API par des fichiers audio .wav pour une meilleure qualité sonore et un contrôle plus précis.
+
+## Changements Proposés
+
+### 1. Structure des Fichiers
+
+Créer un dossier `static/sounds/` contenant les fichiers audio suivants :
+
+- `line_clear.wav` - Son pour les lignes complétées
+- `piece_land.wav` - Son pour le placement de pièce
+- `game_over.wav` - Son de fin de partie
+- `achievement.wav` - Son de déblocage d'achievement
+- `hold.wav` - Son pour la fonction Hold/Reserve
+
+### 2. Modifications du Code
+
+#### Frontend - [game.html](file:///c:/Users/yoand/tetris-game-main/templates/game.html)
+
+**Classe SoundManager** - Refactorisation complète
+
+Remplacer la génération de sons synthétiques par :
+- Chargement des fichiers audio au démarrage
+- Méthode `preloadSounds()` pour charger tous les sons
+- Utilisation de `HTMLAudioElement` pour jouer les sons
+- Gestion du volume et des erreurs de chargement
+
+**Avantages** :
+- Meilleure qualité sonore
+- Sons plus professionnels et personnalisables
+- Contrôle du volume plus facile
+- Possibilité d'utiliser des sons complexes
+
+**Inconvénients** :
+- Nécessite des fichiers audio externes
+- Taille de téléchargement légèrement augmentée
+- Dépendance aux fichiers statiques
+
+## Étapes d'Implémentation
+
+1. ✅ Créer le dossier `static/sounds/`
+2. ✅ Générer ou obtenir les fichiers .wav nécessaires
+3. ✅ Modifier la classe [SoundManager](file:///c:/Users/yoand/tetris-game-main/templates/game.html#468-531) dans [game.html](file:///c:/Users/yoand/tetris-game-main/templates/game.html)
+4. ✅ Tester tous les sons dans le jeu
+5. ✅ Ajuster les volumes si nécessaire
+
+## Notes Techniques
+
+- Les fichiers .wav seront servis par Flask depuis le dossier `static/`
+- Format recommandé : WAV 16-bit, 44.1kHz, mono ou stéréo
+- Taille des fichiers : garder < 100KB par fichier pour des temps de chargement rapides
+- Fallback : Si un fichier ne charge pas, le jeu continue sans son (pas de crash)
+
+## Fichiers à Modifier
+
+- [game.html](file:///c:/Users/yoand/tetris-game-main/templates/game.html) - Classe SoundManager (lignes ~467-529)

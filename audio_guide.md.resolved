@@ -1,0 +1,206 @@
+# Guide d'Installation des Fichiers Audio WAV
+
+## ✅ Modifications Effectuées
+
+Le système audio a été modifié pour utiliser des fichiers .wav au lieu de sons synthétisés :
+
+1. ✅ Dossier `static/sounds/` créé
+2. ✅ Classe `SoundManager` mise à jour dans [game.html](file:///c:/Users/yoand/tetris-game-main/templates/game.html)
+3. ✅ Système de chargement et lecture des fichiers audio implémenté
+
+## 📁 Fichiers Audio Requis
+
+Vous devez placer **5 fichiers audio** dans le dossier :
+```
+c:\Users\yoand\tetris-game-main\static\sounds\
+```
+
+### Liste des Fichiers
+
+| Nom du Fichier | Utilisation | Durée Recommandée |
+|----------------|-------------|-------------------|
+| `line_clear.wav` | Lignes complétées | 0.2-0.5 sec |
+| `piece_land.wav` | Pièce posée | 0.05-0.1 sec |
+| `game_over.wav` | Fin de partie | 0.5-1 sec |
+| `achievement.wav` | Succès débloqué | 0.4-0.6 sec |
+| `hold.wav` | Fonction Hold/Reserve | 0.1-0.2 sec |
+
+## 🎵 Comment Obtenir les Sons
+
+### Option 1 : Sites de Sons Gratuits
+
+**Freesound.org** (Recommandé)
+- Site : https://freesound.org
+- Recherchez : "game beep", "success", "fail", "notification"
+- Licence : Creative Commons (vérifiez les conditions)
+
+**OpenGameArt.org**
+- Site : https://opengameart.org/art-search-advanced?keys=&field_art_type_tid%5B%5D=13
+- Section : Sound Effects
+- Recherchez : "tetris", "puzzle", "game sounds"
+
+**Zapsplat.com**
+- Site : https://www.zapsplat.com
+- Catégorie : Game Sounds
+- Inscription gratuite requise
+
+**Sonniss.com**
+- Site : https://sonniss.com/gameaudiogdc
+- Packs gratuits annuels (GDC)
+
+### Option 2 : Créer Vos Propres Sons
+
+**Outils en Ligne Gratuits :**
+
+1. **Bfxr** - https://www.bfxr.net
+   - Générateur de sons rétro/8-bit
+   - Parfait pour des sons de jeu
+   - Export en WAV
+
+2. **ChipTone** - https://sfbgames.itch.io/chiptone
+   - Sons de style chiptune
+   - Interface simple
+
+3. **Audacity** - https://www.audacityteam.org
+   - Éditeur audio gratuit
+   - Permet de créer et modifier des sons
+
+## 📝 Instructions d'Installation
+
+### Étape 1 : Télécharger les Sons
+
+1. Visitez un des sites mentionnés ci-dessus
+2. Téléchargez 5 fichiers audio correspondant aux besoins
+3. Assurez-vous qu'ils sont au format WAV
+
+### Étape 2 : Renommer les Fichiers
+
+Renommez vos fichiers exactement comme suit :
+- `line_clear.wav`
+- `piece_land.wav`
+- `game_over.wav`
+- `achievement.wav`
+- `hold.wav`
+
+⚠️ **Important** : Les noms doivent être exactement comme indiqué (minuscules, avec underscores)
+
+### Étape 3 : Placer les Fichiers
+
+Copiez les 5 fichiers dans :
+```
+c:\Users\yoand\tetris-game-main\static\sounds\
+```
+
+Votre structure devrait ressembler à :
+```
+tetris-game-main/
+├── static/
+│   └── sounds/
+│       ├── line_clear.wav
+│       ├── piece_land.wav
+│       ├── game_over.wav
+│       ├── achievement.wav
+│       ├── hold.wav
+│       └── README.md
+├── templates/
+│   └── game.html
+└── app.py
+```
+
+### Étape 4 : Tester
+
+1. Démarrez votre serveur Flask :
+   ```bash
+   python app.py
+   ```
+
+2. Ouvrez le jeu dans votre navigateur
+
+3. Testez chaque son :
+   - **line_clear.wav** : Complétez une ligne
+   - **piece_land.wav** : Laissez une pièce tomber
+   - **game_over.wav** : Perdez une partie
+   - **achievement.wav** : Débloque un succès (ex: première ligne)
+   - **hold.wav** : Appuyez sur la touche C
+
+## 🔧 Fonctionnalités Bonus
+
+Le nouveau `SoundManager` inclut :
+
+### Contrôle du Volume
+```javascript
+game.soundManager.setVolume(0.5); // 50% du volume
+```
+
+### Activer/Désactiver les Sons
+```javascript
+game.soundManager.toggleSound(); // Active/désactive
+```
+
+### Gestion des Erreurs
+- Si un fichier est manquant, le jeu continue sans ce son
+- Les erreurs sont affichées dans la console du navigateur
+
+## 🎯 Recommandations de Sons
+
+### Pour un Style Rétro/Classique
+
+- **line_clear.wav** : Bip ascendant court
+- **piece_land.wav** : Clic sec
+- **game_over.wav** : Mélodie descendante
+- **achievement.wav** : Fanfare courte
+- **hold.wav** : Bip de confirmation
+
+### Pour un Style Moderne
+
+- **line_clear.wav** : Son cristallin, brillant
+- **piece_land.wav** : Impact doux
+- **game_over.wav** : Son dramatique
+- **achievement.wav** : Carillon joyeux
+- **hold.wav** : Whoosh subtil
+
+## ❓ Dépannage
+
+### Les sons ne jouent pas
+
+1. **Vérifiez la console du navigateur** (F12)
+   - Regardez les erreurs de chargement
+
+2. **Vérifiez les noms de fichiers**
+   - Doivent être exactement comme spécifié
+   - Sensible à la casse sur certains systèmes
+
+3. **Vérifiez le format**
+   - Doit être WAV
+   - Pas MP3, OGG, ou autre format
+
+4. **Vérifiez les permissions**
+   - Les fichiers doivent être lisibles
+
+### Le volume est trop fort/faible
+
+Modifiez le volume par défaut dans `game.html` :
+```javascript
+this.volume = 0.3; // Changez cette valeur (0.0 à 1.0)
+```
+
+## 📊 Spécifications Techniques
+
+**Format Recommandé :**
+- Format : WAV (PCM)
+- Fréquence : 44100 Hz
+- Bits : 16-bit
+- Canaux : Mono ou Stéréo
+- Taille : < 100 KB par fichier
+
+**Compatibilité :**
+- ✅ Chrome/Edge
+- ✅ Firefox
+- ✅ Safari
+- ✅ Opera
+
+## 🎉 C'est Tout !
+
+Une fois les fichiers en place, votre jeu Tetris aura des sons professionnels !
+
+Si vous avez des questions ou des problèmes, vérifiez la console du navigateur pour les messages d'erreur.

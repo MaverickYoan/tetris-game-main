@@ -556,68 +556,87 @@
 <br>
 
 <script>
-// Sound Manager
+// Sound Manager - WAV File Based
 class SoundManager {
     constructor() {
-        this.audioContext = null;
+        this.sounds = {};
         this.enabled = true;
-        this.initAudio();
+        this.volume = 0.3; // Volume par défaut (0.0 à 1.0)
+        this.preloadSounds();
     }
     
-    initAudio() {
-        try {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        } catch (e) {
-            console.warn('Web Audio API not supported');
-            this.enabled = false;
+    preloadSounds() {
+        // Liste des sons à charger
+        const soundFiles = {
+            lineClear: '/static/sounds/line_clear.wav',
+            pieceLand: '/static/sounds/piece_land.wav',
+            gameOver: '/static/sounds/game_over.wav',
+            achievement: '/static/sounds/achievement.wav',
+            hold: '/static/sounds/hold.wav'
+        };
+        
+        // Charger chaque fichier audio
+        for (const [key, path] of Object.entries(soundFiles)) {
+            const audio = new Audio();
+            audio.src = path;
+            audio.volume = this.volume;
+            audio.preload = 'auto';
+            
+            // Gérer les erreurs de chargement
+            audio.addEventListener('error', () => {
+                console.warn(`Failed to load sound: ${path}`);
+                this.sounds[key] = null;
+            });
+            
+            this.sounds[key] = audio;
         }
     }
     
-    playTone(frequency, duration, type = 'sine') {
-        if (!this.enabled || !this.audioContext) return;
+    playSound(soundName) {
+        if (!this.enabled || !this.sounds[soundName]) return;
         
-        const oscillator = this.audioContext.createOscillator();
-        const gainNode = this.audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(this.audioContext.destination);
-        
-        oscillator.frequency.value = frequency;
-        oscillator.type = type;
-        
-        gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-        
-        oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + duration);
+        try {
+            // Cloner l'audio pour permettre plusieurs lectures simultanées
+            const sound = this.sounds[soundName].cloneNode();
+            sound.volume = this.volume;
+            sound.play().catch(err => {
+                console.warn(`Failed to play sound ${soundName}:`, err);
+            });
+        } catch (e) {
+            console.warn(`Error playing sound ${soundName}:`, e);
+        }
     }
     
     lineClear(lines) {
-        const frequencies = [523, 659, 784, 1047];
-        for (let i = 0; i < lines; i++) {
-            setTimeout(() => this.playTone(frequencies[i % frequencies.length], 0.1), i * 50);
-        }
+        this.playSound('lineClear');
     }
     
     pieceLand() {
-        this.playTone(200, 0.05, 'square');
+        this.playSound('pieceLand');
     }
     
     gameOver() {
-        setTimeout(() => this.playTone(440, 0.2), 0);
-        setTimeout(() => this.playTone(415, 0.2), 200);
-        setTimeout(() => this.playTone(392, 0.4), 400);
+        this.playSound('gameOver');
     }
     
     achievement() {
-        const melody = [523, 659, 784, 1047];
-        melody.forEach((freq, i) => {
-            setTimeout(() => this.playTone(freq, 0.15), i * 100);
-        });
+        this.playSound('achievement');
     }
     
     hold() {
-        this.playTone(600, 0.1, 'triangle');
+        this.playSound('hold');
+    }
+    
+    setVolume(volume) {
+        this.volume = Math.max(0, Math.min(1, volume));
+        for (const sound of Object.values(this.sounds)) {
+            if (sound) sound.volume = this.volume;
+        }
+    }
+    
+    toggleSound() {
+        this.enabled = !this.enabled;
+        return this.enabled;
     }
 }
 
