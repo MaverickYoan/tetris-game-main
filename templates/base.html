@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <link rel="icon" href="img/tetris.gif" type="image/x-icon"> -->
-        <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.jpg" type="image/x-icon">
         <title>{% block title %}Tetris{% endblock %}</title>
     </head>
 
@@ -20,11 +19,11 @@
             font-family: 'Arial', sans-serif;
             /* ANCIEN BACKGROUND: background: linear-gradient(135deg, #163e19ff 0%, #00f311ff 100%); */
             /* NOUVEAU BACKGROUND DYNAMIQUE VERT */
-            background: linear-gradient(135deg, #12da19ff 0%, #036f06ff 50%, #370459ff 100%); /* Dégradé de vert vif à violet foncé */
+            background: linear-gradient(135deg, #12da19ff 10%, rgb(70, 5, 90) 50%, rgb(0, 0, 0) 60%); /* Dégradé de vert vif au noir */
             background-size: 400% 400%; /* Permet l'animation du dégradé */
-            animation: gradientAnimation 15s ease infinite; /* Applique l'animation */
+            animation: gradientAnimation 10s ease infinite; /* Applique l'animation */
             min-height: 100vh;
-            color: #333;
+            color: #050705;
         }
 
         /* Définition de l'animation du dégradé */
@@ -41,7 +40,7 @@
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 5px;
         }
@@ -52,7 +51,7 @@
         }
         
         .header h1 {
-            font-size: 0.5rem;
+            font-size: 10px;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             margin-bottom: 5px;
@@ -74,7 +73,7 @@
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             display: inline-block;
         }
         
@@ -85,7 +84,7 @@
         }
         
         .btn-secondary {
-            background: #f44336; /* Gardons le bouton secondaire rouge pour le contraste */
+            background: #f49236; /* Gardons le bouton secondaire rouge pour le contraste */
         }
         
         .btn-secondary:hover {
@@ -117,7 +116,7 @@
             padding: 5px;
             border: 2px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 10px;
             transition: border-color 0.3s ease;
         }
         
@@ -136,7 +135,7 @@
         
         .alert-error {
             background: #f8d7da;
-            color: #721c24;
+            color: #72471c;
             border: 1px solid #f5c6cb;
         }
         
@@ -160,20 +159,20 @@
             }
             
             .header h1 {
-                font-size: 0.4rem;
+                font-size: 10px;
             }
             
             .nav {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
             }
             
             .card {
                 padding: 5px;
+                max-width: 768px; width: 100%; max-height: 100%; overflow-y: auto;
             }
         }
     </style>
-
     {% block styles %}{% endblock %}
     <body>
         <div class="container">
@@ -190,7 +189,7 @@
                 <a href="/logout" class="btn-secondary">Déconnexion ({{
                     session.username }})</a>
                 {% if session.role == 'admin' %}
-                <a href="/admin/messages">Admin Messages</a>
+                <a href="/admin/messages">Messages</a>
                 {% endif %}
             </div>
             {% else %}

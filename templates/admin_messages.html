@@ -173,14 +173,14 @@
 
 {% block content %}
 <div class="card"
-    style="max-width: 900px; margin: 0 auto; @media (max-width: 768px) {font-size: 14px;}">
+    style="max-width: 768px; margin: 0 auto; @media (max-width: 768px) {font-size: 10px;}">
     <h2 class="text-center">Messages reçus</h2>
     {% if messages %}
     <table style="width: 100%; border-collapse: collapse; margin-top: 5px;">
         <thead>
             <tr style="background-color: #4CAF50; color: white;">
-                <th style="padding: 5px; border: 1px solid #ddd;">ID</th>
-                <th style="padding: 5px; border: 1px solid #ddd;">Nom</th>
+                <th style="padding: 5px; border: 1px solid white;">ID</th>
+                <th style="padding: 5px; border: 1px solid white;">Nom</th>
                 <th style="padding: 5px; border: 1px solid #ddd;">Email</th>
                 <th style="padding: 5px; border: 1px solid #ddd;">Sujet</th>
                 <th style="padding: 5px; border: 1px solid #ddd;">Message</th>
@@ -227,13 +227,11 @@
     {% endif %}
 </div>
 
-<div>
-    <footer>
-        <div class="card"
-            style="text-align: center; font-size: 14px; color: #011b01;">
-            <p>© 2025 - TeK2OuF</p>
-        </div>
-    </footer>
-</div>
+<footer class="footer">
+    <div class="container">
+        <p>Tetris - Développé avec passion</p>
+        <p>© 2025 TeK2OuF. Tous droits réservés.</p>
+    </div>
+</footer>
 
 {% endblock %}

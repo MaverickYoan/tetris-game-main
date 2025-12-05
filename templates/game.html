@@ -4,6 +4,7 @@
 
 {% block styles %}
 <style>
+<<<<<<< HEAD
     @keyframes shake {
         0%, 100% { transform: translate(0, 0); }
         10%, 30%, 50%, 70%, 90% { transform: translate(-2px, 0); }
@@ -46,6 +47,9 @@
     }
     
     .game-container {
+=======
+    .game-container, .footer {
+>>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
         display: grid;
         grid-template-columns: 1fr 300px 200px;
         gap: 10px;
@@ -53,9 +57,13 @@
         margin: 0 auto;
         animation: fadeInUp 0.5s ease-out;
     }
+
+    .footer {
+        color: black
+    }
     
     .game-board-container {
-        background: #000;
+        background: #000000;
         border: 3px solid #c7ffc3ff;
         border-radius: 10px;
         position: relative;
@@ -214,6 +222,7 @@
         left: 0;
         width: 100%;
         height: 100%;
+<<<<<<< HEAD
         background: rgba(0, 0, 0, 0.9);
         display: none;
         justify-content: center;
@@ -239,6 +248,9 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.8);
+=======
+        background: rgba(15, 17, 15, 0.8);
+>>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
         display: none;
         justify-content: center;
         align-items: center;
@@ -320,13 +332,106 @@
     @media (max-width: 768px) {
         .game-container {
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 1px;
         }
         
         .game-board-container {
+<<<<<<< HEAD
             width: 250px;
             height: 357px;
+=======
+            width: 150px;
+            height: 329px;
+>>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
         }
+        
+        .footer {
+            color: black;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .game-info, .game-canvas-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+            background: #AEED9E;
+            border-radius: 5px;
+            padding: 5px;
+            height: fit-content;
+        }
+        
+        .next-piece-container {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            background: #13780aff;
+            border: 2px solid #00ff08ff;
+            border-radius: 5px;
+            padding: 5px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        #instructions, H3, H4 {
+            display: none;
+        }
+
+        #nextPieceCanvas {
+            background: #bbeeb3ff;
+            border-radius: 5px;
+        }
+        
+        .score-item {
+            display: none;
+        }
+        
+        .score-item:last-child {
+            display: none;
+        }
+        
+        .score-label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .score-value {
+            font-size: 10px;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .next-piece-container {
+            width: 50%;
+            background: #13780aff;
+            border: 1px solid #00ff08ff;
+            border-radius: 1px;
+            padding: 1px;
+            text-align: center;
+            margin-bottom: 1px;
+        }
+        
+        .controls {
+            background: #AEED9E;
+            border-radius: 1px;
+            padding: 1px;
+            height: fit-content;
+        }
+        
+        .control-button {
+            width: 100%;
+            margin-bottom: 1px;
+            padding: 1px;
+            background: #084514ff;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
     }
 </style>
 {% endblock %}
@@ -712,7 +817,14 @@ class TetrisGameUI {
                 document.getElementById('startButton').disabled = true;
                 document.getElementById('pauseButton').disabled = false;
                 document.getElementById('restartButton').disabled = false;
+<<<<<<< HEAD
                 document.getElementById('gameModeSelect').disabled = true;
+=======
+                
+                // showAlert('Start', 'succès');
+            } else {
+                showAlert(result.error || 'Le jeu bogue');
+>>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
             }
         } catch (error) {
             console.error('Game start error:', error);
@@ -1264,13 +1376,11 @@ function hardDrop() { game.hardDrop(); }
 </script>
 <br>
 
-<div>
-    <footer>
-        <div class="card"
-            style="text-align: center; font-size: 14px; color: #011b01;">
-            <p>© 2025 - TeK2OuF</p>
-        </div>
-    </footer>
-</div>
+<footer class="footer">
+    <div class="container">
+        <p>Tetris - Développé avec passion</p>
+        <p>© 2025 TeK2OuF. Tous droits réservés.</p>
+    </div>
+</footer>
 
 {% endblock %}

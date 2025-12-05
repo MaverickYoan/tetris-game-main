@@ -1,20 +1,23 @@
 {
-  "chat.mcp.discovery.enabled": {
-    "cursor-global": true,
-    "cursor-workspace": true,
-    "claude-desktop": true,
-    "windsurf": true
-  },
-  "editor.fontSize": 16,
-  "files.autoSave": "onFocusChange",
-  "editor.mouseWheelZoom": true,
-  "editor.formatOnPaste": true,
-  "editor.autoIndentOnPaste": true,
-  "editor.codeActions.triggerOnFocusChange": true,
-  "daisyui.useClass": true,
-  "vstuc.displayBackgroundProcesses": true,
-  "vstuc.refreshOnSave": true,
-  "copilot.vision.provider": "Anthropic",
-  "sqltools.connectionExplorer.groupConnected": true,
-  "gradle.allowParallelRun": true
+	"chat.mcp.discovery.enabled": {
+		"cursor-global": true,
+		"cursor-workspace": true,
+		"claude-desktop": true,
+		"windsurf": true
+	},
+	"editor.fontSize": 16,
+	"files.autoSave": "onFocusChange",
+	"editor.mouseWheelZoom": true,
+	"editor.formatOnPaste": true,
+	"editor.autoIndentOnPaste": true,
+	"editor.codeActions.triggerOnFocusChange": true,
+	"daisyui.useClass": true,
+	"vstuc.displayBackgroundProcesses": true,
+	"vstuc.refreshOnSave": true,
+	"copilot.vision.provider": "Anthropic",
+	"sqltools.connectionExplorer.groupConnected": true,
+	"gradle.allowParallelRun": true,
+	"googleTranslateExt.replaceText": true,
+	"googleTranslateExt.languages": ["en", "fr"],
+	"commentTranslate.targetLanguage": "fr"
 }

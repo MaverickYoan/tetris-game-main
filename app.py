@@ -17,10 +17,10 @@ from psycopg2 import sql
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-# Database configuration
+# Configuration de la base de données
 DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://tetris_user:tetris_password@localhost:5432/tetris_db')
 
-# Tetris game constants
+# Constantes du jeu Tetris
 BOARD_WIDTH = 10
 BOARD_HEIGHT = 20
 TETROMINO_SHAPES = {
@@ -192,11 +192,11 @@ def get_db_connection():
     return psycopg2.connect(DATABASE_URL, cursor_factory=psycopg2.extras.RealDictCursor)
 
 def login_required(f):
-    """Le décorateur exigera une connexion pour certains itinéraires."""
+    """Le site exigera une connexion pour certains itinéraires."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user_id' not in session:
-            return jsonify({'error': 'Authentication required'}), 401
+            return jsonify({'error': 'Authentification requise'}), 401
         return f(*args, **kwargs)
     return decorated_function
 
@@ -258,7 +258,7 @@ class TetrisGame:
         return shapes[rotation % len(shapes)]
     
     def is_valid_position(self, piece_type, x, y, rotation):
-        """Check if a piece position is valid."""
+        """Vérifiez si une position de pièce est valide."""
         shape = self.get_piece_shape(piece_type, rotation)
         
         for row_idx, row in enumerate(shape):
@@ -274,7 +274,7 @@ class TetrisGame:
         return True
     
     def place_piece(self):
-        """Place the current piece on the board."""
+        """Placez la pièce actuelle sur le plateau."""
         shape = self.get_piece_shape(self.current_piece, self.piece_rotation)
         
         for row_idx, row in enumerate(shape):
@@ -286,7 +286,7 @@ class TetrisGame:
                         self.board[board_y][board_x] = ord(self.current_piece)
     
     def clear_lines(self):
-        """Clear completed lines and return number cleared."""
+        """Effacez les lignes complétées."""
         lines_to_clear = []
         
         for y in range(BOARD_HEIGHT):
@@ -301,6 +301,7 @@ class TetrisGame:
         
         if lines_cleared > 0:
             self.lines_cleared += lines_cleared
+<<<<<<< HEAD
             self.last_action_cleared_lines = True
             
             # Système de combo
@@ -315,6 +316,9 @@ class TetrisGame:
                 perfect_clear_bonus = 0
             
             # Scoring system amélioré avec combo
+=======
+            # Système de notation : niveau 100 * pour le simple, niveau 300 * pour le double, etc..
+>>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
             score_multiplier = [0, 100, 300, 500, 800]
             base_score = score_multiplier[min(lines_cleared, 4)] * self.level
             
@@ -332,7 +336,7 @@ class TetrisGame:
         return lines_cleared
     
     def move_piece(self, dx, dy, rotation_change=0):
-        """Move or rotate the current piece."""
+        """Déplacer ou faire pivoter la pièce actuelle."""
         new_x = self.piece_x + dx
         new_y = self.piece_y + dy
         new_rotation = self.piece_rotation + rotation_change
@@ -345,11 +349,11 @@ class TetrisGame:
         return False
     
     def drop_piece(self):
-        """Drop the current piece one row down."""
+        """Déposez la pièce actuelle d'une rangée vers le bas."""
         if self.move_piece(0, 1):
             return True
         else:
-            # Piece can't move down, place it and get next piece
+            # La pièce ne peut pas descendre, placez-la et récupérez la pièce suivante
             self.place_piece()
             lines_cleared = self.clear_lines()
             
@@ -361,13 +365,14 @@ class TetrisGame:
             self.piece_stats[self.current_piece] += 1
             self.total_pieces += 1
             
-            # Generate next piece
+            # Générer la pièce suivante
             self.current_piece = self.next_piece
             self.next_piece = self.generate_piece()
             self.piece_x = BOARD_WIDTH // 2 - 2
             self.piece_y = 0
             self.piece_rotation = 0
             
+<<<<<<< HEAD
             # Reset hold ability for new piece
             self.can_hold = True
             
@@ -376,14 +381,21 @@ class TetrisGame:
                 self.sprint_start_time = datetime.now()
             
             # Check game over
+=======
+            # Vérifier la fin du jeu
+>>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
             if not self.is_valid_position(self.current_piece, self.piece_x, self.piece_y, self.piece_rotation):
                 self.game_over = True
                 
             return False
     
     def hard_drop(self):
+<<<<<<< HEAD
         """Drop piece all the way down."""
         drop_distance = 0
+=======
+        """Déposez le morceau jusqu'en bas."""
+>>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
         while self.drop_piece():
             drop_distance += 1
         
@@ -502,8 +514,13 @@ class TetrisGame:
         return new_achievements
     
     def get_state(self):
+<<<<<<< HEAD
         """Get current game state."""
         state = {
+=======
+        """Obtenir l'état actuel du jeu."""
+        return {
+>>>>>>> ac9254e3373d7b1fdff573946c2a5595cf552151
             'board': self.board,
             'current_piece': {
                 'type': self.current_piece,
@@ -544,12 +561,12 @@ class TetrisGame:
         
         return state
 
-# Store active games in memory (in production, use Redis or database)
+# Stocker les jeux actifs en mémoire (en production, utiliser Redis ou base de données)
 active_games = {}
 
 @app.route('/')
 def index():
-    """Main page."""
+    """Page principale."""
     return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -562,18 +579,18 @@ def register():
         password = data.get('password')
         
         if not username or not email or not password:
-            return jsonify({'error': 'All fields are required'}), 400
+            return jsonify({'error': 'Tous les champs sont obligatoires'}), 400
         
         try:
             conn = get_db_connection()
             cur = conn.cursor()
             
-            # Check if user already exists
+            # Vérifier si l'utilisateur existe déjà
             cur.execute("SELECT id FROM users WHERE username = %s OR email = %s", (username, email))
             if cur.fetchone():
                 return jsonify({'error': 'Username or email already exists'}), 400
             
-            # Create new user
+            # Créer un nouvel utilisateur
             password_hash = generate_password_hash(password)
             # Définir le rôle en fonction du nom d'utilisateur (admin si username == 'admin')
             role = 'admin' if username.lower() == 'admin' else 'standard'
@@ -591,10 +608,10 @@ def register():
             session['username'] = username
             session['role'] = role
             
-            return jsonify({'success': True, 'message': 'Registration successful'})
+            return jsonify({'success': True, 'message': 'Inscription réussie'})
             
         except Exception as e:
-            return jsonify({'error': f'Registration failed: {str(e)}'}), 500
+            return jsonify({'error': f'L\'inscription a échoué: {str(e)}'}), 500
     
     return render_template('register.html')
 
@@ -607,7 +624,7 @@ def login():
         password = data.get('password')
         
         if not username or not password:
-            return jsonify({'error': 'Username and password are required'}), 400
+            return jsonify({'error': 'Le nom d\'utilisateur et le mot de passe sont requis'}), 400
         
         try:
             conn = get_db_connection()
@@ -620,7 +637,7 @@ def login():
             user = cur.fetchone()
             
             if user and check_password_hash(user['password_hash'], password):
-                # Update last login
+                # Mettre à jour la dernière connexion
                 cur.execute(
                     "UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = %s",
                     (user['id'],)
@@ -637,14 +654,14 @@ def login():
                 
                 cur.close()
                 conn.close()
-                return jsonify({'success': True, 'message': 'Login successful'})
+                return jsonify({'success': True, 'message': 'Connexion réussie'})
             else:
                 cur.close()
                 conn.close()
-                return jsonify({'error': 'Invalid username or password'}), 401
+                return jsonify({'error': 'Nom d\'utilisateur ou mot de passe invalide'}), 401
                 
         except Exception as e:
-            return jsonify({'error': f'Login failed: {str(e)}'}), 500
+            return jsonify({'error': f'La connexion a échoué: {str(e)}'}), 500
     
     return render_template('login.html')
 
@@ -652,7 +669,8 @@ def login():
 def logout():
     """User logout."""
     session.clear()
-    return jsonify({'success': True, 'message': 'Logged out successfully'})
+    # return jsonify({'success': True, 'message': 'Déconnecté avec succès'})
+    return redirect(url_for('index'))
 
 @app.route('/game')
 @login_required
@@ -881,11 +899,21 @@ def contact():
             return jsonify({'error': f'Failed to send message: {str(e)}'}), 500
     return render_template('contact.html')
 
+
+
+@app.route('/Tetris')
+def tetris():
+    """Page Tetris."""
+    return render_template('Tetris.html')
+
+
+
+
 @app.route('/admin/messages')
 @login_required
 def admin_messages():
-    # Check if the user is admin
-    # login_required decorator already checks if user_id is in session
+    # Vérifiez si l'utilisateur est administrateur
+    # Le décorateur login_required vérifie déjà si user_id est en session
     try:
         conn = get_db_connection()
         cur = conn.cursor()

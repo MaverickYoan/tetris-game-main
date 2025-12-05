@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="fr">
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="img/tetris.ico" type="image/x-icon">
+
+        <!-- <link rel="favicon" href="img\giphy.gif" type="image/x-icon"> -->
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+        <link rel="stylesheet"
+            href="C:\Users\Stagiaire\Documents\DEV\modules_html_css\css\style.css">
+
         <title>Tetris</title>
+
         <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #000;
             color: #fff;
             display: flex;
-            justify-content: center;
+            justify-content: top;
             align-items: center;
             height: 100vh;
             margin: 0;
@@ -25,8 +33,8 @@
             background-color: #111;
         }
         #score {
-            font-size: 24px;
-            margin: 10px 0;
+            font-size: 10px;
+            margin: 5px 0;
         }
         #instructions {
             margin-top: 5px;
@@ -45,8 +53,24 @@
         button:hover {
             background-color: #555;
         }
+        .footer {
+            display: flex;
+            justify-content: center;
+            background-color: #000000;
+            color: #09ff00;
+            text-align: center;
+            padding: 0 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+
+
+        
     </style>
     </head>
+
     <body>
         <div id="game-container">
             <h1>Jeu tetris</h1>
@@ -66,6 +90,26 @@
                 </ul>
             </div>
         </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>Tetris - Développé avec passion</p>
+                <p>© 2025 TeK2OuF. Tous droits réservés.</p>
+                <div class="quick-links">
+                    <div class="quick-buttons">
+                        <a href="templates/index.html" target="_blank"
+                            class="quick-btn">Index</a>
+                        <a href="templates/game.html" target="_blank"
+                            class="quick-btn">Jouer</a>
+                        <a href="templates/contact.html" target="_blank"
+                            class="quick-btn">Contact</a>
+                        <a href="templates/admin_messages.html" target="_blank"
+                            class="quick-btn">Messages Admin</a>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
 
         <script>
         const canvas = document.getElementById('tetris');
@@ -153,6 +197,7 @@
                 ];
             }
         }
+
 
         function collide(arena, player) {
             const [m, o] = [player.matrix, player.pos];

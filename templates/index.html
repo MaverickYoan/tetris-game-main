@@ -4,13 +4,6 @@
 
 {% block content %}
 <div class="card">
-    <div class="text-center">
-        <h2>Bienvenue dans Tetris</h2>
-        <p style="font-size: 18px; color: rgb(1, 47, 7); margin: 20px 0;">
-            Pour les joueurs, par les joueurs
-        </p>
-    </div>
-
     {% if not session.username %}
     <div
         style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
@@ -165,12 +158,10 @@
 </div>
 <!-- <br><br><br><br><br> -->
 
-<div>
-    <footer>
-        <div class="card"
-            style="text-align: center; font-size: 14px; color: #011b01;">
-            <p>© 2025 - TeK2OuF</p>
-        </div>
-    </footer>
-</div>
+<footer class="footer">
+    <div class="container">
+        <p>Tetris - Développé avec passion</p>
+        <p>© 2025 TeK2OuF. Tous droits réservés.</p>
+    </div>
+</footer>
 {% endblock %}
