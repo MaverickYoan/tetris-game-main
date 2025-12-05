@@ -1,0 +1,103 @@
+# Ajout de nouvelles fonctionnalités au jeu Tetris
+
+## Objectif
+
+Améliorer le jeu Tetris avec 5 nouvelles fonctionnalités majeures pour enrichir l'expérience de jeu :
+- **Hold/Reserve** : Permet de garder une pièce en réserve
+- **Statistiques de pièces** : Affiche le nombre de chaque type de pièce utilisé
+- **Système d'achievements** : Débloquer des badges pour accomplissements
+- **Effets sonores** : Sons pour les actions importantes
+- **Mode Sprint** : Course contre la montre pour faire 40 lignes
+
+## User Review Required
+
+> [!IMPORTANT]
+> Le système d'achievements sera sauvegardé en base de données. Une nouvelle table sera créée.
+
+> [!NOTE]
+> Les effets sonores utilisent l'API Web Audio (pas de fichiers audio externes nécessaires).
+
+## Proposed Changes
+
+### Backend - Game Logic
+
+#### [MODIFY] [app.py](file:///c:/Users/yoand/tetris-game-main/app.py)
+
+Modifications de la classe [TetrisGame](file:///c:/Users/yoand/tetris-game-main/app.py#203-388) :
+- Ajouter `self.held_piece` pour le système Hold
+- Ajouter `self.can_hold` pour empêcher les holds multiples
+- Ajouter `self.piece_stats` pour compter chaque type de pièce
+- Ajouter `self.game_mode` (normal, sprint)
+- Ajouter `self.achievements` pour tracker les succès
+- Ajouter la méthode `hold_piece()` pour échanger avec la pièce en réserve
+- Ajouter la méthode `check_achievements()` pour vérifier les succès débloqués
+- Mettre à jour [get_state()](file:///c:/Users/yoand/tetris-game-main/app.py#364-388) pour inclure les nouvelles données
+
+Nouveaux endpoints API :
+- `/api/game/hold` - Pour utiliser la fonction Hold
+- `/api/game/achievements` - Pour récupérer les achievements
+
+---
+
+### Frontend - User Interface
+
+#### [MODIFY] [game.html](file:///c:/Users/yoand/tetris-game-main/templates/game.html)
+
+Ajouts HTML :
+- Panneau "Pièce en réserve" (Hold) avec canvas
+- Panneau "Statistiques de pièces" avec graphique
+- Panneau "Achievements" avec liste déroulante
+- Sélecteur de mode de jeu (Normal/Sprint)
+- Indicateur de progression Sprint
+
+Ajouts CSS :
+- Styles pour le panneau Hold
+- Styles pour les statistiques de pièces
+- Styles pour les badges d'achievements
+- Animations pour débloquer un achievement
+
+Ajouts JavaScript :
+- Classe `SoundManager` pour gérer les effets sonores
+- Méthode `holdPiece()` pour la fonction Hold
+- Méthode `drawHeldPiece()` pour afficher la pièce en réserve
+- Méthode `updatePieceStats()` pour mettre à jour les statistiques
+- Méthode `showAchievement()` pour afficher une notification de succès
+- Gestion du mode Sprint avec timer et objectif de lignes
+
+---
+
+### Database Schema
+
+#### [NEW] [database/05_achievements.sql](file:///c:/Users/yoand/tetris-game-main/database/05_achievements.sql)
+
+Nouvelle table pour stocker les achievements débloqués par utilisateur :
+```sql
+CREATE TABLE user_achievements (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    achievement_id VARCHAR(50),
+    unlocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### [MODIFY] [database/02_high_scores.sql](file:///c:/Users/yoand/tetris-game-main/database/02_high_scores.sql)
+
+Ajouter une colonne pour le mode de jeu :
+```sql
+ALTER TABLE high_scores ADD COLUMN game_mode VARCHAR(20) DEFAULT 'normal';
+```
+
+## Verification Plan
+
+### Automated Tests
+- Tester la fonction Hold : vérifier qu'on peut échanger une pièce
+- Tester que Hold ne peut être utilisé qu'une fois par pièce
+- Vérifier que les statistiques de pièces s'incrémentent correctement
+- Tester le mode Sprint : vérifier le timer et l'objectif de 40 lignes
+
+### Manual Verification
+- Jouer une partie et utiliser la fonction Hold plusieurs fois
+- Vérifier que les statistiques de pièces s'affichent correctement
+- Débloquer quelques achievements et vérifier l'affichage
+- Tester les effets sonores (ligne complétée, game over, achievement)
+- Jouer une partie en mode Sprint et vérifier la victoire à 40 lignes

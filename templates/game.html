@@ -4,12 +4,54 @@
 
 {% block styles %}
 <style>
+    @keyframes shake {
+        0%, 100% { transform: translate(0, 0); }
+        10%, 30%, 50%, 70%, 90% { transform: translate(-2px, 0); }
+        20%, 40%, 60%, 80% { transform: translate(2px, 0); }
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes scorePopup {
+        0% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        50% {
+            transform: translateY(-30px) scale(1.2);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-60px) scale(0.8);
+        }
+    }
+    
+    @keyframes glow {
+        0%, 100% { box-shadow: 0 0 5px #c7ffc3ff, 0 0 10px #c7ffc3ff; }
+        50% { box-shadow: 0 0 20px #c7ffc3ff, 0 0 30px #c7ffc3ff, 0 0 40px #c7ffc3ff; }
+    }
+    
     .game-container {
         display: grid;
         grid-template-columns: 1fr 300px 200px;
         gap: 10px;
         max-width: 800px;
         margin: 0 auto;
+        animation: fadeInUp 0.5s ease-out;
     }
     
     .game-board-container {
@@ -20,29 +62,53 @@
         width: 300px;
         height: 429px;
         margin: 0 auto;
+        transition: all 0.3s ease;
     }
     
-    #gameCanvas {
+    .game-board-container.shake {
+        animation: shake 0.3s ease-in-out;
+    }
+    
+    .game-board-container.glow {
+        animation: glow 0.5s ease-in-out;
+    }
+    
+    #gameCanvas, #particleCanvas {
         width: 100%;
         height: 100%;
         display: block;
         border-radius: 7px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    #particleCanvas {
+        pointer-events: none;
+        z-index: 2;
     }
     
     .game-info {
-        background: #AEED9E;
-        border-radius: 5px;
-        padding: 5px;
+        background: linear-gradient(135deg, #AEED9E 0%, #9FE890 100%);
+        border-radius: 10px;
+        padding: 15px;
         height: fit-content;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .game-info:hover {
+        transform: translateY(-2px);
     }
     
     .next-piece-container {
-        background: #13780aff;
+        background: linear-gradient(135deg, #13780aff 0%, #0f5f08ff 100%);
         border: 2px solid #00ff08ff;
-        border-radius: 5px;
-        padding: 5px;
+        border-radius: 8px;
+        padding: 10px;
         text-align: center;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
     #nextPieceCanvas {
@@ -53,54 +119,120 @@
     .score-item {
         display: flex;
         justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid #eee;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.3);
+        transition: all 0.3s ease;
     }
     
     .score-item:last-child {
         border-bottom: none;
     }
     
+    .score-item:hover {
+        background: rgba(255,255,255,0.1);
+        padding-left: 5px;
+        border-radius: 5px;
+    }
+    
     .score-label {
         font-weight: bold;
-        color: #555;
+        color: #2d5a2d;
     }
     
     .score-value {
-        color: #4CAF50;
+        color: #084514ff;
         font-weight: bold;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+    }
+    
+    .score-value.updated {
+        animation: pulse 0.5s ease-in-out;
+        color: #00ff08ff;
+    }
+    
+    .combo-indicator {
+        background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 100%);
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 10px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2em;
+        display: none;
+        animation: pulse 1s ease-in-out infinite;
+        box-shadow: 0 4px 8px rgba(255, 107, 0, 0.4);
+    }
+    
+    .combo-indicator.active {
+        display: block;
     }
     
     .controls {
-        background: #AEED9E;
-        border-radius: 5px;
-        padding: 5px;
+        background: linear-gradient(135deg, #AEED9E 0%, #9FE890 100%);
+        border-radius: 10px;
+        padding: 15px;
         height: fit-content;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     
     .control-button {
         width: 100%;
-        margin-bottom: 5px;
-        padding: 5px;
-        background: #084514ff;
+        margin-bottom: 8px;
+        padding: 10px;
+        background: linear-gradient(135deg, #084514ff 0%, #0a5518ff 100%);
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         font-size: 16px;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
-    .control-button:hover {
-        background: #085420ff;
+    .control-button:hover:not(:disabled) {
+        background: linear-gradient(135deg, #085420ff 0%, #0c6622ff 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    
+    .control-button:active:not(:disabled) {
+        transform: translateY(0);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
     
     .control-button:disabled {
         background: #ccc;
         cursor: not-allowed;
+        opacity: 0.6;
     }
     
     .game-over-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: white;
+        z-index: 10;
+        border-radius: 7px;
+        backdrop-filter: blur(5px);
+    }
+    
+    .game-over-overlay h2 {
+        font-size: 3em;
+        margin: 0;
+        text-shadow: 0 0 10px #ff0000;
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .pause-overlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -110,26 +242,79 @@
         display: none;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
-        color: white;
-        z-index: 10;
-        border-radius: 7px;
-    }
-    
-    .pause-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        display: none;
-        justify-content: center;
-        align-items: center;
         color: white;
         font-size: 24px;
         z-index: 5;
         border-radius: 7px;
+        backdrop-filter: blur(3px);
+    }
+    
+    .score-popup {
+        position: absolute;
+        color: #ffff00;
+        font-weight: bold;
+        font-size: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        pointer-events: none;
+        z-index: 3;
+        animation: scorePopup 1s ease-out forwards;
+    }
+    
+    .level-progress {
+        margin-top: 10px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 10px;
+        height: 20px;
+        overflow: hidden;
+    }
+    
+    .level-progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #00ff08ff 0%, #084514ff 100%);
+        transition: width 0.5s ease;
+        border-radius: 10px;
+    }
+    
+    
+    @keyframes achievementSlide {
+        0% {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        10%, 90% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+    
+    .achievement-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: #000;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+        z-index: 1000;
+        animation: achievementSlide 4s ease-in-out;
+        min-width: 250px;
+        font-weight: bold;
+    }
+    
+    .achievement-notification h4 {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+    }
+    
+    .achievement-notification p {
+        margin: 0;
+        font-size: 12px;
+        opacity: 0.8;
     }
     
     @media (max-width: 768px) {
@@ -140,7 +325,7 @@
         
         .game-board-container {
             width: 250px;
-            height: 300px;
+            height: 357px;
         }
     }
 </style>
@@ -149,6 +334,23 @@
 {% block content %}
 <div class="game-container">
     <div class="game-info">
+        <h3>Mode de jeu</h3>
+        <select id="gameModeSelect" class="control-button" style="margin-bottom: 15px;">
+            <option value="normal">Normal</option>
+            <option value="sprint">Sprint (40 lignes)</option>
+        </select>
+        
+        <div id="sprintInfo" style="display: none; margin-bottom: 10px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 5px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span class="score-label">Temps:</span>
+                <span id="sprintTime" class="score-value">00:00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span class="score-label">Objectif:</span>
+                <span id="sprintTarget" class="score-value">0/40</span>
+            </div>
+        </div>
+        
         <h3>Statistiques de jeu</h3>
         <div class="score-item">
             <span class="score-label">Score:</span>
@@ -166,34 +368,64 @@
             <span class="score-label">Temps:</span>
             <span id="time" class="score-value">00:00</span>
         </div>
+        
+        <div class="level-progress">
+            <div id="levelProgress" class="level-progress-bar" style="width: 0%"></div>
+        </div>
+        
+        <div id="comboIndicator" class="combo-indicator">
+            COMBO x<span id="comboCount">0</span>! 🔥
+        </div>
+
+        <div class="next-piece-container">
+            <h4>Pièce en Réserve (C)</h4>
+            <canvas id="heldPieceCanvas" width="80" height="80"></canvas>
+            <p style="font-size: 11px; margin-top: 5px; color: #084514ff;">Appuyez sur C pour échanger</p>
+        </div>
 
         <div class="next-piece-container">
             <h4>Prochaine Pièce</h4>
             <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
         </div>
+        
+        <div class="achievements-container" style="margin-top: 10px; background: linear-gradient(135deg, #13780aff 0%, #0f5f08ff 100%); border: 2px solid #00ff08ff; border-radius: 8px; padding: 10px;">
+            <h4 style="margin: 0 0 10px 0; color: white;">🏆 Succès</h4>
+            <div id="achievementsList" style="max-height: 150px; overflow-y: auto; font-size: 11px; color: white;">
+                <p style="opacity: 0.7;">Jouez pour débloquer des succès!</p>
+            </div>
+        </div>
+        
+        <div class="piece-stats-container" style="margin-top: 10px; background: linear-gradient(135deg, #13780aff 0%, #0f5f08ff 100%); border: 2px solid #00ff08ff; border-radius: 8px; padding: 10px;">
+            <h4 style="margin: 0 0 10px 0; color: white;">📊 Statistiques</h4>
+            <div id="pieceStats" style="font-size: 11px; color: white;">
+            </div>
+        </div>
 
         <div id="instructions"
-            style="margin-top: 5px; font-size: 14px; color: #526950;">
+            style="margin-top: 10px; font-size: 14px; color: #2d5a2d;">
             <h4>Contrôles:</h4>
             <p>← → Déplacer gauche/droite</p>
             <p>↓ Douce chute</p>
             <p>↑ Rotation</p>
             <p>Espace Chute dure</p>
+            <p>C Hold/Reserve</p>
             <p>P Pause/Reprendre</p>
         </div>
     </div>
 
-    <div class="game-board-container">
+    <div id="gameBoardContainer" class="game-board-container">
         <canvas id="gameCanvas" width="300" height="600"></canvas>
+        <canvas id="particleCanvas" width="300" height="600"></canvas>
         <div id="gameOverOverlay" class="game-over-overlay">
             <h2>Game Over</h2>
             <p id="finalScore">Score final: 0</p>
+            <p id="finalStats"></p>
             <button onclick="restartGame()" class="btn"
-                style="margin-top: 5px;">Rejouer</button>
+                style="margin-top: 10px; padding: 10px 20px;">Rejouer</button>
         </div>
         <div id="pauseOverlay" class="pause-overlay">
             <div style="text-align: center;">
-                <h3>PAUSED</h3>
+                <h3>⏸ PAUSED</h3>
                 <p>Appuyez sur P pour reprendre</p>
             </div>
         </div>
@@ -202,18 +434,18 @@
     <div class="controls">
         <h3>Contrôles</h3>
         <button id="startButton" onclick="startGame()" class="control-button">
-            Démarrer le jeu
+            🎮 Démarrer le jeu
         </button>
         <button id="pauseButton" onclick="togglePause()" class="control-button"
             disabled>
-            Pause
+            ⏸ Pause
         </button>
         <button id="restartButton" onclick="restartGame()"
             class="control-button" disabled>
-            Rejouer
+            🔄 Rejouer
         </button>
 
-        <h4 style="margin-top: 5px; margin-bottom: 10px;">Contrôles
+        <h4 style="margin-top: 15px; margin-bottom: 10px;">Contrôles
             Mobiles:</h4>
         <div
             style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;">
@@ -226,25 +458,159 @@
         </div>
         <button onclick="softDrop()" class="control-button"
             style="margin-top: 5px;">↓ Chute douce</button>
-        <button onclick="hardDrop()" class="control-button">Chute libre</button>
+        <button onclick="hardDrop()" class="control-button">⚡ Chute libre</button>
     </div>
 </div>
 <br>
 
 <script>
+// Sound Manager
+class SoundManager {
+    constructor() {
+        this.audioContext = null;
+        this.enabled = true;
+        this.initAudio();
+    }
+    
+    initAudio() {
+        try {
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        } catch (e) {
+            console.warn('Web Audio API not supported');
+            this.enabled = false;
+        }
+    }
+    
+    playTone(frequency, duration, type = 'sine') {
+        if (!this.enabled || !this.audioContext) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.value = frequency;
+        oscillator.type = type;
+        
+        gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+        
+        oscillator.start(this.audioContext.currentTime);
+        oscillator.stop(this.audioContext.currentTime + duration);
+    }
+    
+    lineClear(lines) {
+        const frequencies = [523, 659, 784, 1047];
+        for (let i = 0; i < lines; i++) {
+            setTimeout(() => this.playTone(frequencies[i % frequencies.length], 0.1), i * 50);
+        }
+    }
+    
+    pieceLand() {
+        this.playTone(200, 0.05, 'square');
+    }
+    
+    gameOver() {
+        setTimeout(() => this.playTone(440, 0.2), 0);
+        setTimeout(() => this.playTone(415, 0.2), 200);
+        setTimeout(() => this.playTone(392, 0.4), 400);
+    }
+    
+    achievement() {
+        const melody = [523, 659, 784, 1047];
+        melody.forEach((freq, i) => {
+            setTimeout(() => this.playTone(freq, 0.15), i * 100);
+        });
+    }
+    
+    hold() {
+        this.playTone(600, 0.1, 'triangle');
+    }
+}
+
+// Particle System
+class Particle {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.vx = (Math.random() - 0.5) * 4;
+        this.vy = (Math.random() - 0.5) * 4 - 2;
+        this.life = 1.0;
+        this.decay = 0.02;
+        this.color = color;
+        this.size = Math.random() * 4 + 2;
+    }
+    
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.1; // gravity
+        this.life -= this.decay;
+    }
+    
+    draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.size, this.size);
+        ctx.restore();
+    }
+    
+    isDead() {
+        return this.life <= 0;
+    }
+}
+
+class ParticleSystem {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.particles = [];
+    }
+    
+    createExplosion(x, y, color, count = 20) {
+        for (let i = 0; i < count; i++) {
+            this.particles.push(new Particle(x, y, color));
+        }
+    }
+    
+    update() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const particle = this.particles[i];
+            particle.update();
+            particle.draw(this.ctx);
+            
+            if (particle.isDead()) {
+                this.particles.splice(i, 1);
+            }
+        }
+    }
+}
+
 class TetrisGameUI {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.nextCanvas = document.getElementById('nextPieceCanvas');
         this.nextCtx = this.nextCanvas.getContext('2d');
+        this.heldCanvas = document.getElementById('heldPieceCanvas');
+        this.heldCtx = this.heldCanvas.getContext('2d');
+        this.particleCanvas = document.getElementById('particleCanvas');
+        this.particleSystem = new ParticleSystem(this.particleCanvas);
+        this.soundManager = new SoundManager();
         
         this.gameState = null;
+        this.previousGameState = null;
         this.gameRunning = false;
         this.gamePaused = false;
         this.gameInterval = null;
         this.startTime = null;
         this.timeInterval = null;
+        this.particleInterval = null;
+        this.achievementsShown = new Set();
         
         this.cellSize = 30;
         this.colors = {
@@ -254,7 +620,10 @@ class TetrisGameUI {
             83: '#00FF00', // S - Vert
             90: '#FF0000', // Z - Rouge
             74: '#0000FF', // J - Bleu
-            76: '#FFA500'  // L - Orange
+            76: '#FFA500', // L - Orange
+            65: '#FF69B4', // A - Rose
+            66: '#FFD700', // B - Or
+            67: '#00CED1'  // C - Turquoise
         };
         
         this.setupEventListeners();
@@ -290,6 +659,11 @@ class TetrisGameUI {
                     e.preventDefault();
                     this.hardDrop();
                     break;
+                case 'c':
+                case 'C':
+                    e.preventDefault();
+                    this.holdPiece();
+                    break;
                 case 'p':
                 case 'P':
                     this.togglePause();
@@ -300,37 +674,48 @@ class TetrisGameUI {
     
     async startGame() {
         try {
+            const gameMode = document.getElementById('gameModeSelect').value;
+            
             const response = await fetch('/api/game/start', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mode: gameMode })
             });
             
             const result = await response.json();
             if (result.success) {
                 this.gameState = result.game_state;
+                this.previousGameState = JSON.parse(JSON.stringify(result.game_state));
                 this.gameRunning = true;
                 this.gamePaused = false;
                 this.startTime = Date.now();
+                this.achievementsShown.clear();
+                
+                // Show/hide Sprint UI
+                if (gameMode === 'sprint') {
+                    document.getElementById('sprintInfo').style.display = 'block';
+                } else {
+                    document.getElementById('sprintInfo').style.display = 'none';
+                }
                 
                 this.updateUI();
                 this.draw();
                 this.drawNextPiece();
+                this.drawHeldPiece();
                 
                 // Start game loop
                 this.gameInterval = setInterval(() => this.gameTick(), 1000 - (this.gameState.level - 1) * 100);
                 this.timeInterval = setInterval(() => this.updateTime(), 1000);
+                this.particleInterval = setInterval(() => this.particleSystem.update(), 1000 / 60);
                 
                 // Update button states
                 document.getElementById('startButton').disabled = true;
                 document.getElementById('pauseButton').disabled = false;
                 document.getElementById('restartButton').disabled = false;
-                
-                // showAlert('Start', 'succès');
-                // } else {
-                    // showAlert(result.error || 'Le jeu bogue');
+                document.getElementById('gameModeSelect').disabled = true;
             }
         } catch (error) {
-            showAlert('Le jeu bogue: ' + error.message);
+            console.error('Game start error:', error);
         }
     }
     
@@ -345,7 +730,9 @@ class TetrisGameUI {
             
             const result = await response.json();
             if (result.success) {
+                this.previousGameState = JSON.parse(JSON.stringify(this.gameState));
                 this.gameState = result.game_state;
+                this.checkForEffects();
                 this.updateUI();
                 this.draw();
                 this.drawNextPiece();
@@ -371,7 +758,9 @@ class TetrisGameUI {
             
             const result = await response.json();
             if (result.success) {
+                this.previousGameState = JSON.parse(JSON.stringify(this.gameState));
                 this.gameState = result.game_state;
+                this.checkForEffects();
                 this.updateUI();
                 this.draw();
                 this.drawNextPiece();
@@ -383,6 +772,211 @@ class TetrisGameUI {
         } catch (error) {
             console.error('Move error:', error);
         }
+    }
+    
+    checkForEffects() {
+        if (!this.previousGameState) return;
+        
+        // Check for line clears
+        const linesCleared = this.gameState.lines_cleared - this.previousGameState.lines_cleared;
+        if (linesCleared > 0) {
+            this.createLineClearEffect(linesCleared);
+            this.shakeScreen();
+            this.showScorePopup(linesCleared);
+            this.soundManager.lineClear(linesCleared);
+        }
+        
+        // Check for piece placement (y position reset)
+        if (this.gameState.current_piece.y < this.previousGameState.current_piece.y) {
+            this.createPieceLandEffect();
+            this.soundManager.pieceLand();
+        }
+        
+        // Update combo indicator
+        this.updateComboIndicator();
+        
+        // Check for achievements
+        if (this.gameState.achievements && this.gameState.achievements.length > 0) {
+            this.gameState.achievements.forEach(achievement => {
+                if (!this.achievementsShown.has(achievement.id)) {
+                    this.showAchievement(achievement);
+                    this.achievementsShown.add(achievement.id);
+                }
+            });
+        }
+        
+        // Update piece stats and achievements list
+        this.updatePieceStats();
+        this.updateAchievementsList();
+    }
+    
+    createLineClearEffect(linesCleared) {
+        const container = document.getElementById('gameBoardContainer');
+        container.classList.add('glow');
+        setTimeout(() => container.classList.remove('glow'), 500);
+        
+        // Create particles
+        for (let i = 0; i < linesCleared; i++) {
+            for (let x = 0; x < 10; x++) {
+                const px = x * this.cellSize + this.cellSize / 2;
+                const py = Math.random() * this.canvas.height;
+                const color = Object.values(this.colors)[Math.floor(Math.random() * Object.values(this.colors).length)];
+                this.particleSystem.createExplosion(px, py, color, 5);
+            }
+        }
+    }
+    
+    createPieceLandEffect() {
+        const piece = this.previousGameState.current_piece;
+        const color = this.colors[piece.type.charCodeAt(0)] || '#888';
+        
+        for (let y = 0; y < piece.shape.length; y++) {
+            for (let x = 0; x < piece.shape[y].length; x++) {
+                if (piece.shape[y][x] === '#') {
+                    const px = (piece.x + x) * this.cellSize + this.cellSize / 2;
+                    const py = (piece.y + y) * this.cellSize + this.cellSize / 2;
+                    this.particleSystem.createExplosion(px, py, color, 3);
+                }
+            }
+        }
+    }
+    
+    shakeScreen() {
+        const container = document.getElementById('gameBoardContainer');
+        container.classList.add('shake');
+        setTimeout(() => container.classList.remove('shake'), 300);
+    }
+    
+    showScorePopup(linesCleared) {
+        const scoreMultiplier = [0, 100, 300, 500, 800];
+        const points = scoreMultiplier[Math.min(linesCleared, 4)] * this.gameState.level;
+        
+        const popup = document.createElement('div');
+        popup.className = 'score-popup';
+        popup.textContent = `+${points}`;
+        popup.style.left = '50%';
+        popup.style.top = '30%';
+        popup.style.transform = 'translateX(-50%)';
+        
+        document.getElementById('gameBoardContainer').appendChild(popup);
+        setTimeout(() => popup.remove(), 1000);
+    }
+    
+    updateComboIndicator() {
+        const comboIndicator = document.getElementById('comboIndicator');
+        const comboCount = document.getElementById('comboCount');
+        
+        if (this.gameState.combo_count > 1) {
+            comboIndicator.classList.add('active');
+            comboCount.textContent = this.gameState.combo_count;
+        } else {
+            comboIndicator.classList.remove('active');
+        }
+    }
+    
+    async holdPiece() {
+        if (!this.gameRunning || this.gamePaused) return;
+        
+        try {
+            const response = await fetch('/api/game/hold', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                this.gameState = result.game_state;
+                this.updateUI();
+                this.draw();
+                this.drawNextPiece();
+                this.drawHeldPiece();
+                this.soundManager.hold();
+            }
+        } catch (error) {
+            console.error('Hold error:', error);
+        }
+    }
+    
+    drawHeldPiece() {
+        this.heldCtx.clearRect(0, 0, this.heldCanvas.width, this.heldCanvas.height);
+        
+        if (!this.gameState || !this.gameState.held_piece) return;
+        
+        const piece = this.gameState.held_piece;
+        const shape = piece.shape;
+        if (!shape) return;
+        
+        const blockSize = 15;
+        const offsetX = (this.heldCanvas.width - shape[0].length * blockSize) / 2;
+        const offsetY = (this.heldCanvas.height - shape.length * blockSize) / 2;
+        
+        for (let y = 0; y < shape.length; y++) {
+            for (let x = 0; x < shape[y].length; x++) {
+                if (shape[y][x] === '#') {
+                    const color = this.colors[piece.type.charCodeAt(0)] || '#888';
+                    this.heldCtx.fillStyle = color;
+                    this.heldCtx.fillRect(
+                        offsetX + x * blockSize,
+                        offsetY + y * blockSize,
+                        blockSize - 1,
+                        blockSize - 1
+                    );
+                }
+            }
+        }
+    }
+    
+    showAchievement(achievement) {
+        const notification = document.createElement('div');
+        notification.className = 'achievement-notification';
+        notification.innerHTML = `
+            <h4>🏆 ${achievement.name}</h4>
+            <p>${achievement.description}</p>
+        `;
+        
+        document.body.appendChild(notification);
+        this.soundManager.achievement();
+        
+        setTimeout(() => notification.remove(), 4000);
+    }
+    
+    updatePieceStats() {
+        if (!this.gameState || !this.gameState.piece_stats) return;
+        
+        const statsDiv = document.getElementById('pieceStats');
+        const stats = this.gameState.piece_stats;
+        
+        let html = '';
+        for (const [piece, count] of Object.entries(stats)) {
+            const color = this.colors[piece.charCodeAt(0)] || '#888';
+            html += `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                    <span style="color: ${color};">■ ${piece}</span>
+                    <span>${count}</span>
+                </div>
+            `;
+        }
+        
+        statsDiv.innerHTML = html;
+    }
+    
+    updateAchievementsList() {
+        if (!this.gameState) return;
+        
+        const listDiv = document.getElementById('achievementsList');
+        const achievements = Array.from(this.achievementsShown);
+        
+        if (achievements.length === 0) {
+            listDiv.innerHTML = '<p style="opacity: 0.7;">Jouez pour débloquer des succès!</p>';
+            return;
+        }
+        
+        let html = '';
+        achievements.forEach(id => {
+            html += `<div style="margin-bottom: 5px; padding: 5px; background: rgba(255,255,255,0.1); border-radius: 3px;">🏆 ${id.replace('_', ' ')}</div>`;
+        });
+        
+        listDiv.innerHTML = html;
     }
     
     moveLeft() { this.makeMove('left'); }
@@ -400,10 +994,10 @@ class TetrisGameUI {
         
         if (this.gamePaused) {
             pauseOverlay.style.display = 'flex';
-            pauseButton.textContent = 'Resume';
+            pauseButton.textContent = '▶ Resume';
         } else {
             pauseOverlay.style.display = 'none';
-            pauseButton.textContent = 'Pause';
+            pauseButton.textContent = '⏸ Pause';
         }
     }
     
@@ -411,9 +1005,22 @@ class TetrisGameUI {
         this.gameRunning = false;
         clearInterval(this.gameInterval);
         clearInterval(this.timeInterval);
+        clearInterval(this.particleInterval);
+        
+        this.soundManager.gameOver();
         
         const overlay = document.getElementById('gameOverOverlay');
-        document.getElementById('finalScore').textContent = `Final Score: ${this.gameState.score.toLocaleString()}`;
+        document.getElementById('finalScore').textContent = `Score final: ${this.gameState.score.toLocaleString()}`;
+        
+        let statsText = `Lignes: ${this.gameState.lines_cleared} | Niveau: ${this.gameState.level}`;
+        if (this.gameState.max_combo > 1) {
+            statsText += ` | Max Combo: ${this.gameState.max_combo}x`;
+        }
+        if (this.gameState.perfect_clears > 0) {
+            statsText += ` | Perfect Clears: ${this.gameState.perfect_clears}`;
+        }
+        document.getElementById('finalStats').textContent = statsText;
+        
         overlay.style.display = 'flex';
         
         // Save score to database
@@ -436,39 +1043,80 @@ class TetrisGameUI {
         // Reset UI
         document.getElementById('gameOverOverlay').style.display = 'none';
         document.getElementById('pauseOverlay').style.display = 'none';
+        document.getElementById('comboIndicator').classList.remove('active');
+        document.getElementById('sprintInfo').style.display = 'none';
         
         // Clear intervals
         if (this.gameInterval) clearInterval(this.gameInterval);
         if (this.timeInterval) clearInterval(this.timeInterval);
+        if (this.particleInterval) clearInterval(this.particleInterval);
         
         // Reset state
         this.gameRunning = false;
         this.gamePaused = false;
         this.gameState = null;
+        this.previousGameState = null;
+        this.particleSystem.particles = [];
+        this.achievementsShown.clear();
         
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.nextCtx.clearRect(0, 0, this.nextCanvas.width, this.nextCanvas.height);
+        this.heldCtx.clearRect(0, 0, this.heldCanvas.width, this.heldCanvas.height);
+        this.particleSystem.ctx.clearRect(0, 0, this.particleCanvas.width, this.particleCanvas.height);
         
         // Reset UI
         document.getElementById('score').textContent = '0';
         document.getElementById('level').textContent = '1';
         document.getElementById('lines').textContent = '0';
         document.getElementById('time').textContent = '00:00';
+        document.getElementById('levelProgress').style.width = '0%';
+        document.getElementById('achievementsList').innerHTML = '<p style="opacity: 0.7;">Jouez pour débloquer des succès!</p>';
+        document.getElementById('pieceStats').innerHTML = '';
         
         // Reset buttons
         document.getElementById('startButton').disabled = false;
         document.getElementById('pauseButton').disabled = true;
-        document.getElementById('pauseButton').textContent = '⏸Pause';
+        document.getElementById('pauseButton').textContent = '⏸ Pause';
         document.getElementById('restartButton').disabled = true;
+        document.getElementById('gameModeSelect').disabled = false;
     }
     
     updateUI() {
         if (!this.gameState) return;
         
-        document.getElementById('score').textContent = this.gameState.score.toLocaleString();
+        // Update score with animation
+        const scoreElement = document.getElementById('score');
+        if (this.previousGameState && this.gameState.score !== this.previousGameState.score) {
+            scoreElement.classList.add('updated');
+            setTimeout(() => scoreElement.classList.remove('updated'), 500);
+        }
+        scoreElement.textContent = this.gameState.score.toLocaleString();
+        
         document.getElementById('level').textContent = this.gameState.level;
         document.getElementById('lines').textContent = this.gameState.lines_cleared;
+        
+        // Update level progress bar
+        const linesInLevel = this.gameState.lines_cleared % 10;
+        const progress = (linesInLevel / 10) * 100;
+        document.getElementById('levelProgress').style.width = progress + '%';
+        
+        // Update Sprint mode UI
+        if (this.gameState.game_mode === 'sprint') {
+            if (this.gameState.sprint_time !== undefined) {
+                const minutes = Math.floor(this.gameState.sprint_time / 60);
+                const seconds = Math.floor(this.gameState.sprint_time % 60);
+                document.getElementById('sprintTime').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            document.getElementById('sprintTarget').textContent = 
+                `${this.gameState.lines_cleared}/${this.gameState.sprint_target || 40}`;
+            
+            // Check for Sprint completion
+            if (this.gameState.sprint_complete && this.gameRunning) {
+                this.endGame();
+            }
+        }
     }
     
     updateTime() {
@@ -492,13 +1140,29 @@ class TetrisGameUI {
         for (let y = 0; y < board.length; y++) {
             for (let x = 0; x < board[y].length; x++) {
                 if (board[y][x] !== 0) {
-                    this.drawBlock(x, y, this.colors[board[y][x]] || '#888');
+                    this.drawBlock(x, y, this.colors[board[y][x]] || '#888', 1.0);
+                }
+            }
+        }
+        
+        // Draw ghost piece
+        const piece = this.gameState.current_piece;
+        const ghostY = this.gameState.ghost_y;
+        if (piece && piece.shape && ghostY !== piece.y) {
+            for (let y = 0; y < piece.shape.length; y++) {
+                for (let x = 0; x < piece.shape[y].length; x++) {
+                    if (piece.shape[y][x] === '#') {
+                        const boardX = piece.x + x;
+                        const boardY = ghostY + y;
+                        if (boardY >= 0) {
+                            this.drawBlock(boardX, boardY, this.colors[piece.type.charCodeAt(0)] || '#888', 0.3);
+                        }
+                    }
                 }
             }
         }
         
         // Draw current piece
-        const piece = this.gameState.current_piece;
         if (piece && piece.shape) {
             for (let y = 0; y < piece.shape.length; y++) {
                 for (let x = 0; x < piece.shape[y].length; x++) {
@@ -506,7 +1170,7 @@ class TetrisGameUI {
                         const boardX = piece.x + x;
                         const boardY = piece.y + y;
                         if (boardY >= 0) {
-                            this.drawBlock(boardX, boardY, this.colors[piece.type.charCodeAt(0)] || '#888');
+                            this.drawBlock(boardX, boardY, this.colors[piece.type.charCodeAt(0)] || '#888', 1.0);
                         }
                     }
                 }
@@ -531,12 +1195,20 @@ class TetrisGameUI {
                 if (piece.shape[y][x] === '#') {
                     this.nextCtx.fillStyle = color;
                     this.nextCtx.fillRect(x * cellSize + 10, y * cellSize + 10, cellSize - 1, cellSize - 1);
+                    
+                    // Add shading
+                    this.nextCtx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                    this.nextCtx.fillRect(x * cellSize + 10, y * cellSize + 10, cellSize - 1, 2);
+                    this.nextCtx.fillRect(x * cellSize + 10, y * cellSize + 10, 2, cellSize - 1);
                 }
             }
         }
     }
     
-    drawBlock(x, y, color) {
+    drawBlock(x, y, color, alpha = 1.0) {
+        this.ctx.save();
+        this.ctx.globalAlpha = alpha;
+        
         this.ctx.fillStyle = color;
         this.ctx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize - 1, this.cellSize - 1);
         
@@ -548,6 +1220,8 @@ class TetrisGameUI {
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
         this.ctx.fillRect(x * this.cellSize, y * this.cellSize + this.cellSize - 3, this.cellSize - 1, 2);
         this.ctx.fillRect(x * this.cellSize + this.cellSize - 3, y * this.cellSize, 2, this.cellSize - 1);
+        
+        this.ctx.restore();
     }
     
     drawGrid() {

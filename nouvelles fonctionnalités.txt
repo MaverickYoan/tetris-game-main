@@ -1,0 +1,296 @@
+Ajout de nouvelles fonctionnalités au jeu Tetris
+Objectif
+Améliorer le jeu Tetris avec 5 nouvelles fonctionnalités majeures pour enrichir l'expérience de jeu :
+
+Hold/Reserve : Permet de garder une pièce en réserve
+Statistiques de pièces : Affiche le nombre de chaque type de pièce utilisé
+Système d'achievements : Débloquer des badges pour accomplissements
+Effets sonores : Sons pour les actions importantes
+Mode Sprint : Course contre la montre pour faire 40 lignes
+User Review Required
+IMPORTANT
+
+Le système d'achievements sera sauvegardé en base de données. Une nouvelle table sera créée.
+
+NOTE
+
+Les effets sonores utilisent l'API Web Audio (pas de fichiers audio externes nécessaires).
+
+Proposed Changes
+Backend - Game Logic
+[MODIFY] 
+app.py
+Modifications de la classe 
+TetrisGame
+ :
+
+Ajouter self.held_piece pour le système Hold
+Ajouter self.can_hold pour empêcher les holds multiples
+Ajouter self.piece_stats pour compter chaque type de pièce
+Ajouter self.game_mode (normal, sprint)
+Ajouter self.achievements pour tracker les succès
+Ajouter la méthode hold_piece() pour échanger avec la pièce en réserve
+Ajouter la méthode check_achievements() pour vérifier les succès débloqués
+Mettre à jour 
+get_state()
+ pour inclure les nouvelles données
+Nouveaux endpoints API :
+
+/api/game/hold - Pour utiliser la fonction Hold
+/api/game/achievements - Pour récupérer les achievements
+Frontend - User Interface
+[MODIFY] 
+game.html
+Ajouts HTML :
+
+Panneau "Pièce en réserve" (Hold) avec canvas
+Panneau "Statistiques de pièces" avec graphique
+Panneau "Achievements" avec liste déroulante
+Sélecteur de mode de jeu (Normal/Sprint)
+Indicateur de progression Sprint
+Ajouts CSS :
+
+Styles pour le panneau Hold
+Styles pour les statistiques de pièces
+Styles pour les badges d'achievements
+Animations pour débloquer un achievement
+Ajouts JavaScript :
+
+Classe SoundManager pour gérer les effets sonores
+Méthode holdPiece() pour la fonction Hold
+Méthode drawHeldPiece() pour afficher la pièce en réserve
+Méthode updatePieceStats() pour mettre à jour les statistiques
+Méthode showAchievement() pour afficher une notification de succès
+Gestion du mode Sprint avec timer et objectif de lignes
+Database Schema
+[NEW] 
+database/05_achievements.sql
+Nouvelle table pour stocker les achievements débloqués par utilisateur :
+
+CREATE TABLE user_achievements (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    achievement_id VARCHAR(50),
+    unlocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+[MODIFY] 
+database/02_high_scores.sql
+Ajouter une colonne pour le mode de jeu :
+
+ALTER TABLE high_scores ADD COLUMN game_mode VARCHAR(20) DEFAULT 'normal';
+Verification Plan
+Automated Tests
+Tester la fonction Hold : vérifier qu'on peut échanger une pièce
+Tester que Hold ne peut être utilisé qu'une fois par pièce
+Vérifier que les statistiques de pièces s'incrémentent correctement
+Tester le mode Sprint : vérifier le timer et l'objectif de 40 lignes
+Manual Verification
+Jouer une partie et utiliser la fonction Hold plusieurs fois
+Vérifier que les statistiques de pièces s'affichent correctement
+Débloquer quelques achievements et vérifier l'affichage
+Tester les effets sonores (ligne complétée, game over, achievement)
+Jouer une partie en mode Sprint et vérifier la victoire à 40 lignes
+
+
+Nouvelles Fonctionnalités du Jeu Tetris
+Vue d'ensemble
+J'ai ajouté 5 nouvelles fonctionnalités majeures à votre jeu Tetris pour enrichir l'expérience de jeu :
+
+Système Hold/Reserve - Gardez une pièce en réserve
+Statistiques de pièces - Suivi en temps réel de chaque type de pièce
+Système d'achievements - 7 succès à débloquer
+Effets sonores - Sons générés dynamiquement
+Mode Sprint - Course contre la montre pour 40 lignes
+Changements Implémentés
+Backend - 
+app.py
+Classe TetrisGame - Nouvelles Propriétés
+held_piece - Pièce actuellement en réserve
+can_hold - Empêche les holds multiples par pièce
+piece_stats - Dictionnaire comptant chaque type de pièce utilisé
+game_mode - Mode de jeu ('normal' ou 'sprint')
+sprint_start_time - Horodatage du début du Sprint
+sprint_target_lines - Objectif de lignes (40 par défaut)
+achievements_unlocked - Liste des succès débloqués
+achievements_progress - Progression vers chaque succès
+Nouvelles Méthodes
+hold_piece()
+ - 
+app.py:L388-L416
+
+Échange la pièce actuelle avec celle en réserve
+Empêche les holds multiples jusqu'à la prochaine pièce
+Vérifie la validité de la position après l'échange
+check_achievements()
+ - 
+app.py:L418-L486
+
+Vérifie 7 types de succès différents :
+🏆 Première Ligne - Complétez votre première ligne
+🏆 Maître du Tetris - Réalisez 5 Tetris (4 lignes)
+🏆 Roi du Combo - Atteignez un combo de 5
+🏆 Perfectionniste - Réalisez un Perfect Clear
+🏆 Centenaire - Complétez 100 lignes
+🏆 Survivant - Atteignez le niveau 10
+🏆 Démon de Vitesse - Terminez le Sprint en moins de 2 minutes
+get_state()
+ mis à jour - 
+app.py:L488-L527
+
+Retourne maintenant held_piece, can_hold, piece_stats, game_mode
+Inclut les données Sprint (sprint_time, sprint_target, sprint_complete)
+Retourne les achievements débloqués
+Nouveaux Endpoints API
+/api/game/hold - 
+app.py:L730-L747
+
+Méthode POST pour utiliser la fonction Hold
+Retourne l'état du jeu mis à jour
+/api/game/start mis à jour - 
+app.py:L663-L677
+
+Accepte maintenant un paramètre mode ('normal' ou 'sprint')
+Frontend - 
+game.html
+Nouvelle Interface Utilisateur
+Sélecteur de Mode de Jeu
+
+Menu déroulant pour choisir entre Normal et Sprint
+Affichage conditionnel des informations Sprint (temps, progression)
+Panneau Hold/Reserve
+
+Canvas 80x80 affichant la pièce en réserve
+Instructions visuelles (touche C)
+Mise à jour en temps réel
+Statistiques de Pièces
+
+Affichage coloré de chaque type de pièce
+Compteur en temps réel
+Couleurs correspondant aux pièces du jeu
+Panneau Achievements
+
+Liste déroulante des succès débloqués
+Notifications animées lors du déblocage
+Animation de slide depuis la droite
+Classe SoundManager - 
+game.html:L467-L529
+Génère des effets sonores dynamiques avec Web Audio API :
+
+lineClear(lines)
+ - Mélodie ascendante selon le nombre de lignes
+pieceLand()
+ - Son court de placement
+gameOver()
+ - Séquence descendante
+achievement()
+ - Mélodie joyeuse
+hold()
+ - Son de confirmation
+Nouvelles Méthodes TetrisGameUI
+holdPiece()
+ - 
+game.html:L877-L898
+
+Appelle l'endpoint /api/game/hold
+Met à jour tous les canvas
+Joue le son de hold
+drawHeldPiece()
+ - 
+game.html:L900-L926
+
+Dessine la pièce en réserve centrée dans le canvas
+Utilise les mêmes couleurs que le jeu principal
+showAchievement(achievement)
+ - 
+game.html:L928-L939
+
+Crée une notification animée en haut à droite
+Affiche le nom et la description du succès
+Joue le son d'achievement
+Disparaît automatiquement après 4 secondes
+updatePieceStats()
+ - 
+game.html:L941-L957
+
+Met à jour l'affichage des statistiques de pièces
+Utilise les couleurs correspondantes pour chaque type
+updateAchievementsList()
+ - 
+game.html:L959-L975
+
+Affiche la liste des achievements débloqués
+Message par défaut si aucun succès
+Mises à Jour des Méthodes Existantes
+checkForEffects()
+ - 
+game.html:L777-L809
+
+Ajoute les sons pour les lignes et le placement
+Vérifie et affiche les nouveaux achievements
+Met à jour les statistiques et la liste des succès
+updateUI()
+ - 
+game.html:L1079-L1113
+
+Gère l'affichage du mode Sprint (timer, progression)
+Détecte la complétion du Sprint (40 lignes)
+startGame()
+ - 
+game.html:L675-L711
+
+Envoie le mode de jeu sélectionné au backend
+Affiche/cache l'UI Sprint selon le mode
+Initialise le canvas Hold
+restartGame()
+ - 
+game.html:L1042-L1087
+
+Réinitialise tous les nouveaux éléments UI
+Vide les achievements et statistiques
+Réactive le sélecteur de mode
+Contrôles Clavier
+C - Hold/Reserve (échange la pièce actuelle avec celle en réserve)
+Tous les contrôles existants sont préservés
+Fonctionnalités en Action
+Hold/Reserve System
+Appuyez sur C pendant le jeu
+La pièce actuelle va dans la réserve
+La pièce en réserve devient la pièce actuelle (ou la suivante si vide)
+Vous ne pouvez hold qu'une fois par pièce
+Achievements
+Les succès se débloquent automatiquement :
+
+Jouez normalement pour débloquer "Première Ligne"
+Faites des Tetris (4 lignes) pour "Maître du Tetris"
+Maintenez un combo pour "Roi du Combo"
+Videz complètement la grille pour "Perfectionniste"
+Atteignez 100 lignes pour "Centenaire"
+Montez au niveau 10 pour "Survivant"
+Terminez le Sprint rapidement pour "Démon de Vitesse"
+Mode Sprint
+Sélectionnez "Sprint (40 lignes)" avant de démarrer
+Le timer démarre avec la première pièce
+Objectif : compléter 40 lignes le plus rapidement possible
+Le jeu se termine automatiquement à 40 lignes
+Terminez en moins de 2 minutes pour débloquer un achievement !
+Effets Sonores
+Les sons se jouent automatiquement :
+
+Lignes complétées : Mélodie ascendante
+Pièce placée : Son court
+Hold : Confirmation
+Achievement : Fanfare
+Game Over : Séquence descendante
+Notes Techniques
+Les sons utilisent Web Audio API (pas de fichiers externes)
+Les achievements sont trackés côté serveur
+Le mode Sprint calcule le temps précisément
+Toutes les nouvelles fonctionnalités sont rétrocompatibles
+L'UI s'adapte automatiquement au mode sélectionné
+Prochaines Étapes (Optionnel)
+Pour une implémentation complète, vous pourriez :
+
+Créer la table user_achievements en base de données
+Ajouter la colonne game_mode à la table high_scores
+Créer un leaderboard séparé pour le mode Sprint
+Ajouter plus d'achievements personnalisés

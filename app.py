@@ -217,6 +217,37 @@ class TetrisGame:
         self.game_over = False
         self.start_time = datetime.now()
         
+        # Système de combo et statistiques avancées
+        self.combo_count = 0
+        self.max_combo = 0
+        self.perfect_clears = 0
+        self.total_pieces = 0
+        self.last_action_cleared_lines = False
+        
+        # Système Hold/Reserve
+        self.held_piece = None
+        self.can_hold = True
+        
+        # Statistiques de pièces
+        self.piece_stats = {piece: 0 for piece in TETROMINO_SHAPES.keys()}
+        
+        # Mode de jeu (normal, sprint)
+        self.game_mode = 'normal'
+        self.sprint_start_time = None
+        self.sprint_target_lines = 40
+        
+        # Système d'achievements
+        self.achievements_unlocked = []
+        self.achievements_progress = {
+            'first_line': False,
+            'tetris_master': 0,  # Compteur de Tetris (4 lignes)
+            'combo_king': 0,  # Max combo atteint
+            'speed_demon': False,  # Sprint en moins de 2 minutes
+            'perfectionist': 0,  # Perfect clears
+            'century': False,  # 100 lignes
+            'survivor': False,  # Niveau 10
+        }
+        
     def generate_piece(self):
         """Générer un morceau de tétromino aléatoire."""
         return random.choice(list(TETROMINO_SHAPES.keys()))
@@ -267,12 +298,36 @@ class TetrisGame:
             self.board.insert(0, [0 for _ in range(BOARD_WIDTH)])
         
         lines_cleared = len(lines_to_clear)
+        
         if lines_cleared > 0:
             self.lines_cleared += lines_cleared
-            # Scoring system: 100 * level for single, 300 * level for double, etc.
+            self.last_action_cleared_lines = True
+            
+            # Système de combo
+            self.combo_count += 1
+            self.max_combo = max(self.max_combo, self.combo_count)
+            
+            # Vérifier perfect clear (toute la grille est vide)
+            if all(all(cell == 0 for cell in row) for row in self.board):
+                self.perfect_clears += 1
+                perfect_clear_bonus = 3000 * self.level
+            else:
+                perfect_clear_bonus = 0
+            
+            # Scoring system amélioré avec combo
             score_multiplier = [0, 100, 300, 500, 800]
-            self.score += score_multiplier[min(lines_cleared, 4)] * self.level
+            base_score = score_multiplier[min(lines_cleared, 4)] * self.level
+            
+            # Bonus de combo (50 points par niveau de combo)
+            combo_bonus = 50 * self.combo_count * self.level
+            
+            self.score += base_score + combo_bonus + perfect_clear_bonus
             self.level = min(10, 1 + self.lines_cleared // 10)
+        else:
+            # Réinitialiser le combo si aucune ligne n'est détruite
+            if self.last_action_cleared_lines:
+                self.combo_count = 0
+            self.last_action_cleared_lines = False
         
         return lines_cleared
     
@@ -296,7 +351,15 @@ class TetrisGame:
         else:
             # Piece can't move down, place it and get next piece
             self.place_piece()
-            self.clear_lines()
+            lines_cleared = self.clear_lines()
+            
+            # Track Tetris achievements
+            if lines_cleared == 4:
+                self.achievements_progress['tetris_master'] += 1
+            
+            # Track piece statistics
+            self.piece_stats[self.current_piece] += 1
+            self.total_pieces += 1
             
             # Generate next piece
             self.current_piece = self.next_piece
@@ -304,6 +367,13 @@ class TetrisGame:
             self.piece_x = BOARD_WIDTH // 2 - 2
             self.piece_y = 0
             self.piece_rotation = 0
+            
+            # Reset hold ability for new piece
+            self.can_hold = True
+            
+            # Start sprint timer on first piece
+            if self.game_mode == 'sprint' and self.sprint_start_time is None and self.total_pieces == 1:
+                self.sprint_start_time = datetime.now()
             
             # Check game over
             if not self.is_valid_position(self.current_piece, self.piece_x, self.piece_y, self.piece_rotation):
@@ -313,12 +383,127 @@ class TetrisGame:
     
     def hard_drop(self):
         """Drop piece all the way down."""
+        drop_distance = 0
         while self.drop_piece():
-            pass
+            drop_distance += 1
+        
+        # Bonus pour hard drop (2 points par ligne)
+        if drop_distance > 0:
+            self.score += drop_distance * 2
+        
+        return drop_distance
+    
+    def get_ghost_position(self):
+        """Calculate where the current piece will land."""
+        ghost_y = self.piece_y
+        while self.is_valid_position(self.current_piece, self.piece_x, ghost_y + 1, self.piece_rotation):
+            ghost_y += 1
+        return ghost_y
+    
+    def hold_piece(self):
+        """Hold/swap the current piece."""
+        if not self.can_hold:
+            return False
+        
+        if self.held_piece is None:
+            # First hold - store current piece and get next
+            self.held_piece = self.current_piece
+            self.current_piece = self.next_piece
+            self.next_piece = self.generate_piece()
+        else:
+            # Swap current with held
+            self.held_piece, self.current_piece = self.current_piece, self.held_piece
+        
+        # Reset position and rotation
+        self.piece_x = BOARD_WIDTH // 2 - 2
+        self.piece_y = 0
+        self.piece_rotation = 0
+        
+        # Can't hold again until next piece
+        self.can_hold = False
+        
+        # Check if position is valid (game over if not)
+        if not self.is_valid_position(self.current_piece, self.piece_x, self.piece_y, self.piece_rotation):
+            self.game_over = True
+            return False
+        
+        return True
+    
+    def check_achievements(self):
+        """Check and unlock achievements."""
+        new_achievements = []
+        
+        # First Line
+        if not self.achievements_progress['first_line'] and self.lines_cleared >= 1:
+            self.achievements_progress['first_line'] = True
+            new_achievements.append({
+                'id': 'first_line',
+                'name': 'Première Ligne',
+                'description': 'Complétez votre première ligne'
+            })
+        
+        # Tetris Master (5 Tetris)
+        if self.achievements_progress['tetris_master'] >= 5 and 'tetris_master' not in self.achievements_unlocked:
+            new_achievements.append({
+                'id': 'tetris_master',
+                'name': 'Maître du Tetris',
+                'description': 'Réalisez 5 Tetris (4 lignes)'
+            })
+            self.achievements_unlocked.append('tetris_master')
+        
+        # Combo King (combo de 5+)
+        if self.max_combo >= 5 and self.achievements_progress['combo_king'] < 5:
+            self.achievements_progress['combo_king'] = self.max_combo
+            new_achievements.append({
+                'id': 'combo_king',
+                'name': 'Roi du Combo',
+                'description': 'Atteignez un combo de 5'
+            })
+        
+        # Perfectionist (1 perfect clear)
+        if self.perfect_clears >= 1 and self.achievements_progress['perfectionist'] == 0:
+            self.achievements_progress['perfectionist'] = self.perfect_clears
+            new_achievements.append({
+                'id': 'perfectionist',
+                'name': 'Perfectionniste',
+                'description': 'Réalisez un Perfect Clear'
+            })
+        
+        # Century (100 lines)
+        if not self.achievements_progress['century'] and self.lines_cleared >= 100:
+            self.achievements_progress['century'] = True
+            new_achievements.append({
+                'id': 'century',
+                'name': 'Centenaire',
+                'description': 'Complétez 100 lignes'
+            })
+        
+        # Survivor (reach level 10)
+        if not self.achievements_progress['survivor'] and self.level >= 10:
+            self.achievements_progress['survivor'] = True
+            new_achievements.append({
+                'id': 'survivor',
+                'name': 'Survivant',
+                'description': 'Atteignez le niveau 10'
+            })
+        
+        # Speed Demon (Sprint < 2 minutes)
+        if self.game_mode == 'sprint' and self.lines_cleared >= self.sprint_target_lines:
+            if self.sprint_start_time:
+                elapsed = (datetime.now() - self.sprint_start_time).total_seconds()
+                if elapsed < 120 and not self.achievements_progress['speed_demon']:
+                    self.achievements_progress['speed_demon'] = True
+                    new_achievements.append({
+                        'id': 'speed_demon',
+                        'name': 'Démon de Vitesse',
+                        'description': 'Terminez le Sprint en moins de 2 minutes'
+                    })
+        
+        return new_achievements
     
     def get_state(self):
         """Get current game state."""
-        return {
+        state = {
             'board': self.board,
             'current_piece': {
                 'type': self.current_piece,
@@ -331,11 +516,33 @@ class TetrisGame:
                 'type': self.next_piece,
                 'shape': self.get_piece_shape(self.next_piece, 0)
             },
+            'held_piece': {
+                'type': self.held_piece,
+                'shape': self.get_piece_shape(self.held_piece, 0) if self.held_piece else None
+            } if self.held_piece else None,
+            'can_hold': self.can_hold,
+            'ghost_y': self.get_ghost_position(),
             'score': self.score,
             'level': self.level,
             'lines_cleared': self.lines_cleared,
-            'game_over': self.game_over
+            'combo_count': self.combo_count,
+            'max_combo': self.max_combo,
+            'perfect_clears': self.perfect_clears,
+            'game_over': self.game_over,
+            'piece_stats': self.piece_stats,
+            'game_mode': self.game_mode,
+            'achievements': self.check_achievements()
         }
+        
+        # Add sprint-specific data
+        if self.game_mode == 'sprint':
+            if self.sprint_start_time:
+                elapsed = (datetime.now() - self.sprint_start_time).total_seconds()
+                state['sprint_time'] = elapsed
+            state['sprint_target'] = self.sprint_target_lines
+            state['sprint_complete'] = self.lines_cleared >= self.sprint_target_lines
+        
+        return state
 
 # Store active games in memory (in production, use Redis or database)
 active_games = {}
@@ -458,7 +665,11 @@ def game():
 def start_game():
     """Start a new game."""
     user_id = session['user_id']
+    data = request.get_json() or {}
+    game_mode = data.get('mode', 'normal')
+    
     game = TetrisGame(user_id)
+    game.game_mode = game_mode
     active_games[user_id] = game
     
     return jsonify({
@@ -513,6 +724,25 @@ def auto_drop():
     
     return jsonify({
         'success': True,
+        'game_state': game.get_state()
+    })
+
+@app.route('/api/game/hold', methods=['POST'])
+@login_required
+def hold_piece():
+    """Hold/swap the current piece."""
+    user_id = session['user_id']
+    if user_id not in active_games:
+        return jsonify({'error': 'No active game'}), 400
+    
+    game = active_games[user_id]
+    if game.game_over:
+        return jsonify({'error': 'Game over'}), 400
+    
+    success = game.hold_piece()
+    
+    return jsonify({
+        'success': success,
         'game_state': game.get_state()
     })
 

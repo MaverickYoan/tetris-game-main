@@ -1,0 +1,39 @@
+Amélioration du Code Tetris avec Dynamisme
+Backend (app.py)
+ Ajouter système de combo pour lignes consécutives
+ Ajouter calcul de score bonus pour hard drop
+ Implémenter système de ghost piece (position d'atterrissage)
+ Ajouter tracking des statistiques avancées (combos, perfect clears)
+Frontend - Effets Visuels
+ Créer système de particules pour destruction de lignes
+ Ajouter animations fluides pour les mouvements de pièces
+ Implémenter effet de secousse lors de l'atterrissage
+ Ajouter ghost piece (aperçu transparent)
+ Créer animations de score pop-up
+Frontend - Améliorations UX
+ Améliorer le système de contrôles avec feedback visuel
+ Ajouter indicateur de combo visuel
+ Implémenter progression de niveau avec effets visuels
+ Ajouter animations de transition entre états
+Polish Final
+ Tester toutes les nouvelles fonctionnalités
+ Optimiser les performances des animations
+ Vérifier la compatibilité navigateur
+
+ Ajout de nouvelles fonctionnalités au jeu Tetris
+Backend (app.py)
+ Ajouter le système Hold/Reserve dans la classe TetrisGame
+ Ajouter les statistiques de pièces
+ Ajouter le système d'achievements
+ Ajouter le mode Sprint
+ Mettre à jour les endpoints API
+Frontend (game.html)
+ Ajouter l'interface Hold/Reserve
+ Ajouter l'affichage des statistiques de pièces
+ Ajouter le panneau d'achievements
+ Ajouter les effets sonores
+ Ajouter le sélecteur de mode de jeu
+ Mettre à jour la logique JavaScript
+Base de données
+ Créer la table achievements
+ Ajouter les colonnes pour les nouveaux modes de jeu
